@@ -23,65 +23,48 @@
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
-<style>
-    body {
-      background-color: #f0f8ff; 
-    }
-    .navbar {
-      background-color: #02263b !important; 
-    }
 
-  </style>
 
 <body>
     <div id="app">
   <!-- Navbar Area Start -->
   <header>
-    <nav class="navbar navbar-expand-lg navbar-dark" >
-      <a class="navbar-brand" href="#">Navbar</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
-           <span class="navbar-toggler-icon"></span>
-       </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Features</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">About Us</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Contact Us</a>
-          </li>
-        </ul>
-
-        <ul class="navbar-nav">
-          @guest
-          <li class="nav-item">
-            <a class="nav-link" href="login"><i class="fas fa-sign-in-alt"></i> Login</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="register"><i class="fas fa-user-plus"></i> Signup</a>
-          </li>
-          @endguest @auth
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user"></i>
-              {{Auth::user()->first_name}}
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="{{url('dashboard')}}"><i class="far fa-id-badge"></i></i> Profile</a>
-              <a class="dropdown-item" href="{{url('contactm')}}"><i class="fas fa-envelope-open-text"></i> Messages</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="{{url('logout')}}"><i class="fas fa-sign-out-alt"></i> Logout</a>
-            </div>
-          </li>
-          @endauth
-        </ul>
+     <!-- Navbar Start -->
+     <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
+      <a href="index.html" class="navbar-brand d-flex align-items-center text-center py-0 px-4 px-lg-5">
+          <h1 class="m-0 text-primary">HireX</h1>
+      </a>
+      <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse"
+          data-bs-target="#navbarCollapse">
+          <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+          <div class="navbar-nav ms-auto p-4 p-lg-0">
+              <a href="index.html" class="nav-item nav-link active">Home</a>
+              <a href="about.html" class="nav-item nav-link">About</a>
+              <div class="nav-item dropdown">
+                  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Jobs</a>
+                  <div class="dropdown-menu rounded-0 m-0">
+                      <a href="job-list.html" class="dropdown-item">Job List</a>
+                      <a href="job-detail.html" class="dropdown-item">Job Detail</a>
+                  </div>
+              </div>
+              <div class="nav-item dropdown">
+                  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                  <div class="dropdown-menu rounded-0 m-0">
+                      <a href="category.html" class="dropdown-item">Job Category</a>
+                      <a href="testimonial.html" class="dropdown-item">Testimonial</a>
+                      <a href="404.html" class="dropdown-item">404</a>
+                  </div>
+              </div>
+              <a href="contact.html" class="nav-item nav-link">Contact</a>
+          </div>
+          <a href="" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Post A Job<i
+                  class="fa fa-arrow-right ms-3"></i></a>
       </div>
-    </nav>
+  </nav>
+  <!-- Navbar End -->
+
   </header>
   <!-- Navbar Area End -->
 
