@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>JobEntry - Job Portal Website Template</title>
+    <title>HireX</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -45,6 +45,9 @@
             </div>
         </div>
         <!-- Spinner End -->
+        <!--navbar start -->
+        @include('layouts.nav')
+        <!--navbar End -->
         <!-- Carousel Start -->
         <div class="container-fluid p-0">
             <div class="owl-carousel header-carousel position-relative">
