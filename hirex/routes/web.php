@@ -20,3 +20,19 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+// Route::get('/job', function () {
+//     return view('jobs.show');
+// });
+
+// Route::get('/category', function () {
+//     return view('jobs.jobbycategory'); 
+// });
+
+
+
+// Route::get('/all-jobs', function () {
+//     return view('jobs.alljobs'); 
+// })->name('alljobs');
+
