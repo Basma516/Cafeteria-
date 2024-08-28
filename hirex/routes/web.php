@@ -17,7 +17,7 @@ use App\Http\Controllers\CompanyController;
 */
 
 Route::get('/', function () {
-    return view('Home');
+    return view('index'); 
 });
 
 Auth::routes();
