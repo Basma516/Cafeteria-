@@ -40,3 +40,4 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 // routes/web.php
 
 Route::view('/create-job', 'jobs.createjob');
+
