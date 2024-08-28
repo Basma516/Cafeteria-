@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if (!Schema::hasTable('jobs')) {
         Schema::create('jobs', function (Blueprint $table) {
             $table->id();
             $table->string('title');
@@ -28,7 +29,7 @@ return new class extends Migration
             $table->string('logo')->nullable();
             $table->timestamps();
         });
-    }
+    }}
 
     /**
      * Reverse the migrations.

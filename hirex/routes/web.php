@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CompanyController;
 
 
 
@@ -22,3 +23,9 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+Route::get('/companies', [CompanyController::class, 'index'])->name('companies.index');
+
+
+Route::view('/profile', 'edit_profile')->name('profile');
