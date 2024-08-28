@@ -11,95 +11,81 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <link href="{{ asset('lib/animate/animate.min.css') }}" rel="stylesheet">
     <link href="{{ asset('lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
-
     <!-- Customized Bootstrap Stylesheet -->
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
-
     <!-- Template Stylesheet -->
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+
     <style>
         :root {
             --primary: #5289b5;
             --secondary: #afd8f2;
-            --light: #ffffff; /* Set light to white for background */
+            --light: #ffffff;
             --dark: #1f3541;
             --hover-color: #417ba1;
         }
-
         body {
-            
-            background-color: var(--light); /* White background */
+            background-color: var(--light);
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             margin: 0;
             padding: 0;
         }
-        .container{
-           margin-top: 100px;
+        .container {
+            margin-top: 100px;
         }
-
         .card {
-            background-color: var(--light); 
-            border: none; 
-            box-shadow: 0 0 15px rgba(31, 53, 65, 0.5); 
+            background-color: var(--light);
+            border: none;
+            box-shadow: 0 0 15px rgba(31, 53, 65, 0.5);
             border-radius: 15px;
             width: 100%;
             max-width: 600px;
-            margin:auto;
+            margin: auto;
         }
-
         .card-header {
             background-color: var(--primary);
             height: 50px;
             color: var(--light);
-            border-radius: 15px 15px 0 0   !important ; /* Rounded corners for the top of the card */
-            border: none; /* Remove header border */
+            border-radius: 15px 15px 0 0;
+            border: none;
             text-align: center;
-            font-weight:bold; 
-        
+            font-weight: bold;
         }
-
         .form-control {
             background-color: var(--light);
-            border: none; /* Remove input borders */
-            border-radius: 25px; /* Rounded corners for inputs */
+            border: none;
+            border-radius: 25px;
             transition: all 0.3s ease;
         }
-
         .form-control:focus {
-            box-shadow: 0 0 5px rgba(31, 53, 65, 0.5); /* Focus shadow with color #1f3541 */
+            box-shadow: 0 0 5px rgba(31, 53, 65, 0.5);
             outline: none;
         }
-
         .btn-primary {
             background-color: var(--primary);
             border-color: var(--primary);
             color: var(--light);
-            border-radius: 25px; /* Rounded corners for the button */
+            border-radius: 25px;
             transition: background-color 0.3s ease;
         }
-
         .btn-primary:hover {
-            background-color: var(--hover-color); /* Darken button on hover */
+            background-color: var(--hover-color);
         }
-
         .btn-link {
             color: var(--dark);
             transition: color 0.3s ease;
         }
-
         .btn-link:hover {
             color: var(--primary);
         }
-
         .input-group-text {
             background-color: var(--primary);
             color: var(--light);
-            border: none; /* Remove input group text border */
-            border-radius: 25px 0 0 25px; /* Rounded corners for the left side of input group */
+            border: none;
+            border-radius: 25px 0 0 25px;
         }
-
     </style>
 </head>
 <body>

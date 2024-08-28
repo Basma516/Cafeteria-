@@ -102,11 +102,8 @@
 </head>
 <body>
     <!-- Include Navbar -->
-    <!-- Replace with actual navbar include or code -->
-     <!-- Include Navbar -->
-     @include('layouts.nav')
+    @include('layouts.nav')
 
-    
     <div class="container">
         <div class="card">
             <div class="card-header">
@@ -115,8 +112,7 @@
 
             <div class="card-body" style="color: var(--dark);">
                 <form method="POST" action="{{ route('register') }}">
-                    <!-- CSRF Token -->
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    @csrf <!-- Blade directive for CSRF token -->
 
                     <div class="mb-3">
                         <label for="name" class="col-form-label" style="color: var(--dark);">Name</label>
