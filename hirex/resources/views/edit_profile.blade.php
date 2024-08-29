@@ -49,7 +49,7 @@
                     Avatar
                 </div>
                 <div class="card-body text-center">
-                    <img src="https://i.pravatar.cc/150" class="rounded-circle mb-3" style="width: 100px; height: 100px; object-fit: cover;" alt="User Avatar">
+                    <img src="{{asset('images/board.jpg')}}" class="rounded-circle mb-3" style="width: 100px; height: 100px; object-fit: cover;" alt="User Avatar">
                     <input type="file" class="form-control mb-3" name="avatar">
                     <button class="btn btn-secondary w-100" style="background-color: #1f3541; border-color: #1f3541;">Update Avatar</button>
                 </div>

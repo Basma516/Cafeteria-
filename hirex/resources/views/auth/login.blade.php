@@ -86,6 +86,13 @@
             border: none;
             border-radius: 25px 0 0 25px;
         }
+        .invalid {
+            width: 100%;
+            margin-top: .25rem;
+            font-size: .875em;
+            color: #dc3545;
+
+        }
     </style>
 </head>
 <body>
@@ -108,10 +115,10 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-user"></i></span>
                             </div>
-                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" placeholder="Enter your email" required autocomplete="email" autofocus>
+                            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" placeholder="Enter your email"   autofocus>
                         </div>
                         @error('email')
-                            <span class="invalid-feedback" role="alert">
+                            <span class="invalid" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
                         @enderror
@@ -123,10 +130,10 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="fas fa-key"></i></span>
                             </div>
-                            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="Enter your password" required autocomplete="current-password">
+                            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="Enter your password"  >
                         </div>
                         @error('password')
-                            <span class="invalid-feedback" role="alert">
+                            <span class="invalid" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
                         @enderror
