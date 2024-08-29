@@ -1,79 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
 
-<head>
-    <meta charset="utf-8">
-    <title>JobEntry - Job Portal Website Template</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="" name="keywords">
-    <meta content="" name="description">
+@section('title', 'Home')
 
-    <!-- Favicon -->
-    <link href="{{ asset('img/favicon.ico') }}" rel="icon">
-
-    <!-- Google Web Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Inter:wght@700;800&display=swap"
-        rel="stylesheet">
-
-    <!-- Icon Font Stylesheet -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-
-    <!-- Libraries Stylesheet -->
-    <link href="{{ asset('lib/animate/animate.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
-
-    <!-- Customized Bootstrap Stylesheet -->
-    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
-
-    <!-- Template Stylesheet -->
-    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
-    <link rel="icon" href="{{ asset('images/logo-transparent.png') }}" type="image/x-icon">
-
-
-</head>
-
-<body>
-
-@include('layouts.nav')
-
-    <div class="container-xxl bg-white p-0 ">
-        <!-- Spinner Start -->
-        <div id="spinner"
-            class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-                <span class="sr-only">Loading...</span>
-            </div>
-        </div>
-        <!-- Spinner End -->
-        <!-- Carousel Start -->
-        <div class="container-fluid p-0">
-            <div class="owl-carousel header-carousel position-relative">
-                <div class="owl-carousel-item position-relative  " style="height: 530px;">
-                    <img class="img-fluid" src="{{asset('images/phomef.jpg')}}" style="width: 100%; height:550px" alt="">
-                    <div class="position-absolute top-0 start-0 w-100  d-flex align-items-center"
-                        style="background: rgba(43, 57, 64, .5);height: 550px; ">
-                        <div class="container">
-                            <div class="row justify-content-start">
-                                <div class="col-10 col-lg-8">
-                                    <h1 class="display-3 text-white animated slideInDown mb-4">Find The Perfect Job That
-                                        You Deserved</h1>
-                                    <p class="fs-5 fw-medium text-white mb-4 pb-2">Endless Possibilites , One Career </p>
-                                    <a href="" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Search
-                                        A Job</a>
-                                    <a href="" class="btn btn-secondary py-md-3 px-md-5 animated slideInRight">Find A
-                                        Talent</a>
-                                </div>
-                            </div>
-                        </div>
+@section('content')
+  <!-- Static Image Section Start -->
+  <div class="container-fluid p-0">
+    <div class="position-relative" style="height: 530px;">
+        <img class="img-fluid" src="{{ asset('images/phomef.jpg') }}" style="width: 100%; height: 550px;"
+            alt="Job Search Image">
+        <div class="position-absolute top-0 start-0 w-100 d-flex align-items-center"
+            style="background: rgba(43, 57, 64, .5); height: 550px;">
+            <div class="container">
+                <div class="row justify-content-start">
+                    <div class="col-10 col-lg-8">
+                        <h1 class="display-3 text-white mb-4">Find The Perfect Job That You Deserve</h1>
+                        <p class="fs-5 fw-medium text-white mb-4 pb-2">Endless Possibilities, One Career</p>
+                        <a href="#" class="btn btn-primary py-md-3 px-md-5 me-3">Search A Job</a>
+                        <a href="#" class="btn btn-secondary py-md-3 px-md-5">Find A Talent</a>
                     </div>
                 </div>
-
             </div>
         </div>
-        <!-- Carousel End -->
+    </div>
+</div>
+<!-- Static Image Section End -->  
+
+
 
 
         <!-- Search Start -->
@@ -237,8 +189,8 @@
                             <div class="job-item p-4 mb-4">
                                 <div class="row g-4">
                                     <div class="col-sm-12 col-md-8 d-flex align-items-center">
-                                        <img class="flex-shrink-0 img-fluid border rounded" src="{{asset("images/com-logo-1.jpg")}}"
-                                            alt="" style="width: 80px; height: 80px;">
+                                        <img class="flex-shrink-0 img-fluid border rounded" src="{{asset("
+                                            images/com-logo-1.jpg")}}" alt="" style="width: 80px; height: 80px;">
                                         <div class="text-start ps-4">
                                             <h5 class="mb-3">Software Engineer</h5>
                                             <span class="text-truncate me-3"><i
@@ -267,8 +219,8 @@
                             <div class="job-item p-4 mb-4">
                                 <div class="row g-4">
                                     <div class="col-sm-12 col-md-8 d-flex align-items-center">
-                                        <img class="flex-shrink-0 img-fluid border rounded" src="{{asset("images/com-logo-2.jpg")}}"
-                                            alt="" style="width: 80px; height: 80px;">
+                                        <img class="flex-shrink-0 img-fluid border rounded" src="{{asset("
+                                            images/com-logo-2.jpg")}}" alt="" style="width: 80px; height: 80px;">
                                         <div class="text-start ps-4">
                                             <h5 class="mb-3">Marketing Manager</h5>
                                             <span class="text-truncate me-3"><i
@@ -297,8 +249,9 @@
                             <div class="job-item p-4 mb-4">
                                 <div class="row g-4">
                                     <div class="col-sm-12 col-md-8 d-flex align-items-center">
-                                        <img class="flex-shrink-0 img-fluid border rounded" src="{{asset('images/com-logo-3.jpg')}}"
-                                            alt="" style="width: 80px; height: 80px;">
+                                        <img class="flex-shrink-0 img-fluid border rounded"
+                                            src="{{asset('images/com-logo-3.jpg')}}" alt=""
+                                            style="width: 80px; height: 80px;">
                                         <div class="text-start ps-4">
                                             <h5 class="mb-3">Product Designer</h5>
                                             <span class="text-truncate me-3"><i
@@ -327,8 +280,9 @@
                             <div class="job-item p-4 mb-4">
                                 <div class="row g-4">
                                     <div class="col-sm-12 col-md-8 d-flex align-items-center">
-                                        <img class="flex-shrink-0 img-fluid border rounded" src="{{asset('images/com-logo-4.jpg')}}"
-                                            alt="" style="width: 80px; height: 80px;">
+                                        <img class="flex-shrink-0 img-fluid border rounded"
+                                            src="{{asset('images/com-logo-4.jpg')}}" alt=""
+                                            style="width: 80px; height: 80px;">
                                         <div class="text-start ps-4">
                                             <h5 class="mb-3">Creative Director</h5>
                                             <span class="text-truncate me-3"><i
@@ -357,8 +311,9 @@
                             <div class="job-item p-4 mb-4">
                                 <div class="row g-4">
                                     <div class="col-sm-12 col-md-8 d-flex align-items-center">
-                                        <img class="flex-shrink-0 img-fluid border rounded" src="{{asset('images/com-logo-5.jpg')}}"
-                                            alt="" style="width: 80px; height: 80px;">
+                                        <img class="flex-shrink-0 img-fluid border rounded"
+                                            src="{{asset('images/com-logo-5.jpg')}}" alt=""
+                                            style="width: 80px; height: 80px;">
                                         <div class="text-start ps-4">
                                             <h5 class="mb-3">Wordpress Developer</h5>
                                             <span class="text-truncate me-3"><i
@@ -390,8 +345,9 @@
                             <div class="job-item p-4 mb-4">
                                 <div class="row g-4">
                                     <div class="col-sm-12 col-md-8 d-flex align-items-center">
-                                        <img class="flex-shrink-0 img-fluid border rounded" src="{{asset('images/com-logo-1.jpg')}}"
-                                            alt="" style="width: 80px; height: 80px;">
+                                        <img class="flex-shrink-0 img-fluid border rounded"
+                                            src="{{asset('images/com-logo-1.jpg')}}" alt=""
+                                            style="width: 80px; height: 80px;">
                                         <div class="text-start ps-4">
                                             <h5 class="mb-3">Software Engineer</h5>
                                             <span class="text-truncate me-3"><i
@@ -420,8 +376,9 @@
                             <div class="job-item p-4 mb-4">
                                 <div class="row g-4">
                                     <div class="col-sm-12 col-md-8 d-flex align-items-center">
-                                        <img class="flex-shrink-0 img-fluid border rounded" src="{{('images/com-logo-2.jpg')}}"
-                                            alt="" style="width: 80px; height: 80px;">
+                                        <img class="flex-shrink-0 img-fluid border rounded"
+                                            src="{{('images/com-logo-2.jpg')}}" alt=""
+                                            style="width: 80px; height: 80px;">
                                         <div class="text-start ps-4">
                                             <h5 class="mb-3">Marketing Manager</h5>
                                             <span class="text-truncate me-3"><i
@@ -450,8 +407,9 @@
                             <div class="job-item p-4 mb-4">
                                 <div class="row g-4">
                                     <div class="col-sm-12 col-md-8 d-flex align-items-center">
-                                        <img class="flex-shrink-0 img-fluid border rounded" src="{{asset('images/com-logo-3.jpg')}}"
-                                            alt="" style="width: 80px; height: 80px;">
+                                        <img class="flex-shrink-0 img-fluid border rounded"
+                                            src="{{asset('images/com-logo-3.jpg')}}" alt=""
+                                            style="width: 80px; height: 80px;">
                                         <div class="text-start ps-4">
                                             <h5 class="mb-3">Product Designer</h5>
                                             <span class="text-truncate me-3"><i
@@ -480,8 +438,9 @@
                             <div class="job-item p-4 mb-4">
                                 <div class="row g-4">
                                     <div class="col-sm-12 col-md-8 d-flex align-items-center">
-                                        <img class="flex-shrink-0 img-fluid border rounded" src="{{asset('images/com-logo-4.jpg')}}"
-                                            alt="" style="width: 80px; height: 80px;">
+                                        <img class="flex-shrink-0 img-fluid border rounded"
+                                            src="{{asset('images/com-logo-4.jpg')}}" alt=""
+                                            style="width: 80px; height: 80px;">
                                         <div class="text-start ps-4">
                                             <h5 class="mb-3">Creative Director</h5>
                                             <span class="text-truncate me-3"><i
@@ -510,8 +469,9 @@
                             <div class="job-item p-4 mb-4">
                                 <div class="row g-4">
                                     <div class="col-sm-12 col-md-8 d-flex align-items-center">
-                                        <img class="flex-shrink-0 img-fluid border rounded" src="{{asset('images/com-logo-5.jpg')}}"
-                                            alt="" style="width: 80px; height: 80px;">
+                                        <img class="flex-shrink-0 img-fluid border rounded"
+                                            src="{{asset('images/com-logo-5.jpg')}}" alt=""
+                                            style="width: 80px; height: 80px;">
                                         <div class="text-start ps-4">
                                             <h5 class="mb-3">Wordpress Developer</h5>
                                             <span class="text-truncate me-3"><i
@@ -543,8 +503,9 @@
                             <div class="job-item p-4 mb-4">
                                 <div class="row g-4">
                                     <div class="col-sm-12 col-md-8 d-flex align-items-center">
-                                        <img class="flex-shrink-0 img-fluid border rounded" src="{{asset('images/com-logo-1.jpg')}}"
-                                            alt="" style="width: 80px; height: 80px;">
+                                        <img class="flex-shrink-0 img-fluid border rounded"
+                                            src="{{asset('images/com-logo-1.jpg')}}" alt=""
+                                            style="width: 80px; height: 80px;">
                                         <div class="text-start ps-4">
                                             <h5 class="mb-3">Software Engineer</h5>
                                             <span class="text-truncate me-3"><i
@@ -573,8 +534,9 @@
                             <div class="job-item p-4 mb-4">
                                 <div class="row g-4">
                                     <div class="col-sm-12 col-md-8 d-flex align-items-center">
-                                        <img class="flex-shrink-0 img-fluid border rounded" src="{{asset('images/com-logo-2.jpg')}}"
-                                            alt="" style="width: 80px; height: 80px;">
+                                        <img class="flex-shrink-0 img-fluid border rounded"
+                                            src="{{asset('images/com-logo-2.jpg')}}" alt=""
+                                            style="width: 80px; height: 80px;">
                                         <div class="text-start ps-4">
                                             <h5 class="mb-3">Marketing Manager</h5>
                                             <span class="text-truncate me-3"><i
@@ -603,8 +565,9 @@
                             <div class="job-item p-4 mb-4">
                                 <div class="row g-4">
                                     <div class="col-sm-12 col-md-8 d-flex align-items-center">
-                                        <img class="flex-shrink-0 img-fluid border rounded" src="{{asset('images/com-logo-3.jpg')}}"
-                                            alt="" style="width: 80px; height: 80px;">
+                                        <img class="flex-shrink-0 img-fluid border rounded"
+                                            src="{{asset('images/com-logo-3.jpg')}}" alt=""
+                                            style="width: 80px; height: 80px;">
                                         <div class="text-start ps-4">
                                             <h5 class="mb-3">Product Designer</h5>
                                             <span class="text-truncate me-3"><i
@@ -633,8 +596,9 @@
                             <div class="job-item p-4 mb-4">
                                 <div class="row g-4">
                                     <div class="col-sm-12 col-md-8 d-flex align-items-center">
-                                        <img class="flex-shrink-0 img-fluid border rounded" src="{{asset('images/com-logo-4.jpg')}}"
-                                            alt="" style="width: 80px; height: 80px;">
+                                        <img class="flex-shrink-0 img-fluid border rounded"
+                                            src="{{asset('images/com-logo-4.jpg')}}" alt=""
+                                            style="width: 80px; height: 80px;">
                                         <div class="text-start ps-4">
                                             <h5 class="mb-3">Creative Director</h5>
                                             <span class="text-truncate me-3"><i
@@ -663,8 +627,9 @@
                             <div class="job-item p-4 mb-4">
                                 <div class="row g-4">
                                     <div class="col-sm-12 col-md-8 d-flex align-items-center">
-                                        <img class="flex-shrink-0 img-fluid border rounded" src="{{asset('images/com-logo-5.jpg')}}"
-                                            alt="" style="width: 80px; height: 80px;">
+                                        <img class="flex-shrink-0 img-fluid border rounded"
+                                            src="{{asset('images/com-logo-5.jpg')}}" alt=""
+                                            style="width: 80px; height: 80px;">
                                         <div class="text-start ps-4">
                                             <h5 class="mb-3">Wordpress Developer</h5>
                                             <span class="text-truncate me-3"><i
@@ -797,14 +762,14 @@
                     <div class="col-lg-3 col-md-6">
                         <h5 class="text-white mb-4">Newsletter</h5>
                         <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
-                        
+
                     </div>
                 </div>
             </div>
             <div class="container">
                 <div class="copyright">
                     <div class="row">
-                      
+
                         <div class="col-md-6 text-center text-md-end">
                             <div class="footer-menu">
                                 <a href="">Home</a>
@@ -824,17 +789,4 @@
         <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
     </div>
 
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{{ asset('lib/wow/wow.min.js') }}"></script>
-    <script src="{{ asset('lib/easing/easing.min.js') }}"></script>
-    <script src="{{ asset('lib/waypoints/waypoints.min.js') }}"></script>
-    <script src="{{ asset('lib/owlcarousel/owl.carousel.min.js') }}"></script>
-
-    <!-- Template Javascript -->
-    <script src="{{ asset('js/main.js') }}"></script>
-
-</body>
-
-</html>
+    @endsection
