@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+<<<<<<< HEAD
 
 
 
@@ -35,6 +36,8 @@ class DatabaseSeeder extends Seeder
 
         $admin->roles()->attach($adminRole);
 
+=======
+>>>>>>> 69975e29a8d234a9af14677e5174cb2c151824d7
     }
     
 }

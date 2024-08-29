@@ -11,7 +11,6 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (!Schema::hasTable('candidates')) {
         Schema::create('candidates', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
@@ -19,7 +18,7 @@ return new class extends Migration
             $table->text('resume')->nullable();
             $table->timestamps();
         });
-    }}
+    }
 
     /**
      * Reverse the migrations.
