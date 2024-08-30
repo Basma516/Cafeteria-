@@ -38,3 +38,10 @@
 
   </header>
   <!-- Navbar Area End -->
+  <style>
+    .primary-bg { background-color: #5289b5; }
+    .secondary-bg { background-color: #afd8f2; }
+    .light-bg { background-color: #edf2f3; }
+    .dark-text { color: #1f3541; }
+    .primary-text { color: #5289b5; }
+</style>

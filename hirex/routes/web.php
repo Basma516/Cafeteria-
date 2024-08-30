@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Route::get('/', function () {
-    return view('Home');
+    return view('home');
 });
 
 Route::get('/dashboard', function () {
@@ -62,7 +62,34 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::view('/profile', 'edit_profile')->name('profile');
+Route::view('/profile', 'users.edit_profile')->name('profile');
 
 
+<<<<<<< HEAD
 Route::resource('admin/users', AdminController::class)->middleware('auth');
+=======
+// Dashboard routes for different user types
+Route::get('/employer/dashboard', [EmployerController::class, 'dashboard'])->name('employer.dashboard');
+Route::get('/candidate/dashboard', [CandidateController::class, 'dashboard'])->name('candidate.dashboard');
+Route::get('/admin/dashboard', [AdminController::class, 'dashboard']);
+
+ Route::get('/job', function () {
+     return view('jobs.show');
+ });
+
+ Route::get('/category', function () {
+     return view('jobs.jobbycategory'); 
+ });
+
+
+
+ Route::get('/all-jobs', function () {
+    return view('jobs.alljobs'); 
+ })->name('alljobs');
+
+
+// routes/web.php
+
+Route::view('/create-job', 'jobs.createjob');
+
+>>>>>>> bbb802c5a2881b6faaf6c9124598d06c243b56a2
