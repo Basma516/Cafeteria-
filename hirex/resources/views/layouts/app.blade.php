@@ -1,4 +1,3 @@
-
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
@@ -121,28 +120,13 @@
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
 
+
 <body class="light-bg">
-    @include('layouts.nav') <!-- Include the navigation here -->
-
-    <div id="app" class="container">
-        <main class="py-4">
-<style>
-    body {
-        background-color: #f0f8ff;
-    }
-
-    .navbar {
-        background-color: #02263b !important;
-    }
-</style>
-
-<body>
-  
-
+        @include('layouts.nav')
         <main class="py-4 container">
             @yield('content')
         </main>
-    </div>
+    
 
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
@@ -154,9 +138,7 @@
 
     <!-- Template Javascript -->
     <script src="{{ asset('js/main.js') }}"></script>
-</body>
 
-</html>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
     </script>

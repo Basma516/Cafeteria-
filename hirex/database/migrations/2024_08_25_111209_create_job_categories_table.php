@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if (!Schema::hasTable('job_categories')) {
         Schema::create('job_categories', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->timestamps();
 
         });
+    }
     }
 
     /**

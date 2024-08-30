@@ -11,23 +11,25 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('jobs', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
-            $table->text('description');
-            $table->text('requirements');
-            $table->string('location');
-            $table->foreignId('category_id')->constrained('job_categories')->onDelete('cascade');
-            $table->foreignId('job_status')->constrained('jobs_status')->onDelete('cascade');
-            $table->foreignId('job_type')->constrained('job_type')->onDelete('cascade');
-            $table->text('responsibilities');
-            $table->foreignId('emp_id')->constrained('employers')->onDelete('cascade');
-            $table->decimal('salary', 10, 2);
-            $table->text('benefits');
-            $table->date('deadline');
-            $table->string('logo')->nullable();
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('jobs')) {
+            Schema::create('jobs', function (Blueprint $table) {
+                $table->id();
+                $table->string('title');
+                $table->text('description');
+                $table->text('requirements');
+                $table->string('location');
+                $table->foreignId('category_id')->constrained('job_categories')->onDelete('cascade');
+                $table->foreignId('job_status')->constrained('jobs_status')->onDelete('cascade');
+                $table->foreignId('job_type')->constrained('job_type')->onDelete('cascade');
+                $table->text('responsibilities');
+                $table->foreignId('emp_id')->constrained('employers')->onDelete('cascade');
+                $table->decimal('salary', 10, 2);
+                $table->text('benefits');
+                $table->date('deadline');
+                $table->string('logo')->nullable();
+                $table->timestamps();
+            });
+        }
     }
 
     /**
