@@ -43,19 +43,19 @@ class LoginController extends Controller
     protected function authenticated(Request $request, $user)
     {
         // Check user role and redirect accordingly
-        if ($user->role == 1) {
+        //if ($user->role == 1) {
             // Redirect to employer dashboard
-            return redirect()->route('employer.dashboard');
-        } elseif ($user->role == 2) {
+          //  return redirect()->route('employer.dashboard');
+        //} elseif ($user->role == 2) {
             // Redirect to candidate dashboard
-            return redirect()->route('candidate.dashboard');
-        } elseif ($user->role == 3) {
+          //  return redirect()->route('candidate.dashboard');
+        //} elseif ($user->role == 3) {
             // Redirect to admin dashboard
-            return redirect()->route('admin.dashboard');
-        }
+         //   return redirect()->route('admin.dashboard');
+        //}
 
         // Default redirect if no role matched
-        return redirect()->route('home');
+        //return redirect()->route('home');
     }
     
 }
