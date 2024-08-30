@@ -13,7 +13,7 @@
   </div>
 </div>
 
-<div class="site-section bg-light">
+<div class="site-section ">
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-md-12">
