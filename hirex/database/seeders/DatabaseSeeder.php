@@ -19,25 +19,6 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-<<<<<<< HEAD
-
-
-
-        Role::truncate();
-        $adminRole = Role::create(['name'=> 'admin']);
-        $admin = User::create([
-            'name'=> 'admin',
-            'email'=> 'nababurdev@gmail.com',
-            'user_type'=> 'admin',
-            'status'=> '1',
-            'password'=> bcrypt('nababurdev123'),
-            'email_verified_at'=> NOW()
-        ]);
-
-        $admin->roles()->attach($adminRole);
-
-=======
->>>>>>> 69975e29a8d234a9af14677e5174cb2c151824d7
     }
     
 }
