@@ -14,7 +14,7 @@
   </div>
 </div>
 
-<div class="site-section bg-light">
+<div class="site-section ">
     <div class="container">
         <div class="row mb-3">
             <div class="col-lg-12">

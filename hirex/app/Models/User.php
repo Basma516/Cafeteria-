@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'image',
         'role',
     ];
 
@@ -44,21 +45,30 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    public function role()
+    {
+        return $this->belongsTo(Permission::class);
+    }
+
 
     public function isEmployer(): bool
     {
-        return $this->role === '4';
+        return $this->role->name === 'Employer';
     }
 
+    /**
+     * Check if the user is a Candidate.
+     */
     public function isCandidate(): bool
     {
-        return $this->role === '5';
+        return $this->role->name === 'Candidate';
     }
 
+    /**
+     * Check if the user is an Admin.
+     */
     public function isAdmin(): bool
     {
-        return $this->role === '6';
+        return $this->role->name === 'Admin';
     }
-
-   
 }
