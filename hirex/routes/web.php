@@ -69,3 +69,23 @@ Route::view('/profile', 'edit_profile')->name('profile');
 Route::get('/employer/dashboard', [EmployerController::class, 'dashboard'])->name('employer.dashboard');
 Route::get('/candidate/dashboard', [CandidateController::class, 'dashboard'])->name('candidate.dashboard');
 Route::get('/admin/dashboard', [AdminController::class, 'dashboard']);
+
+ Route::get('/job', function () {
+     return view('jobs.show');
+ });
+
+ Route::get('/category', function () {
+     return view('jobs.jobbycategory'); 
+ });
+
+
+
+ Route::get('/all-jobs', function () {
+    return view('jobs.alljobs'); 
+ })->name('alljobs');
+
+
+// routes/web.php
+
+Route::view('/create-job', 'jobs.createjob');
+
