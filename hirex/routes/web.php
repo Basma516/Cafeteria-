@@ -62,7 +62,7 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::view('/profile', 'edit_profile')->name('profile');
+Route::view('/profile', 'users.edit_profile')->name('profile');
 
 
 // Dashboard routes for different user types
