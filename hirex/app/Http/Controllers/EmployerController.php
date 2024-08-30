@@ -15,7 +15,7 @@ class EmployerController extends Controller
 {
     public function index()
     {
-        // Assuming you want to list all employers; adjust according to your needs.
+        
         $employers = Employer::all();
 
         return view('employers.index', compact('employers'));
