@@ -65,7 +65,4 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::view('/profile', 'edit_profile')->name('profile');
 
 
-// Dashboard routes for different user types
-Route::get('/employer/dashboard', [EmployerController::class, 'dashboard'])->name('employer.dashboard');
-Route::get('/candidate/dashboard', [CandidateController::class, 'dashboard'])->name('candidate.dashboard');
-Route::get('/admin/dashboard', [AdminController::class, 'dashboard']);
+Route::resource('admin/users', AdminController::class)->middleware('auth');

@@ -10,7 +10,9 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
+
     {
+        if (!Schema::hasTable('employers')){
         Schema::create('employers', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
@@ -20,6 +22,7 @@ return new class extends Migration
             $table->string('phone');
             $table->timestamps();
         });
+    }
     }
 
     /**
