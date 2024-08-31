@@ -3,9 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Job;
+use App\Models\Category;
+use App\Models\JobType;
+use App\Models\JobStatus;
+use App\Models\Employer;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreJobRequest;
 use App\Http\Requests\UpdateJobRequest;
+use Illuminate\Support\Facades\Auth;
+
 
 class JobController extends Controller
 {
@@ -17,14 +23,38 @@ class JobController extends Controller
 
     public function create()
     {
-        return view('jobs.createjob');
+        $types = JobType::all(); 
+        $statuses = JobStatus::all(); 
+        $categories = Category::all(); 
+        return view('jobs.createjob', compact('categories', 'types', 'statuses'));
     }
-
+    
     public function store(StoreJobRequest $request)
     {
-        Job::create($request->validated());
-        return redirect()->route('jobs.alljobs')->with('success', 'Job created successfully.');
+        $validatedData = $request->validated();
+    
+        $emp_id = Employer::where('user_id', Auth::id())->value('id');
+    
+        $job = new Job();    
+        $job->title = $validatedData['title'];
+        $job->description = $validatedData['description'];
+        $job->requirements = $validatedData['requirements'];
+        $job->location = $validatedData['location'];
+        $job->category_id = $validatedData['category_id'];
+        $job->job_status = $validatedData['job_status'];
+        $job->job_type = $validatedData['job_type'];
+        $job->responsibilities = $validatedData['responsibilities'];
+        $job->salary = $validatedData['salary'];
+        $job->benefits = $validatedData['benefits'];
+        $job->deadline = $validatedData['deadline'];
+        $job->emp_id = $emp_id; 
+    
+        $job->save();
+    
+        return redirect()->route('jobs.index')->with('success', 'Job created successfully.');
     }
+    
+    
 
     public function show(Job $job)
     {
