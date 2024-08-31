@@ -89,12 +89,10 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 //Route::view('/create-job', 'jobs.createjob');
 
-// Routes for Employers
+
 Route::resource('employers', EmployerController::class);
 
-// Routes for Users
 Route::resource('users', UserController::class);
 
-// Routes for Jobs
 Route::resource('jobs', JobController::class);
 
