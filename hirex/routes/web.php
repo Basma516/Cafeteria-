@@ -90,12 +90,10 @@ Route::get('/admin/dashboard', [AdminController::class, 'dashboard']);
 
 Route::view('/create-job', 'jobs.createjob');
 
-// Routes for Employers
+
 Route::resource('employers', EmployerController::class);
 
-// Routes for Users
 Route::resource('users', UserController::class);
 
-// Routes for Jobs
 Route::resource('jobs', JobController::class);
 
