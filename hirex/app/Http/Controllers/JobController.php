@@ -11,19 +11,19 @@ class JobController extends Controller
 {
     public function index()
     {
-        $jobs = Job::all();
+        $jobs = Job::paginate(10);
         return view('jobs.alljobs', compact('jobs'));
     }
 
     public function create()
     {
-        return view('jobs.create');
+        return view('jobs.createjob');
     }
 
     public function store(StoreJobRequest $request)
     {
         Job::create($request->validated());
-        return redirect()->route('jobs.index')->with('success', 'Job created successfully.');
+        return redirect()->route('jobs.alljobs')->with('success', 'Job created successfully.');
     }
 
     public function show(Job $job)
