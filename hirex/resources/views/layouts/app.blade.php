@@ -48,9 +48,9 @@
 </head>
 
 
-<body class="light-bg">
+<body class="light-bg container-fluid">
         @include('layouts.nav')
-        <main class="py-4 container">
+        <main class="py-4 ">
             @yield('content')
         </main>
     
