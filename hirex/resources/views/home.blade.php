@@ -16,7 +16,8 @@
                         <h1 class="display-3 text-white mb-4">Find The Perfect Job That You Deserve</h1>
                         <p class="fs-5 fw-medium text-white mb-4 pb-2">Endless Possibilities, One Career</p>
                         <a href="#" class="btn btn-primary py-md-3 px-md-5 me-3">Search A Job</a>
-                        <a href="#" class="btn btn-secondary py-md-3 px-md-5">Find A Talent</a>
+                       
+                        <a href="{{ route('jobs.create') }}" class="btn btn-secondary py-md-3 px-md-5">Find A Talent</a>
                     </div>
                 </div>
             </div>
