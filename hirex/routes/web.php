@@ -59,7 +59,7 @@ Route::get('/', function () {
 //     return view('dashboard.jobs.view');
 // })->name('jobView');
 
-// Auth::routes();
+Auth::routes();
 
 // //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
