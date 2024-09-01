@@ -17,11 +17,8 @@
                         <p class="fs-5 fw-medium text-white mb-4 pb-2">Endless Possibilities, One Career</p>
                         @auth
                             @if(auth()->user()->role != 2)
-                                
                                 <div class="search-job-section">
-                                  
                                 <a href="#" class="btn btn-primary py-md-3 px-md-5 me-3">Search A Job</a>
-                                    
                                 </div>
                             @endif
                         @endauth
