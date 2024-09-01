@@ -3,6 +3,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployerController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\JobController;
+use App\Http\Controllers\CandidateController;
 
 use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Auth;
@@ -99,3 +100,4 @@ Route::resource('users', UserController::class);
 // Routes for Jobs
 Route::resource('jobs', JobController::class);
 
+Route::resource('candidates', CandidateController::class);
