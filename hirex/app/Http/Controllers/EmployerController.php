@@ -15,10 +15,10 @@ class EmployerController extends Controller
 {
     public function index()
     {
-    
-        $employers = Employer::all();
+      
+        // $employers = Employer::all();
 
-        return view('employers.index', compact('employers'));
+        // return view('employers.index', compact('employers'));
     }
 
     /**
@@ -37,18 +37,29 @@ class EmployerController extends Controller
      * @param  \App\Http\Requests\StoreEmployerRequest  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(StoreEmployerRequest $request)
-    {
-        // Validate the request data using StoreEmployerRequest
-        $validatedData = $request->validated();
-
-        // Create a new Employer using the validated data
-        Employer::create($validatedData);
-
-        // Redirect to the index page with a success message
-        return redirect()->route('employers.index')
-            ->with('success', 'Employer created successfully.');
-    }
+  public function store(StoreEmployerRequest $request)
+        {
+            // Get the currently authenticated user
+            $user = Auth::user();
+        
+            // Set the user's role to 2 (assuming 2 is the role for 'Employer')
+            $user->role = 2;
+            $user->save();
+        
+            // Create a new Employer record without using mass assignment
+            $employer = new Employer();
+            $employer->user_id = $user->id; // Set the user_id to the authenticated user's ID
+            $employer->company_name = $request->input('company_name');
+            $employer->company_description = $request->input('company_description');
+            $employer->company_website = $request->input('company_website');
+            $employer->phone = $request->input('phone');
+            $employer->save(); // Save the Employer instance to the database
+        
+            // Redirect to the jobs.alljobs route with a success message
+            return redirect()->route('jobs.index')
+                ->with('success', 'Employer created and role set successfully.');
+        }
+    
 
     /**
      * Display the specified employer.
