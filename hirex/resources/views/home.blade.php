@@ -3,8 +3,8 @@
 @section('title', 'Home')
 
 @section('content')
- <!-- Static Image Section Start -->
-<div class="container-fluid p-0">
+  <!-- Static Image Section Start -->
+  <div class="container-fluid p-0">
     <div class="position-relative" style="height: 530px;">
         <img class="img-fluid" src="{{ asset('images/phomef.jpg') }}" style="width: 100%; height: 550px;" alt="Job Search Image">
         <div class="position-absolute top-0 start-0 w-100 d-flex align-items-center" style="background: rgba(43, 57, 64, .5); height: 550px;">
@@ -13,26 +13,17 @@
                     <div class="col-10 col-lg-8">
                         <h1 class="display-3 text-white mb-4">Find The Perfect Job That You Deserve</h1>
                         <p class="fs-5 fw-medium text-white mb-4 pb-2">Endless Possibilities, One Career</p>
+                        
                         @auth
-                            @php
-                                // Check if the authenticated user is a candidate
-                                $isCandidate = auth()->user()->role == 3 && auth()->user()->candidate;
-                            @endphp
-                            @if(auth()->user()->role != 2 && !$isCandidate)
-                                <div class="search-job-section">
-                                    <a href="#" class="btn btn-primary py-md-3 px-md-5 me-3">Search A Job</a>
-                                </div>
-                            @endif
+                            <!-- When logged in, buttons will trigger role change -->
+                            <a href="{{ route('candidates.create') }}" class="btn btn-primary py-md-3 px-md-5 me-3">Find a Job</a>
+                            <a href="{{ route('employers.create') }}" class="btn btn-secondary py-md-3 px-md-5">Find a Talent</a>
+                        @else
+                            <!-- When not logged in, buttons redirect to login page -->
+                            <a href="{{ route('login') }}" class="btn btn-primary py-md-3 px-md-5 me-3">Find a Job</a>
+                            <a href="{{ route('login') }}" class="btn btn-secondary py-md-3 px-md-5">Find a Talent</a>
                         @endauth
 
-                        @auth
-                            <!-- If the user is not a candidate, show the "Find a Talent" button -->
-                            @if(!$isCandidate)
-                                <a href="{{ route('candidates.create') }}" class="btn btn-secondary py-md-3 px-md-5">Find a Talent</a>
-                            @endif
-                        @else
-                            <a href="{{ route('login') }}" class="btn btn-secondary py-md-3 px-md-5">Find a Talent</a>
-                        @endauth           
                     </div>
                 </div>
             </div>
@@ -40,6 +31,8 @@
     </div>
 </div>
 <!-- Static Image Section End -->
+
+
 
         <!-- Search Start -->
         <div class="container-fluid bg-primary mb-5 wow fadeIn" data-wow-delay="0.1s" style="padding: 35px;">

@@ -20,7 +20,7 @@ class CandidateController extends Controller
     public function index(): View
     {
         $candidates = Candidate::all();
-        return view('candidates.index', compact('candidates'));
+        return view('home', compact('candidates'));
     }
 
     /**
@@ -44,12 +44,14 @@ class CandidateController extends Controller
         $validatedData = $request->validated();
 
         $candidate = new Candidate();
+       
         $candidate->user_id = Auth::id(); // Assuming the candidate is associated with the logged-in user
         $candidate->skills = implode(', ', $validatedData['skills']); // Convert array to comma-separated string
         $candidate->resume = $validatedData['resume'];
+
         $candidate->save();
 
-        return redirect()->route('candidates.index')
+        return redirect()->route('jobs.index')
             ->with('success', 'Candidate profile created successfully.');
     }
 
