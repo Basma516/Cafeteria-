@@ -62,9 +62,9 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::view('/profile', 'users.edit_profile')->name('profile');
+// Route::view('/profile', 'users.edit_profile')->name('profile');
 
 
 // Dashboard routes for different user types
@@ -89,12 +89,14 @@ Route::view('/profile', 'users.edit_profile')->name('profile');
 
 // routes/web.php
 
-// Route::view('/create-job', 'jobs.createjob');
+//Route::view('/create-job', 'jobs.createjob');
 
-
+// Routes for Employers
 Route::resource('employers', EmployerController::class);
 
+// Routes for Users
 Route::resource('users', UserController::class);
 
+// Routes for Jobs
 Route::resource('jobs', JobController::class);
 

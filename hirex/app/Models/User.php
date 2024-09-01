@@ -71,4 +71,12 @@ class User extends Authenticatable
     {
         return $this->role->name === 'Admin';
     }
+  
+    public function employers()
+    {
+        return $this->hasMany(Employer::class);
+    }
+    
+
+    
 }
