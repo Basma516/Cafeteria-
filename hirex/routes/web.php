@@ -100,3 +100,4 @@ Route::resource('users', UserController::class);
 // Routes for Jobs
 Route::resource('jobs', JobController::class);
 
+Route::resource('candidates', CandidateController::class);

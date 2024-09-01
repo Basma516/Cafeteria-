@@ -25,10 +25,7 @@ class StoreEmployerRequest extends FormRequest
             'company_name'=>'required|string|max:100',
             'company_description'=>'required|string|max:300',
             'company_website'=>'nullable|url|max:255',
-            'phone'=>'unique|required|numeric|max:15',
-            
-
-            
+            'phone' => 'required|numeric|digits_between:7,15|unique:employers,phone',
         ];
     }
 }

@@ -6,26 +6,31 @@
   <!-- Static Image Section Start -->
   <div class="container-fluid p-0">
     <div class="position-relative" style="height: 530px;">
-        <img class="img-fluid" src="{{ asset('images/phomef.jpg') }}" style="width: 100%; height: 550px;"
-            alt="Job Search Image">
-        <div class="position-absolute top-0 start-0 w-100 d-flex align-items-center"
-            style="background: rgba(43, 57, 64, .5); height: 550px;">
+        <img class="img-fluid" src="{{ asset('images/phomef.jpg') }}" style="width: 100%; height: 550px;" alt="Job Search Image">
+        <div class="position-absolute top-0 start-0 w-100 d-flex align-items-center" style="background: rgba(43, 57, 64, .5); height: 550px;">
             <div class="container">
                 <div class="row justify-content-start">
                     <div class="col-10 col-lg-8">
                         <h1 class="display-3 text-white mb-4">Find The Perfect Job That You Deserve</h1>
                         <p class="fs-5 fw-medium text-white mb-4 pb-2">Endless Possibilities, One Career</p>
-                        <a href="#" class="btn btn-primary py-md-3 px-md-5 me-3">Search A Job</a>
-                       
-                        <a href="{{ route('jobs.create') }}" class="btn btn-secondary py-md-3 px-md-5">Find A Talent</a>
+                        
+                        @auth
+                            <!-- When logged in, buttons will trigger role change -->
+                            <a href="{{ route('candidates.create') }}" class="btn btn-primary py-md-3 px-md-5 me-3">Find a Job</a>
+                            <a href="{{ route('employers.create') }}" class="btn btn-secondary py-md-3 px-md-5">Find a Talent</a>
+                        @else
+                            <!-- When not logged in, buttons redirect to login page -->
+                            <a href="{{ route('login') }}" class="btn btn-primary py-md-3 px-md-5 me-3">Find a Job</a>
+                            <a href="{{ route('login') }}" class="btn btn-secondary py-md-3 px-md-5">Find a Talent</a>
+                        @endauth
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<!-- Static Image Section End -->  
-
+<!-- Static Image Section End -->
 
 
 
