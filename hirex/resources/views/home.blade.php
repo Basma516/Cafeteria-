@@ -17,8 +17,13 @@
                         <p class="fs-5 fw-medium text-white mb-4 pb-2">Endless Possibilities, One Career</p>
                         <a href="#" class="btn btn-primary py-md-3 px-md-5 me-3">Search A Job</a>
                        
-                        <a href="{{ route('jobs.create') }}" class="btn btn-secondary py-md-3 px-md-5">Find A Talent</a>
-                    </div>
+
+                        @auth
+                        <a href="{{ route('employers.create') }}" class="btn btn-secondary py-md-3 px-md-5">Find a Talent</a>
+                         @else
+                         <a href="{{ route('login') }}"class="btn btn-secondary py-md-3 px-md-5">Find a Talent</a>
+                        @endauth           
+                             </div>
                 </div>
             </div>
         </div>
