@@ -7,7 +7,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <!-- Form action points to 'jobs.store' route -->
+                
                 <form action="{{ route('jobs.store') }}" method="POST">
                     @csrf
                     <div class="card">
@@ -16,7 +16,7 @@
                         </div>
 
                         <div class="card-body">
-                            <!-- Display validation errors if any -->
+                          
                             @if ($errors->any())
                                 <div class="alert alert-danger">
                                     <ul>
@@ -27,7 +27,7 @@
                                 </div>
                             @endif
 
-                            <!-- Job Title -->
+                         
                             <div class="form-group">
                                 <label for="title" class="text-primary">Title:</label>
                                 <input type="text" name="title" id="title" class="form-control @error('title') is-invalid @enderror" value="{{ old('title') }}">
@@ -36,7 +36,6 @@
                                 @enderror
                             </div>
 
-                            <!-- Job Description -->
                             <div class="form-group mt-3">
                                 <label for="description" class="text-primary">Description:</label>
                                 <textarea name="description" id="description" class="form-control @error('description') is-invalid @enderror" style="height: 120px">{{ old('description') }}</textarea>
@@ -45,7 +44,6 @@
                                 @enderror
                             </div>
 
-                            <!-- Job Requirements -->
                             <div class="form-group mt-3">
                                 <label for="requirements" class="text-primary">Requirements:</label>
                                 <textarea name="requirements" id="requirements" class="form-control @error('requirements') is-invalid @enderror" style="height: 120px">{{ old('requirements') }}</textarea>
@@ -54,7 +52,7 @@
                                 @enderror
                             </div>
 
-                            <!-- Job Location -->
+                      
                             <div class="form-group mt-3">
                                 <label for="location" class="text-primary">Location:</label>
                                 <input type="text" name="location" id="location" class="form-control @error('location') is-invalid @enderror" value="{{ old('location') }}">
@@ -63,7 +61,7 @@
                                 @enderror
                             </div>
 
-                            <!-- Dynamic Job Category Dropdown -->
+                         
                             <div class="form-group mt-3">
                                 <label for="category_id" class="text-primary">Category:</label>
                                 <select name="category_id" id="category_id" class="form-control @error('category_id') is-invalid @enderror">
@@ -78,7 +76,6 @@
                                 @enderror
                             </div>
 
-                            <!-- Job Status -->
                             <div class="form-group mt-3">
                                 <label for="job_status" class="text-primary">Job Status:</label>
                                 <select name="job_status" id="job_status" class="form-control @error('job_status') is-invalid @enderror">
@@ -93,7 +90,7 @@
                                 @enderror
                             </div>
 
-                            <!-- Job Type -->
+                   
                             <div class="form-group mt-3">
                                 <label for="job_type" class="text-primary">Job Type:</label>
                                 <select name="job_type" id="job_type" class="form-control @error('job_type') is-invalid @enderror">
@@ -108,7 +105,7 @@
                                 @enderror
                             </div>
 
-                            <!-- Job Responsibilities -->
+                           
                             <div class="form-group mt-3">
                                 <label for="responsibilities" class="text-primary">Responsibilities:</label>
                                 <textarea name="responsibilities" id="responsibilities" class="form-control @error('responsibilities') is-invalid @enderror" style="height: 120px">{{ old('responsibilities') }}</textarea>
@@ -117,7 +114,7 @@
                                 @enderror
                             </div>
 
-                            <!-- Salary -->
+    
                             <div class="form-group mt-3">
                                 <label for="salary" class="text-primary">Salary:</label>
                                 <input type="number" name="salary" id="salary" class="form-control @error('salary') is-invalid @enderror" value="{{ old('salary') }}" step="0.01">
@@ -126,7 +123,7 @@
                                 @enderror
                             </div>
 
-                            <!-- Job Benefits -->
+                       
                             <div class="form-group mt-3">
                                 <label for="benefits" class="text-primary">Benefits:</label>
                                 <textarea name="benefits" id="benefits" class="form-control @error('benefits') is-invalid @enderror" style="height: 120px">{{ old('benefits') }}</textarea>
@@ -135,7 +132,6 @@
                                 @enderror
                             </div>
 
-                            <!-- Application Deadline -->
                             <div class="form-group mt-3">
                                 <label for="deadline" class="text-primary">Application Deadline:</label>
                                 <input type="date" name="deadline" id="deadline" class="form-control @error('deadline') is-invalid @enderror" value="{{ old('deadline') }}">
@@ -144,7 +140,7 @@
                                 @enderror
                             </div>
 
-                            <!-- Post Job Button -->
+                      
                             <div class="form-group mt-3">
                                 <button class="btn btn-dark" type="submit" style="background-color: #5289b5; border-color: #5289b5;">Post Job</button>
                             </div>

@@ -39,38 +39,39 @@ class ApplicationController extends Controller
      */
     public function store(Request $request)
     {
-        
+    
         $request->validate([
             'resume' => 'required|mimes:pdf,doc,docx|max:2048',
             'job_id' => 'required|exists:jobs,id',
         ]);
-        dd($request->all());
-
+    
+     
         $user = Auth::user();
         
-        // Ensure that the candidate exists
-        $candidate = Candidate::find($user->id);
-        if (!$candidate) {
-            return redirect()->back()->with('error', 'You must be a candidate to apply for jobs.');
-        }
-
-        // Handle the file upload
-        $resumePath = $request->file('resume')->store('resumes', 'public');
-
-        // Save the application with the resume path
-        $application = new Application([
-            'candidate_id' => $candidate->id,
-            'job_id' => $request->job_id,
-            'status' => 2,
-            'resume' => $resumePath,
-        ]);
-
-        $application->save();
+        $candidate = Candidate::firstWhere('user_id', $user->id);
        
 
-        return redirect()->route('jobs.alljobs')->with('success', 'Application submitted successfully.');
+    
+        if (!$candidate) {
+           
+            return redirect()->back()->with('error', 'Candidate not found.');
+        }
+    
+       
+        $resumePath = $request->file('resume')->store('resumes', 'public');
+    
+        
+        $application = new Application();
+        $application->candidate_id = $candidate->id; 
+        $application->job_id = $request->job_id;
+        $application->status = 2;  
+        $application->resume = $resumePath;
+        $application->save();
+    
+     
+        return redirect()->route('jobs.index')->with('success', 'Application submitted successfully.');
     }
-
+    
 
 
 
