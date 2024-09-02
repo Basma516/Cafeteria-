@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Employer;
 use App\Models\Application;
-use App\Models\Job;
+use App\Models\User;
+
 use App\Http\Requests\StoreEmployerRequest;
 use App\Http\Requests\UpdateEmployerRequest;
 use Illuminate\Http\Request;
@@ -39,23 +40,18 @@ class EmployerController extends Controller
      */
   public function store(StoreEmployerRequest $request)
         {
-            // Get the currently authenticated user
+            
             $user = Auth::user();
-        
-            // Set the user's role to 2 (assuming 2 is the role for 'Employer')
-            $user->role = 2;
-            $user->save();
-        
-            // Create a new Employer record without using mass assignment
+            
             $employer = new Employer();
-            $employer->user_id = $user->id; // Set the user_id to the authenticated user's ID
+            $employer->user_id = $user->id;
             $employer->company_name = $request->input('company_name');
             $employer->company_description = $request->input('company_description');
             $employer->company_website = $request->input('company_website');
             $employer->phone = $request->input('phone');
-            $employer->save(); // Save the Employer instance to the database
-        
-            // Redirect to the jobs.alljobs route with a success message
+            $employer->save(); 
+            User::where('id', $user->id)->update(['role' => 2]);
+
             return redirect()->route('jobs.index')
                 ->with('success', 'Employer created and role set successfully.');
         }

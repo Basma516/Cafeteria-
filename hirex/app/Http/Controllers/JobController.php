@@ -17,7 +17,7 @@ class JobController extends Controller
 {
     public function index()
     {
-        $jobs = Job::paginate(10);
+        $jobs = Job::with('jobType')->paginate(10);
         return view('jobs.alljobs', compact('jobs'));
     }
 
@@ -26,6 +26,7 @@ class JobController extends Controller
         $types = JobType::all(); 
         $statuses = JobStatus::all(); 
         $categories = Category::all(); 
+        
         return view('jobs.createjob', compact('categories', 'types', 'statuses'));
     }
     
@@ -56,9 +57,12 @@ class JobController extends Controller
     
     
 
-    public function show(Job $job)
+    public function show($id)
     {
-        return view('jobs.show', compact('job'));
+       
+        $job = Job::with('employer', 'jobType', 'status')->findOrFail($id);
+    
+        return view('jobs.jobdetails', compact('job'));
     }
 
     public function edit(Job $job)

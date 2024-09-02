@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('application_status', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->default('pending');
             $table->timestamps();
         });
     }

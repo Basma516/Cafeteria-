@@ -2,10 +2,13 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployerController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\CandidateController;
 
 use App\Http\Controllers\AdminController;
+
+
 use Illuminate\Support\Facades\Auth;
 
 
@@ -21,15 +24,9 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-<<<<<<< HEAD
 // Route::get('/', function () {
 //     return view('home');
 // });
-=======
-Route::get('/', function () {
-    return view('home');
-});
->>>>>>> 14afe698f4c82107b6c1d276eba760170c411b4e
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard.index');
@@ -71,17 +68,11 @@ Auth::routes();
 
 // Route::view('/profile', 'users.edit_profile')->name('profile');
 
-<<<<<<< HEAD
-=======
-// Route::view('/profile', 'users.edit_profile')->name('profile');
->>>>>>> 14afe698f4c82107b6c1d276eba760170c411b4e
-
 // // Dashboard routes for different user types
 // Route::get('/employer/dashboard', [EmployerController::class, 'dashboard'])->name('employer.dashboard');
 // //Route::get('/candidate/dashboard', [CandidateController::class, 'dashboard'])->name('candidate.dashboard');
 // Route::get('/admin/dashboard', [AdminController::class, 'dashboard']);
 
-<<<<<<< HEAD
 //  Route::get('/job', function () {
 //      return view('jobs.show');
 //  });
@@ -92,23 +83,6 @@ Auth::routes();
 
 
 
-=======
-// Dashboard routes for different user types
-// Route::get('/employer/dashboard', [EmployerController::class, 'dashboard'])->name('employer.dashboard');
-// Route::get('/candidate/dashboard', [CandidateController::class, 'dashboard'])->name('candidate.dashboard');
-// Route::get('/admin/dashboard', [AdminController::class, 'dashboard']);
-
-//  Route::get('/job', function () {
-//      return view('jobs.show');
-//  });
-
-//  Route::get('/category', function () {
-//      return view('jobs.jobbycategory'); 
-//  });
-
-
-
->>>>>>> 14afe698f4c82107b6c1d276eba760170c411b4e
 //  Route::get('/all-jobs', function () {
 //     return view('jobs.alljobs'); 
 //  })->name('alljobs');
@@ -117,10 +91,6 @@ Auth::routes();
 // routes/web.php
 
 //Route::view('/create-job', 'jobs.createjob');
-<<<<<<< HEAD
-
-=======
->>>>>>> 14afe698f4c82107b6c1d276eba760170c411b4e
 
 // Routes for Employers
 Route::resource('employers', EmployerController::class);
@@ -132,3 +102,6 @@ Route::resource('users', UserController::class);
 Route::resource('jobs', JobController::class);
 
 Route::resource('candidates', CandidateController::class);
+
+Route::resource('applications', ApplicationController::class)->only(['create', 'store']);
+

@@ -30,7 +30,18 @@ class Job extends Model
     {
         return $this->belongsTo(Employer::class, 'emp_id');
     }
-
+    public function applications()
+    {
+        return $this->hasMany(Application::class);
+    }
     
+    public function status()
+    {
+        return $this->belongsTo(JobStatus::class, 'job_status');
+    }
+    public function jobType()
+    {
+        return $this->belongsTo(JobType::class, 'job_type'); 
+    }
 
 }
