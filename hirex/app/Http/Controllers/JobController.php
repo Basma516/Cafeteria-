@@ -77,4 +77,17 @@ class JobController extends Controller
         $job->delete();
         return redirect()->route('jobs.index')->with('success', 'Job deleted successfully.');
     }
+
+    // public function analytics()
+    // {
+    //     // Fetch all jobs with the count of applications
+    //     $jobs = Job::withCount('applications')->get();
+
+    //     // Optionally filter jobs with 12 or more applications
+    //     // $jobs = Job::withCount('applications')
+    //     //     ->having('applications_count', '>=', 12)
+    //     //     ->get();
+
+    //     return view('jobs.analytics', compact('jobs'));
+    // }
 }

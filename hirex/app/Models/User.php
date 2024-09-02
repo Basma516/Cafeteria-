@@ -63,7 +63,10 @@ class User extends Authenticatable
     {
         return $this->role->name === 'Candidate';
     }
-
+    public function candidate()
+    {
+        return $this->hasOne(Candidate::class);
+    }
     /**
      * Check if the user is an Admin.
      */
@@ -71,4 +74,12 @@ class User extends Authenticatable
     {
         return $this->role->name === 'Admin';
     }
+  
+    public function employers()
+    {
+        return $this->hasMany(Employer::class);
+    }
+    
+
+    
 }

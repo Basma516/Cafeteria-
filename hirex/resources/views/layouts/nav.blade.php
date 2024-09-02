@@ -1,5 +1,5 @@
 <header>
-    <!-- Navbar Start -->
+    
     <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
         <a href="{{ url('/') }}" class="navbar-brand d-flex align-items-center text-center py-0 px-4 px-lg-5">
             <h1 class="m-0 text-primary">HireX</h1>
@@ -38,18 +38,18 @@
                             class="fa fa-sign-out-alt ms-3"></i></button>
                 </form>
             @else
-                <!-- If the user is not logged in -->
+              
                 @if(Request::is('login'))
-                    <!-- If the current page is the login page -->
+                 
                     <a href="{{ url('/') }}" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Post a Job<i
                             class="fa fa-arrow-right ms-3"></i></a>
                 @else
-                    <!-- If the current page is not the login page -->
+                
                     <a href="{{ route('login') }}" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Login<i
                             class="fa fa-arrow-right ms-3"></i></a>
                 @endif
             @endauth
         </div>
     </nav>
-    <!-- Navbar End -->
+   
 </header>
