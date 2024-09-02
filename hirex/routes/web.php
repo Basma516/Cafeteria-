@@ -5,10 +5,6 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\CandidateController;
-
-use App\Http\Controllers\AdminController;
-
-
 use Illuminate\Support\Facades\Auth;
 
 
@@ -24,9 +20,9 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-// Route::get('/', function () {
-//     return view('home');
-// });
+Route::get('/', function () {
+    return view('home');
+});
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard.index');
@@ -64,7 +60,7 @@ use Illuminate\Support\Facades\Auth;
 // })->name('jobView');
 
 Auth::routes();
-//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 // Route::view('/profile', 'users.edit_profile')->name('profile');
 
@@ -104,4 +100,8 @@ Route::resource('jobs', JobController::class);
 Route::resource('candidates', CandidateController::class);
 
 Route::resource('applications', ApplicationController::class)->only(['create', 'store']);
+
+
+
+Route::resource('applications', ApplicationController::class)->only(['create', 'store', 'destroy']);
 

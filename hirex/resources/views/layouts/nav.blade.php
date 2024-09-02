@@ -31,14 +31,12 @@
             </div>
             
             @auth
-                <!-- If the user is logged in -->
                 <form method="POST" action="{{ route('logout') }}" class="d-inline">
                     @csrf
                     <button type="submit" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Logout<i
                             class="fa fa-sign-out-alt ms-3"></i></button>
                 </form>
             @else
-              
                 @if(Request::is('login'))
                  
                     <a href="{{ url('/') }}" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Post a Job<i

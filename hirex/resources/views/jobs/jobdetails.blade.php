@@ -14,7 +14,6 @@
                                 style="width: 100px; height: 100px; object-fit: cover;">
                         </div>
                         <div class="p-4">
-                            <!-- Employer Information -->
                             <h3 class="text-dark">{{ $job->employer->company_name }}</h3>
                             <p>{{ $job->employer->company_description }}</p>
                             <p><span class="fas fa-phone mr-1"></span> {{ $job->employer->phone }}</p>
@@ -43,14 +42,38 @@
                     <p>{{ $job->benefits }}</p>
                     <h4>Application Deadline:</h4>
                     <p>{{ $job->deadline }}</p>
-
                     @auth
-                    @if(auth()->user()->role == 3)
-                    <div class="job-apply p-3">
-                        <a href="{{ route('applications.create', ['job' => $job->id]) }}" class="btn btn-primary">Apply Now</a>
-                    </div>
-                    @endif
-                    @endauth
+                            @if(auth()->user()->role == 2)
+                                <span class="badge badge-info">{{ $job->status->name }}</span>
+                            @endif
+                            @endauth
+                        </div>
+                        @auth
+                        @if(auth()->user()->role == 3)
+                        <div class="job-apply p-3">
+                            @php
+                               
+                                $application = \App\Models\Application::where('candidate_id', auth()->user()->candidate->id)
+                                                                      ->where('job_id', $job->id)
+                                                                      ->first();
+                            @endphp
+
+                            @if($application)
+                           <button class="btn btn-secondary" disabled>Applied</button>
+                             
+                                <form action="{{ route('applications.destroy', $application->id) }}" method="POST" style="display: inline-block;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger">Cancel Application</button>
+                                </form>
+                            @else
+                          
+                                <a href="{{ route('applications.create', ['job' => $job->id]) }}" class="btn btn-primary">Apply Now</a>
+                            @endif
+                        </div>
+                        @endif
+                        @endauth
+              
                 </div>
             </div>
         </div>
