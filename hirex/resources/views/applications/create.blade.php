@@ -11,12 +11,21 @@
                 <form action="{{ route('jobs.store') }}" method="POST">
                     @csrf
                     <div class="card">
-                        <div class="card-header text-white" style="background-color: #5289b5;">
+                        <div class="card-header" style="background-color: #5289b5; color: #fff;">
                             <h3>Create a New Job</h3>
                         </div>
 
                         <div class="card-body">
-                           
+                            <!-- Display validation errors if any -->
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
 
                             <!-- Job Title -->
                             <div class="form-group">

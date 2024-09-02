@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('candidate_id')->constrained('candidates')->onDelete('cascade');
             $table->foreignId('job_id')->constrained('jobs')->onDelete('cascade');
             $table->foreignId('status')->constrained('application_status')->onDelete('cascade');
-            $table->text('resume');
+            $table->string('resume');
             $table->timestamps();
         });
     }

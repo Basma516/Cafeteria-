@@ -2,10 +2,13 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployerController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\CandidateController;
 
 use App\Http\Controllers\AdminController;
+
+
 use Illuminate\Support\Facades\Auth;
 
 
@@ -64,13 +67,13 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-// Route::view('/profile', 'users.edit_profile')->name('profile');
+//Route::view('/profile', 'users.edit_profile')->name('profile');
 
 
 // Dashboard routes for different user types
-// Route::get('/employer/dashboard', [EmployerController::class, 'dashboard'])->name('employer.dashboard');
-// Route::get('/candidate/dashboard', [CandidateController::class, 'dashboard'])->name('candidate.dashboard');
-// Route::get('/admin/dashboard', [AdminController::class, 'dashboard']);
+ //Route::get('/employer/dashboard', [EmployerController::class, 'dashboard'])->name('employer.dashboard');
+//Route::get('/candidate/dashboard', [CandidateController::class, 'dashboard'])->name('candidate.dashboard');
+Route::get('/dashboard', [AdminController::class, 'index']);
 
 //  Route::get('/job', function () {
 //      return view('jobs.show');
@@ -101,3 +104,6 @@ Route::resource('users', UserController::class);
 Route::resource('jobs', JobController::class);
 
 Route::resource('candidates', CandidateController::class);
+
+Route::resource('applications', ApplicationController::class)->only(['create', 'store']);
+

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCandidateRequest;
 use App\Http\Requests\UpdateCandidateRequest;
 use App\Models\Candidate;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -50,6 +51,7 @@ class CandidateController extends Controller
         $candidate->resume = $validatedData['resume'];
 
         $candidate->save();
+        User::where('id', $candidate->id)->update(['role' => 3]);
 
         return redirect()->route('jobs.index')
             ->with('success', 'Candidate profile created successfully.');
