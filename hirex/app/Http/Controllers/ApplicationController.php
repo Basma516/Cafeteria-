@@ -1,10 +1,5 @@
 <?php
-
 namespace App\Http\Controllers;
-
-
-
-
 use App\Models\Job;
 use App\Models\Application;
 use App\Models\Candidate;
@@ -102,8 +97,15 @@ class ApplicationController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $application = Application::findOrFail($id);
+        if (Auth::id() !== $application->candidate->user_id) {
+            return redirect()->route('jobs.index')->with('error', 'You are not authorized to cancel this application.');
+        }
+    
+        $application->delete();
+    
+        return redirect()->route('jobs.index')->with('success', 'Application canceled successfully.');
     }
 }
