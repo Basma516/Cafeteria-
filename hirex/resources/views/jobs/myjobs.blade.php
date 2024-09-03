@@ -19,6 +19,8 @@
                             <p class="card-text"><strong>Status:</strong> {{ $job->status->name }}</p>
                             <p class="card-text"><strong>Employment Type:</strong> {{ $job->jobType->name }}</p>
                             <a href="{{ route('jobs.show', $job->id) }}" class="btn btn-primary">View Job</a>
+                            <a href="{{ route('job.analytics', $job->id) }}"  class="btn btn-primary">Applications</a>
+
                         </div>
                     </div>
                 </div>

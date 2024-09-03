@@ -140,3 +140,8 @@ Route::get('/employer/myjobs/{id}', [EmployerController::class, 'myJobs'])->name
 Route::get('/myjobs', [JobController::class, 'showEmployerJobs'])->name('jobs.empjobs');
 
 Route::get('/employer/job/{id}/analytics', [JobController::class, 'showAnalytics'])->name('job.analytics');
+// In routes/web.php
+Route::patch('/applications/{application}', [ApplicationController::class, 'update'])->name('applications.update');
+// In routes/web.php
+// routes/web.php
+Route::get('/applications/{id}/resume', [ApplicationController::class, 'viewResume'])->name('applications.resume');
