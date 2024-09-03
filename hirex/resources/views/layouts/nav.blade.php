@@ -11,6 +11,7 @@
                 <a href="{{ url('/') }}" class="nav-item nav-link active">Home</a>
                 <a href="{{ url('/') }}#about" class="nav-item nav-link">About</a>
                 <a href="{{ url('/myjobs') }}" class="nav-item nav-link">myjobs</a>
+                <a href="{{ url('/jobs') }}" class="nav-item nav-link">All Jobs</a>
 
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
@@ -26,10 +27,7 @@
             @auth
                 <div class="navbar-nav ms-auto p-4 p-lg-0">
                     <a href="{{ route('home') }}" class="nav-item nav-link">My Account</a>
-                    @if(auth()->user()->role == 2 && isset($employerId))
-                        <!-- Use the shared employerId for the route -->
-                        <a href="{{ route('showEmployerJobs', ['id' => $employerId]) }}" class="nav-item nav-link">My Jobs</a>
-                    @endif
+                   
                     <form method="POST" action="{{ route('logout') }}" class="d-inline">
                         @csrf
                         <button type="submit" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">
