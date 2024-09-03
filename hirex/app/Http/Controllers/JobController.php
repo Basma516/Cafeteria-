@@ -33,8 +33,14 @@ class JobController extends Controller
     public function store(StoreJobRequest $request)
     {
         $validatedData = $request->validated();
+        $user = Auth::user();
     
-        $emp_id = Employer::where('user_id', Auth::id())->value('id');
+        $emp_id = Employer::where('user_id', $user->id)->value('id');
+
+        // Check if employer ID is correctly retrieved
+        if (!$emp_id) {
+            return redirect()->route('jobs.create')->with('error', 'Employer profile not found. Please complete your employer profile.');
+        }
     
         $job = new Job();    
         $job->title = $validatedData['title'];
@@ -94,4 +100,31 @@ class JobController extends Controller
 
     //     return view('jobs.analytics', compact('jobs'));
     // }
+    public function showEmployerJobs()
+{
+    // Get the logged-in user
+    $user = Auth::user();
+
+    // Ensure the user is an employer
+    if ($user->role != 2) {
+        return redirect()->route('home')->with('error', 'Access Denied. Only employers can view their job postings.');
+    }
+
+    // Find the employer associated with the logged-in user
+    $employer = Employer::where('user_id', $user->id)->first();
+
+    // Check if the employer profile exists
+    if (!$employer) {
+        return redirect()->route('home')->with('error', 'Employer profile not found. Please complete your employer profile.');
+    }
+
+    // Fetch jobs associated with the employer
+    $jobs = Job::with('jobType', 'status')
+                ->where('emp_id', $employer->id)
+                ->paginate(10); // Use pagination if needed
+
+    return view('jobs.myjobs', compact('jobs'));
+}
+
+    
 }
