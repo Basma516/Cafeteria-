@@ -126,7 +126,7 @@ class JobController extends Controller
                 ->get();
 
     return view('jobs.myjobs', compact('jobs'));
-}
+              }
          
 
   
