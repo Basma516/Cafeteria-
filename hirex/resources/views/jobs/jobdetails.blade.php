@@ -3,6 +3,19 @@
 @section('content')
 <div class="site-section py-5">
     <div class="container">
+        <!-- Display success and error messages -->
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+
         <div class="row mb-4">
             <div class="col-lg-12">
                 <h2 class="mb-5 h3 text-primary">{{ $job->title }}</h2>
@@ -10,8 +23,8 @@
                     <div class="d-block d-md-flex align-items-center mb-4">
                         <div class="company-logo text-center text-md-left pl-3">
                             <img src="{{ $job->company_logo ? asset('storage/' . $job->company_logo) : 'https://via.placeholder.com/100' }}"
-                                alt="Company Logo" class="img-fluid rounded-circle"
-                                style="width: 100px; height: 100px; object-fit: cover;">
+                                 alt="Company Logo" class="img-fluid rounded-circle"
+                                 style="width: 100px; height: 100px; object-fit: cover;">
                         </div>
                         <div class="p-4">
                             <h3 class="text-dark">{{ $job->employer->company_name }}</h3>
@@ -42,38 +55,37 @@
                     <p>{{ $job->benefits }}</p>
                     <h4>Application Deadline:</h4>
                     <p>{{ $job->deadline }}</p>
-                    @auth
-                            @if(auth()->user()->role == 2)
-                                <span class="badge badge-info">{{ $job->status->name }}</span>
-                            @endif
-                            @endauth
-                        </div>
-                        @auth
-                        @if(auth()->user()->role == 3)
-                        <div class="job-apply p-3">
-                            @php
-                               
-                                $application = \App\Models\Application::where('candidate_id', auth()->user()->candidate->id)
-                                                                      ->where('job_id', $job->id)
-                                                                      ->first();
-                            @endphp
 
-                            @if($application)
-                           <button class="btn btn-secondary" disabled>Applied</button>
-                             
-                                <form action="{{ route('applications.destroy', $application->id) }}" method="POST" style="display: inline-block;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger">Cancel Application</button>
-                                </form>
-                            @else
-                          
-                                <a href="{{ route('applications.create', ['job' => $job->id]) }}" class="btn btn-primary">Apply Now</a>
-                            @endif
+                    <!-- Display Comments Section -->
+                    <h4>Comments:</h4>
+                    @forelse($job->comments as $comment)
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ $comment->user->name }}</h5>
+                                <p class="card-text">{{ $comment->comment }}</p>
+                                <p class="card-text"><small class="text-muted">{{ $comment->created_at->diffForHumans() }}</small></p>
+                            </div>
                         </div>
-                        @endif
-                        @endauth
-              
+                    @empty
+                        <p>No comments yet. Be the first to comment!</p>
+                    @endforelse
+
+                    <!-- Add Comment Form -->
+                    @auth
+                    <form action="{{ route('comments.store', $job->id) }}" method="POST">
+                        @csrf
+                        <div class="form-group">
+                            <label for="comment">Add a comment:</label>
+                            <textarea class="form-control @error('comment') is-invalid @enderror" id="comment" name="comment" rows="3" required>{{ old('comment') }}</textarea>
+                            @error('comment')
+                                <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                            @enderror
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-2">Submit</button>
+                    </form>
+                    @else
+                    <p><a href="{{ route('login') }}">Log in</a> to post a comment.</p>
+                    @endauth
                 </div>
             </div>
         </div>

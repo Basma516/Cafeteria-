@@ -7,12 +7,12 @@ use App\Models\Category;
 use App\Models\JobType;
 use App\Models\JobStatus;
 use App\Models\Employer;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreJobRequest;
 use App\Http\Requests\UpdateJobRequest;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
-
 
 class JobController extends Controller
 {
@@ -33,11 +33,19 @@ class JobController extends Controller
     
     public function store(StoreJobRequest $request)
     {
+        $user = Auth::user();
+        if ($user->role != 2) {
+            return redirect()->route('home')->with('error', 'Access Denied. Only employers can post jobs.');
+        }
+        $emp_id = Employer::where('user_id', $user->id)->value('id');
+    
+        if (!$emp_id) {
+            return redirect()->route('home')->with('error', 'Employer profile not found. Please complete your employer profile.');
+        }
+    
         $validatedData = $request->validated();
     
-        $emp_id = Employer::where('user_id', Auth::id())->value('id');
-    
-        $job = new Job();    
+        $job = new Job();
         $job->title = $validatedData['title'];
         $job->description = $validatedData['description'];
         $job->requirements = $validatedData['requirements'];
@@ -49,22 +57,20 @@ class JobController extends Controller
         $job->salary = $validatedData['salary'];
         $job->benefits = $validatedData['benefits'];
         $job->deadline = $validatedData['deadline'];
-        $job->emp_id = $emp_id; 
+        $job->emp_id = $emp_id;  
     
         $job->save();
     
         return redirect()->route('jobs.index')->with('success', 'Job created successfully.');
     }
-    
-    
 
     public function show($id)
     {
-       
-        $job = Job::with('employer', 'jobType', 'status')->findOrFail($id);
-    
-        return view('jobs.jobdetails', compact('job'));
+        $job = Job::with('employer', 'jobType', 'status', 'comments.user')->findOrFail($id);
+        return view('jobs.myjobs', compact('job'));
     }
+    
+  
 
     public function edit(Job $job)
     {
@@ -82,5 +88,21 @@ class JobController extends Controller
         $job->delete();
         return redirect()->route('jobs.index')->with('success', 'Job deleted successfully.');
     }
+    public function showEmployerJobs()
+{
+    $user = Auth::user();
+    if ($user->role != 2) {
+        return redirect()->route('home')->with('error', 'Access Denied. Only employers can view their job postings.');
+    }
+    $employer = Employer::where('user_id', $user->id)->first();  
+    if (!$employer) {
+        return redirect()->route('home')->with('error', 'Employer profile not found. Please complete your employer profile.');
+    }
+    $jobs = Job::with('jobType', 'status')
+                ->where('emp_id', $employer->id)
+                ->paginate(10); 
+    return view('jobs.empjobs', compact('jobs'));
+}
+
 
 }

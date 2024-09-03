@@ -82,10 +82,7 @@
         </div>
     </div>
 </div>
-<!-- Search End -->
 
-
-<!-- Category Start -->
 <div class="container-xxl py-5">
     <div class="container">
         <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Explore By Category</h1>
@@ -153,7 +150,7 @@
 
 
 <!-- About Start -->
-<div class="container-xxl py-5">
+<div class="container-xxl py-5" id="about">
     <div class="container">
         <div class="row g-5 align-items-center">
             <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
@@ -161,7 +158,6 @@
                     <div class=" text-start">
                         <img class="img-fluid w-100" src="{{asset('images/board.jpg')}}">
                     </div>
-                    \
                 </div>
             </div>
             <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
@@ -177,8 +173,6 @@
         </div>
     </div>
 </div>
-<!-- About End -->
-
 
 {{--
 <!-- Jobs Start -->
