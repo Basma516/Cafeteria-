@@ -9,6 +9,8 @@ use App\Http\Controllers\CommentsController;
 use Illuminate\Support\Facades\Auth;
 
 
+use App\Http\Controllers\JobCategoryController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -103,6 +105,8 @@ Route::resource('jobs', JobController::class);
 
 Route::resource('candidates', CandidateController::class);
 
+Route::get('/category', [JobCategoryController::class, 'index'])->name('category.index');
+// Route::get('/category', [JobCategoryController::class, 'index'])->middleware('auth')->name('category.index');
 
 
 Route::resource('applications', ApplicationController::class)->only(['create', 'store', 'destroy']);
@@ -145,4 +149,6 @@ Route::patch('/applications/{application}', [ApplicationController::class, 'upda
 // In routes/web.php
 // routes/web.php
 Route::get('/applications/{id}/resume', [ApplicationController::class, 'viewResume'])->name('applications.resume');
+// web.php
 
+Route::get('jobs/search', [JobController::class, 'search'])->name('jobs.search');

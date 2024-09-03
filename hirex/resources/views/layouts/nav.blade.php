@@ -16,8 +16,8 @@
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                     <div class="dropdown-menu rounded-0 m-0">
-                        <a href="{{ url('/category') }}" class="dropdown-item">Job Category</a>
-                        <a href="{{ url('/testimonial') }}" class="dropdown-item">Testimonial</a>
+                    <a href="{{ route('category.index') }}" class="dropdown-item">Job Category</a>
+                    <a href="{{ url('/testimonial') }}" class="dropdown-item">Testimonial</a>
                         <a href="{{ url('/404') }}" class="dropdown-item">404</a>
                     </div>
                 </div>

@@ -24,7 +24,9 @@ class JobController extends Controller
             $query->where('name', 'accepted');
         })
         ->paginate(10);
-        return view('jobs.alljobs', compact('jobs'));
+        $categories = Category::all();
+
+        return view('jobs.alljobs', compact('jobs','categories'));
     }
     
 
@@ -107,6 +109,28 @@ public function update(UpdateJobRequest $request, $id)
     $job->update($request->validated());
 
     return redirect()->route('jobs.myjobs',Auth::id())->with('success', 'Job updated successfully.');
+}
+public function search(Request $request)
+{
+    $query = Job::query();
+
+    if ($request->filled('category')) {
+        $query->where('category_id', $request->category);
+    }
+
+    if ($request->filled('keyword')) {
+        $query->where('title', 'like', '%' . $request->keyword . '%')
+              ->orWhere('description', 'like', '%' . $request->keyword . '%');
+    }
+
+    if ($request->filled('location')) {
+        $query->where('location', 'like', '%' . $request->location . '%');
+    }
+
+    $jobs = $query->with('jobType', 'status', 'category')->paginate(10);
+    $categories = JobCategory::all();
+
+    return view('jobs.search', compact('jobs', 'categories'));
 }
 
 public function destroy($id)
