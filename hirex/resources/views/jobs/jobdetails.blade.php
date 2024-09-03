@@ -6,6 +6,8 @@
         <div class="row mb-4">
             <div class="col-lg-12">
                 <h2 class="mb-5 h3 text-primary">{{ $job->title }}</h2>
+                <a href="{{ route('job.analytics', $job->id) }}" class="btn btn-primary">View Analytics</a>
+
                 <div class="job-details">
                     <div class="d-block d-md-flex align-items-center mb-4">
                         <div class="company-logo text-center text-md-left pl-3">
@@ -48,6 +50,7 @@
                     @if(auth()->user()->role == 3)
                     <div class="job-apply p-3">
                         <a href="{{ route('applications.create', ['job' => $job->id]) }}" class="btn btn-primary">Apply Now</a>
+
                     </div>
                     @endif
                     @endauth

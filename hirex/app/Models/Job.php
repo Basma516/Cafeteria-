@@ -26,10 +26,12 @@ class Job extends Model
     ];
 
     // Relationship with Employer model
+  
     public function employer()
     {
         return $this->belongsTo(Employer::class, 'emp_id');
     }
+
     public function applications()
     {
         return $this->hasMany(Application::class);

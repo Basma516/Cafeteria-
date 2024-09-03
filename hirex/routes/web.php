@@ -24,9 +24,9 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-// Route::get('/', function () {
-//     return view('home');
-// });
+Route::get('/', function () {
+    return view('home');
+});
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard.index');
@@ -64,7 +64,7 @@ use Illuminate\Support\Facades\Auth;
 // })->name('jobView');
 
 Auth::routes();
-//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 // Route::view('/profile', 'users.edit_profile')->name('profile');
 
@@ -105,3 +105,4 @@ Route::resource('candidates', CandidateController::class);
 
 Route::resource('applications', ApplicationController::class)->only(['create', 'store']);
 
+Route::get('/employer/job/{id}/analytics', [JobController::class, 'showAnalytics'])->name('job.analytics');
