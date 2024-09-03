@@ -26,14 +26,7 @@ class JobController extends Controller
         return view('jobs.alljobs', compact('jobs'));
     }
     
-    
-public function indexForEmployer()
-{
-    // For Employers: Show all jobs regardless of status
-    $jobs = Job::with('jobType')->withCount('applications')->paginate(10);
-    
-    return view('jobs.alljobs', compact('jobs'));
-}
+
 
     public function create()
     {
