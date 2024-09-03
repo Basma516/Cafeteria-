@@ -95,6 +95,13 @@ class JobController extends Controller
         $job->delete();
         return redirect()->route('jobs.index')->with('success', 'Job deleted successfully.');
     }
+    public function showAnalytics($id)
+    {
+        $job = Job::with('applications')->findOrFail($id);
+        $applicationCount = $job->applications->count();
+    
+        return view('employers.job.analytics', compact('job', 'applicationCount'));
+    }
 
 
     public function showEmployerJobs()
