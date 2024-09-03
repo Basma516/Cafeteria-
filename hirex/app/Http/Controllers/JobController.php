@@ -7,11 +7,12 @@ use App\Models\Category;
 use App\Models\JobType;
 use App\Models\JobStatus;
 use App\Models\Employer;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreJobRequest;
 use App\Http\Requests\UpdateJobRequest;
 use Illuminate\Support\Facades\Auth;
-
+use Carbon\Carbon;
 
 class JobController extends Controller
 {
@@ -39,17 +40,19 @@ class JobController extends Controller
     
     public function store(StoreJobRequest $request)
     {
-        $validatedData = $request->validated();
-        
-        // Get the current user's employer record
-        $employer = Employer::where('user_id', Auth::id())->first();
-        
-        if (!$employer) {
-            return redirect()->back()->withErrors('You are not registered as an employer.');
+        $user = Auth::user();
+        if ($user->role != 2) {
+            return redirect()->route('home')->with('error', 'Access Denied. Only employers can post jobs.');
+        }
+        $emp_id = Employer::where('user_id', $user->id)->value('id');
+    
+        if (!$emp_id) {
+            return redirect()->route('home')->with('error', 'Employer profile not found. Please complete your employer profile.');
         }
     
-        // Create a new job
-        $job = new Job();    
+        $validatedData = $request->validated();
+    
+        $job = new Job();
         $job->title = $validatedData['title'];
         $job->description = $validatedData['description'];
         $job->requirements = $validatedData['requirements'];
@@ -61,22 +64,20 @@ class JobController extends Controller
         $job->salary = $validatedData['salary'];
         $job->benefits = $validatedData['benefits'];
         $job->deadline = $validatedData['deadline'];
-        $job->emp_id = $employer->id; // This should now be correct
+        $job->emp_id = $emp_id; 
     
         $job->save();
     
         return redirect()->route('jobs.index')->with('success', 'Job created successfully.');
     }
-    
-    
 
     public function show($id)
     {
-       
-        $job = Job::with('employer', 'jobType', 'status')->findOrFail($id);
-    
-        return view('jobs.jobdetails', compact('job'));
+        $job = Job::with('employer', 'jobType', 'status', 'comments.user')->findOrFail($id);
+        return view('jobs.myjobs', compact('job'));
     }
+    
+  
 
     public function edit(Job $job)
     {
@@ -94,13 +95,17 @@ class JobController extends Controller
         $job->delete();
         return redirect()->route('jobs.index')->with('success', 'Job deleted successfully.');
     }
-    public function showAnalytics($id)
-    {
-        $job = Job::with(['applications.candidate.user'])->findOrFail($id);
-        $applicationCount = $job->applications->count();
-    
-        return view('employers.job.analytics', compact('job', 'applicationCount'));
-    }
-    
-    
+
+    // public function analytics()
+    // {
+    //     // Fetch all jobs with the count of applications
+    //     $jobs = Job::withCount('applications')->get();
+
+    //     // Optionally filter jobs with 12 or more applications
+    //     // $jobs = Job::withCount('applications')
+    //     //     ->having('applications_count', '>=', 12)
+    //     //     ->get();
+
+    //     return view('jobs.analytics', compact('jobs'));
+    // }
 }

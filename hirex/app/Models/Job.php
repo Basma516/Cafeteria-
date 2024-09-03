@@ -25,8 +25,6 @@ class Job extends Model
         'logo',
     ];
 
-    // Relationship with Employer model
-  
     public function employer()
     {
         return $this->belongsTo(Employer::class, 'emp_id');
@@ -45,5 +43,11 @@ class Job extends Model
     {
         return $this->belongsTo(JobType::class, 'job_type'); 
     }
+
+    public function comments()
+         {
+    return $this->hasMany(Comment::class);
+         }      
+
 
 }

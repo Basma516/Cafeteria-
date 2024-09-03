@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Models\Employer;
+use App\Models\Job;  
 use App\Models\Application;
 use App\Models\User;
-
 use App\Http\Requests\StoreEmployerRequest;
 use App\Http\Requests\UpdateEmployerRequest;
 use Illuminate\Http\Request;
@@ -16,93 +15,70 @@ class EmployerController extends Controller
 {
     public function index()
     {
-      
+        // Code to show all employers
         // $employers = Employer::all();
-
         // return view('employers.index', compact('employers'));
     }
 
-    /**
-     * Show the form for creating a new employer.
-     *
-     * @return \Illuminate\View\View
-     */
     public function create()
     {
         return view('employers.create');
     }
 
-    /**
-     * Store a newly created employer in storage.
-     *
-     * @param  \App\Http\Requests\StoreEmployerRequest  $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
-  public function store(StoreEmployerRequest $request)
-        {
-            
-            $user = Auth::user();
-            
-            $employer = new Employer();
-            $employer->user_id = $user->id;
-            $employer->company_name = $request->input('company_name');
-            $employer->company_description = $request->input('company_description');
-            $employer->company_website = $request->input('company_website');
-            $employer->phone = $request->input('phone');
-            $employer->save(); 
-            User::where('id', $user->id)->update(['role' => 2]);
+    public function store(StoreEmployerRequest $request)
+    {
+        $user = Auth::user();
+        
+        $employer = new Employer();
+        $employer->user_id = $user->id;
+        $employer->company_name = $request->input('company_name');
+        $employer->company_description = $request->input('company_description');
+        $employer->company_website = $request->input('company_website');
+        $employer->phone = $request->input('phone');
+        $employer->save(); 
 
-            return redirect()->route('jobs.index')
-                ->with('success', 'Employer created and role set successfully.');
-        }
-    
+        // Update user's role to employer
+        User::where('id', $user->id)->update(['role' => 2]);
 
-    /**
-     * Display the specified employer.
-     *
-     * @param  \App\Models\Employer  $employer
-     * @return \Illuminate\View\View
-     */
+        return redirect()->route('jobs.index')->with('success', 'Employer created and role set successfully.');
+    }
+
     public function show(Employer $employer)
     {
-        return view('employers.show', compact('employer'));
+        // return view('employers.show', compact('employer'));
     }
 
-    /**
-     * Show the form for editing the specified employer.
-     *
-     * @param  \App\Models\Employer  $employer
-     * @return \Illuminate\View\View
-     */
     public function edit(Employer $employer)
     {
-        return view('employers.edit', compact('employer'));
+        // return view('employers.edit', compact('employer'));
     }
 
-    /**
-     * Update the specified employer in storage.
-     *
-     * @param  \App\Http\Requests\UpdateEmployerRequest  $request
-     * @param  \App\Models\Employer  $employer
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function update(UpdateEmployerRequest $request, Employer $employer)
     {
-        $employer->update($request->validated());
+        // $employer->update($request->validated());
 
-        return redirect()->route('employers.index')->with('success', 'Employer updated successfully.');
+        // return redirect()->route('employers.index')->with('success', 'Employer updated successfully.');
     }
 
-    /**
-     * Remove the specified employer from storage.
-     *
-     * @param  \App\Models\Employer  $employer
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function destroy(Employer $employer)
+    public function myJobs()
     {
-        $employer->delete();
-
-        return redirect()->route('employers.index')->with('success', 'Employer deleted successfully.');
+        $user = Auth::user(); // Get the currently authenticated user
+        
+        if ($user && $user->role == 2) {  // Ensure the user is an employer
+            $employer = Employer::where('user_id', $user->id)->first(); // Find employer by user_id
+            
+            if ($employer) {
+                // Fetch jobs only for the logged-in employer
+                $jobs = Job::where('emp_id', $employer->id)->get();
+                return view('jobs.myjobs', compact('jobs'));
+            } else {
+                return redirect()->route('home')->with('error', 'Employer data not found.');
+            }
+        } else {
+            return redirect()->route('home')->with('error', 'Access Denied');
+        }
     }
+    
+    
+    
 }

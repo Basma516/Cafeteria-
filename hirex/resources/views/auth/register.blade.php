@@ -108,7 +108,6 @@
 
 <body>
 
-    <!-- Include Navbar -->
     @include('layouts.nav')
 
     <div class="container">
@@ -120,7 +119,7 @@
             <div class="card-body" style="color: var(--dark);">
                 <form method="POST" action="{{ route('register') }}">
                     @csrf
-                    <!-- Blade directive for CSRF token -->
+                  
 
                     <div class="mb-3">
                         <label for="name" class="col-form-label" style="color: var(--dark);">Name</label>
@@ -196,7 +195,6 @@
         </div>
     </div>
 
-    <!-- Bootstrap JS and dependencies (optional) -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

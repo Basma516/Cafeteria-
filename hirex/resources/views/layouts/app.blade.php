@@ -40,7 +40,6 @@
     
      <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link rel="icon" href="{{ asset('images/logo-transparent.png') }}" type="image/x-icon">
-    <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
 
@@ -50,7 +49,7 @@
         <main class="py-4 ">
             @yield('content')
         </main>
-    
+
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/v/bs4/dt-1.10.22/r-2.2.6/sc-2.0.3/sb-1.0.0/sp-1.2.1/datatables.min.js"></script>
