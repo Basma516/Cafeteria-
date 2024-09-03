@@ -122,7 +122,7 @@ Route::resource('applications', ApplicationController::class)->only(['create', '
 // Route::get('/employer/jobs', [EmployerController::class, 'myJobs'])
 //      ->name('employer.jobs.index')
 //      ;
-Route::resource('jobs', JobController::class); // This provides index, show, create, store, etc.
+Route::resource('jobs', JobController::class)->middleware('auth'); // This provides index, show, create, store, etc.
 
 // Additional route for storing comments if needed
 Route::post('/jobs/{job}/comments', [JobController::class, 'storeComment'])->name('jobs.storeComment');
@@ -145,3 +145,4 @@ Route::patch('/applications/{application}', [ApplicationController::class, 'upda
 // In routes/web.php
 // routes/web.php
 Route::get('/applications/{id}/resume', [ApplicationController::class, 'viewResume'])->name('applications.resume');
+
