@@ -124,15 +124,15 @@ Route::get('/employer/jobs', [EmployerController::class, 'myJobs'])
 Route::resource('jobs', JobController::class); // This provides index, show, create, store, etc.
 
 // Additional route for storing comments if needed
-Route::post('/jobs/{job}/comments', [JobController::class, 'storeComment'])->name('jobs.storeComment');
-Route::get('/jobs/{id}/comments', [CommentsController::class, 'show'])->name('comments.show');
+// Route::post('/jobs/{job}/comments', [JobController::class, 'storeComment'])->name('jobs.storeComment');
+// Route::get('/jobs/{id}/comments', [CommentsController::class, 'show'])->name('comments.show');
 Route::post('/comments/{job}', [CommentsController::class, 'store'])->name('comments.store');
 // Route to show job details with comments
 Route::get('/jobs/{job}', [JobController::class, 'show'])->name('jobs.show');
 
 // Route to store a comment
 Route::post('/jobs/{job}/comments', [CommentsController::class, 'store'])->name('comments.store');
-Route::get('/employer/myjobs/{id}', [EmployerController::class, 'myJobs'])->name('jobs.myjobs')->middleware('auth');
+// Route::get('/employer/myjobs/{id}', [EmployerController::class, 'myJobs'])->name('jobs.myjobs')->middleware('auth');
 
 Route::get('/myjobs', [JobController::class, 'showEmployerJobs'])->name('jobs.empjobs');
 
