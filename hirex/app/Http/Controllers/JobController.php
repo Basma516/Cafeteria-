@@ -18,9 +18,16 @@ class JobController extends Controller
 {
     public function index()
     {
-        $jobs = Job::with('jobType')->paginate(10);
+        $jobs = Job::with('jobType')
+        ->withCount('applications')
+        ->whereHas('status', function ($query) {
+            $query->where('name', 'accepted');
+        })
+        ->paginate(10);
         return view('jobs.alljobs', compact('jobs'));
     }
+    
+
 
     public function create()
     {
@@ -57,7 +64,7 @@ class JobController extends Controller
         $job->salary = $validatedData['salary'];
         $job->benefits = $validatedData['benefits'];
         $job->deadline = $validatedData['deadline'];
-        $job->emp_id = $emp_id;  
+        $job->emp_id = $emp_id; 
     
         $job->save();
     
@@ -65,11 +72,11 @@ class JobController extends Controller
     }
 
     public function show($id)
-    {
-        $job = Job::with('employer', 'jobType', 'status', 'comments.user')->findOrFail($id);
-        return view('jobs.myjobs', compact('job'));
-    }
-    
+{
+    $job = Job::with('employer', 'jobType', 'status', 'comments.user')->findOrFail($id);
+    return view('jobs.jobdetails', compact('job'));
+}
+
   
 
     public function edit(Job $job)
@@ -88,21 +95,43 @@ class JobController extends Controller
         $job->delete();
         return redirect()->route('jobs.index')->with('success', 'Job deleted successfully.');
     }
+
+    // public function analytics()
+    // {
+    //     // Fetch all jobs with the count of applications
+    //     $jobs = Job::withCount('applications')->get();
+
+    //     // Optionally filter jobs with 12 or more applications
+    //     // $jobs = Job::withCount('applications')
+    //     //     ->having('applications_count', '>=', 12)
+    //     //     ->get();
+
+    //     return view('jobs.analytics', compact('jobs'));
+    // }
     public function showEmployerJobs()
 {
-    $user = Auth::user();
+    $user = auth()->user();
+
+    // Ensure the user is an employer
     if ($user->role != 2) {
         return redirect()->route('home')->with('error', 'Access Denied. Only employers can view their job postings.');
     }
-    $employer = Employer::where('user_id', $user->id)->first();  
+
+    // Find employer ID associated with the user
+    $employer = Employer::where('user_id', $user->id)->first();
+
     if (!$employer) {
         return redirect()->route('home')->with('error', 'Employer profile not found. Please complete your employer profile.');
     }
-    $jobs = Job::with('jobType', 'status')
+
+    // Fetch jobs associated with the employer
+    $jobs = Job::with('employer', 'jobType', 'status')
                 ->where('emp_id', $employer->id)
-                ->paginate(10); 
-    return view('jobs.empjobs', compact('jobs'));
+                ->get();
+
+    return view('jobs.myjobs', compact('jobs'));
 }
 
 
+    
 }

@@ -21,7 +21,10 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', function () {
+
+
+
+ Route::get('/', function () {
     return view('home');
 });
 
@@ -101,7 +104,7 @@ Route::resource('jobs', JobController::class);
 
 Route::resource('candidates', CandidateController::class);
 
-Route::resource('applications', ApplicationController::class)->only(['create', 'store']);
+
 
 Route::resource('applications', ApplicationController::class)->only(['create', 'store', 'destroy']);
 //  Route::get('/employer/jobs', [EmployerController::class, 'myJobs'])->name('jobs.show');
@@ -117,16 +120,17 @@ Route::resource('applications', ApplicationController::class)->only(['create', '
 
 // Route::post('/jobs/{job}/comments', [JobController::class, 'storeComment'])->name('jobs.storeComment');
 
-Route::get('/employer/jobs', [EmployerController::class, 'myJobs'])
-     ->name('employer.jobs.index')
-     ->middleware('auth');
-
+// Route::get('/employer/jobs', [EmployerController::class, 'myJobs'])
+//      ->name('employer.jobs.index')
+//      ;
 Route::resource('jobs', JobController::class); // This provides index, show, create, store, etc.
 
 // Additional route for storing comments if needed
-// Route::post('/jobs/{job}/comments', [JobController::class, 'storeComment'])->name('jobs.storeComment');
-// Route::get('/jobs/{id}/comments', [CommentsController::class, 'show'])->name('comments.show');
-Route::post('/comments/{job}', [CommentsController::class, 'store'])->name('comments.store');
+Route::post('/jobs/{job}/comments', [JobController::class, 'storeComment'])->name('jobs.storeComment');
+Route::get('/jobs/{id}/comments', [CommentsController::class, 'show'])->name('comments.show');
+Route::get('/jobs/{id}', [JobController::class, 'show'])->name('jobs.show');
+
+
 // Route to show job details with comments
 Route::get('/jobs/{job}', [JobController::class, 'show'])->name('jobs.show');
 
@@ -136,3 +140,4 @@ Route::post('/jobs/{job}/comments', [CommentsController::class, 'store'])->name(
 
 Route::get('/myjobs', [JobController::class, 'showEmployerJobs'])->name('jobs.empjobs');
 
+Route::get('/employer/job/{id}/analytics', [JobController::class, 'showAnalytics'])->name('job.analytics');

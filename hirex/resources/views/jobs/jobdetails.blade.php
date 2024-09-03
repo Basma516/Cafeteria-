@@ -19,6 +19,8 @@
         <div class="row mb-4">
             <div class="col-lg-12">
                 <h2 class="mb-5 h3 text-primary">{{ $job->title }}</h2>
+                <a href="{{ route('job.analytics', $job->id) }}" class="btn btn-primary">View Analytics</a>
+
                 <div class="job-details">
                     <div class="d-block d-md-flex align-items-center mb-4">
                         <div class="company-logo text-center text-md-left pl-3">
@@ -72,6 +74,14 @@
 
                     <!-- Add Comment Form -->
                     @auth
+<<<<<<< HEAD
+                    @if(auth()->user()->role == 3)
+                    <div class="job-apply p-3">
+                        <a href="{{ route('applications.create', ['job' => $job->id]) }}" class="btn btn-primary">Apply Now</a>
+
+                    </div>
+                    @endif
+=======
                     <form action="{{ route('comments.store', $job->id) }}" method="POST">
                         @csrf
                         <div class="form-group">
@@ -85,6 +95,7 @@
                     </form>
                     @else
                     <p><a href="{{ route('login') }}">Log in</a> to post a comment.</p>
+>>>>>>> 9da4daac33766e4c9150843fd6231f36ba176559
                     @endauth
                 </div>
             </div>

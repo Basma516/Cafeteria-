@@ -45,11 +45,18 @@
                             <h3 class="text-dark">{{ $job->title }}</h3>
                             <div class="d-block d-lg-flex">
                                 <div class="mr-3"><span class="fas fa-briefcase mr-1"></span> {{ $job->jobType->name }}</div>
+<<<<<<< HEAD
+                                <div class="mr-3"><span class="fas fa-map-marker-alt mr-1"></span> {{ $job->location }}</div>
+                                <div><span class=" mr-1"></span> ${{ $job->salary }}</div>
+                                <p><strong>Total Applications:</strong> {{ $job->applications_count }}</p>
+
+=======
                                 <div class="mr-3" style="display: {{ $job->location ? 'block' : 'none' }};">
                                     <span class="fas fa-map-marker-alt mr-1"></span> 
                                     {{ $job->location ?? 'Location not available' }}
                                 </div>
                                 <div><span class="mr-1"></span> ${{ $job->salary }}</div>
+>>>>>>> 9da4daac33766e4c9150843fd6231f36ba176559
                             </div>
                         </div>
                         <div class="job-category p-3">

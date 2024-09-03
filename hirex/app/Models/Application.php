@@ -28,7 +28,7 @@ class Application extends Model
     {
         return $this->belongsTo(Candidate::class);
     }
-
+    
     /**
      * Get the job that the application is for.
      */
