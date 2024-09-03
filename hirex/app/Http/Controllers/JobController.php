@@ -17,9 +17,23 @@ class JobController extends Controller
 {
     public function index()
     {
-        $jobs = Job::with('jobType')->paginate(10);
+        $jobs = Job::with('jobType')
+        ->withCount('applications')
+        ->whereHas('status', function ($query) {
+            $query->where('name', 'accepted');
+        })
+        ->paginate(10);
         return view('jobs.alljobs', compact('jobs'));
     }
+    
+    
+public function indexForEmployer()
+{
+    // For Employers: Show all jobs regardless of status
+    $jobs = Job::with('jobType')->withCount('applications')->paginate(10);
+    
+    return view('jobs.alljobs', compact('jobs'));
+}
 
     public function create()
     {
@@ -33,9 +47,15 @@ class JobController extends Controller
     public function store(StoreJobRequest $request)
     {
         $validatedData = $request->validated();
+        
+        // Get the current user's employer record
+        $employer = Employer::where('user_id', Auth::id())->first();
+        
+        if (!$employer) {
+            return redirect()->back()->withErrors('You are not registered as an employer.');
+        }
     
-        $emp_id = Employer::where('user_id', Auth::id())->value('id');
-    
+        // Create a new job
         $job = new Job();    
         $job->title = $validatedData['title'];
         $job->description = $validatedData['description'];
@@ -48,7 +68,7 @@ class JobController extends Controller
         $job->salary = $validatedData['salary'];
         $job->benefits = $validatedData['benefits'];
         $job->deadline = $validatedData['deadline'];
-        $job->emp_id = $emp_id; 
+        $job->emp_id = $employer->id; // This should now be correct
     
         $job->save();
     
@@ -83,9 +103,11 @@ class JobController extends Controller
     }
     public function showAnalytics($id)
     {
-        $job = Job::with('applications')->findOrFail($id);
+        $job = Job::with(['applications.candidate.user'])->findOrFail($id);
         $applicationCount = $job->applications->count();
     
         return view('employers.job.analytics', compact('job', 'applicationCount'));
     }
+    
+    
 }

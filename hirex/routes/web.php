@@ -106,3 +106,5 @@ Route::resource('candidates', CandidateController::class);
 Route::resource('applications', ApplicationController::class)->only(['create', 'store']);
 
 Route::get('/employer/job/{id}/analytics', [JobController::class, 'showAnalytics'])->name('job.analytics');
+Route::get('/jobs/employer', [JobController::class, 'indexForEmployer'])->name('jobs.indexForEmployer'); 
+Route::post('/jobs/{job}/status', [JobController::class, 'updateStatus'])->name('jobs.updateStatus');

@@ -29,6 +29,8 @@
                                 <div class="mr-3"><span class="fas fa-briefcase mr-1"></span> {{ $job->jobType->name }}</div>
                                 <div class="mr-3"><span class="fas fa-map-marker-alt mr-1"></span> {{ $job->location }}</div>
                                 <div><span class=" mr-1"></span> ${{ $job->salary }}</div>
+                                <p><strong>Total Applications:</strong> {{ $job->applications_count }}</p>
+
                             </div>
                         </div>
                         <div class="job-category p-3">
