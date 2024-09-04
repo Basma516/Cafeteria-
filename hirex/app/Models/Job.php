@@ -45,15 +45,6 @@ class Job extends Model
     }
 
     public function comments()
-<<<<<<< HEAD
-    {
-        return $this->hasMany(Comment::class);
-    }
-    public function category()
-    {
-        return $this->belongsTo(Category::class, 'category_id');
-    }
-=======
          {
     return $this->hasMany(Comment::class);
          }      
@@ -63,5 +54,4 @@ class Job extends Model
              return $this->belongsTo(Category::class, 'category_id');
          }
 
->>>>>>> d06ca9799142ef88e37eea3ee34312b22a76a57e
 }
