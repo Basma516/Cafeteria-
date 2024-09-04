@@ -2,25 +2,71 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Candidate;
+use App\Models\Category;
+use App\Models\Employer;
+use App\Models\Job;
 use Illuminate\Http\Request;
-use App\Models\User; // Adjust according to your model
+use App\Models\User; 
 
 class AdminController extends Controller
 {
-    // Display a listing of the resource
     public function index()
     {
-        $users = User::all(); // Fetch all users or relevant data
-        return view('dashboard.index', compact('users')); // Pass data to the view
+        $users = User::all();
+        return view('dashboard.index', compact('users')); 
     }
 
-    // Show the form for creating a new resource
-    public function create()
+    public function employers()
     {
-        return view('admin.users.create'); // Adjust the view path
-    }
+        $employers = Employer::all();
+        return view('dashboard.employer', compact('employers'));    
+     }
 
-    // Store a newly created resource in storage
+     public function candidates()
+     {
+         $candidates = Candidate::all();
+         return view('dashboard.candidate', compact('candidates'));    
+      }
+      public function categories()
+      {
+          $categories = Category::all();
+          return view('dashboard.category', compact('categories'));    
+       }
+      public function jobs()
+      {
+          $jobs = Job::all();
+          return view('dashboard.jobs', compact('jobs'));    
+       }
+
+
+       public function editEmployer($id)
+       {
+           $employer = Employer::findOrFail($id);
+           return view('dashboard.employer.edit', compact('employer'));
+       }
+   
+       // Edit Candidate
+       public function editCandidate($id)
+       {
+           $candidate = Candidate::findOrFail($id);
+           return view('dashboard.candidate.edit', compact('candidate'));
+       }
+   
+       // Edit Category
+       public function editCategory($id)
+       {
+           $category = Category::findOrFail($id);
+           return view('dashboard.category.edit', compact('category'));
+       }
+   
+       // Edit Job
+       public function viewJob($id)
+       {
+           $job = Job::findOrFail($id);
+           return view('dashboard.jobs.view', compact('job'));
+       }
+
     public function store(Request $request)
     {
         $validatedData = $request->validate([
@@ -33,19 +79,16 @@ class AdminController extends Controller
         return redirect()->route('admin.index')->with('success', 'User created successfully.');
     }
 
-    // Display the specified resource
     public function show(User $user)
     {
-        return view('admin.users.show', compact('user')); // Adjust the view path
+        return view('admin.users.show', compact('user')); 
     }
 
-    // Show the form for editing the specified resource
     public function edit(User $user)
     {
-        return view('admin.users.edit', compact('user')); // Adjust the view path
+        return view('admin.users.edit', compact('user')); 
     }
 
-    // Update the specified resource in storage
     public function update(Request $request, User $user)
     {
         $validatedData = $request->validate([
@@ -58,7 +101,6 @@ class AdminController extends Controller
         return redirect()->route('admin.index')->with('success', 'User updated successfully.');
     }
 
-    // Remove the specified resource from storage
     public function destroy(User $user)
     {
         $user->delete();

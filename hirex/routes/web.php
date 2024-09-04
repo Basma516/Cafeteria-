@@ -24,13 +24,24 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-// Route::get('/', function () {
-//     return view('home');
-// });
+Route::get('/', function () {
+    return view('home');
+});
 
-// Route::get('/dashboard', function () {
-//     return view('dashboard.index');
-// });
+// Dashboard Routes Start >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+Route::get('/dashboard',[AdminController::class, 'index']);
+Route::get('/dashboard/employer',[AdminController::class, 'employers'])->name('employer');
+Route::get('/dashboard/candidate',[AdminController::class, 'candidates'])->name('candidate');
+Route::get('/dashboard/category',[AdminController::class, 'categories'])->name('category');
+Route::get('/dashboard/jobs',[AdminController::class, 'jobs'])->name('jobs');
+
+Route::get('/dashboard/employer/edit/{id}', [AdminController::class, 'editEmployer'])->name('employer.edit');
+Route::get('/dashboard/candidate/edit/{id}', [AdminController::class, 'editCandidate'])->name('candidate.edit');
+Route::get('/dashboard/category/edit/{id}', [AdminController::class, 'editCategory'])->name('category.edit');
+
+Route::get('/dashboard/jobs/view/{id}', [AdminController::class, 'viewJob'])->name('job.view');
+// End >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
 // Route::get('/dashboard/candidate', function () {
 //     return view('dashboard.candidate');
 // })->name('candidate');
@@ -64,7 +75,7 @@ use Illuminate\Support\Facades\Auth;
 // })->name('jobView');
 
 Auth::routes();
-//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 // Route::view('/profile', 'users.edit_profile')->name('profile');
 

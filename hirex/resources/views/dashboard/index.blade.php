@@ -11,11 +11,11 @@
                     <div class="analytics-sparkle-line reso-mg-b-30">
                         <div class="analytics-content">
                             <h5>{{ $user->name }}</h5>
-                            <h2>${{ $user->tuition_fees }} <span class="tuition-fees">Tuition Fees</span></h2>
-                            <span class="text-success">{{ $user->progress }}%</span>
+                            <h2> <span class="tuition-fees">Tuition Fees</span></h2>
+                            <span class="text-success">%</span>
                             <div class="progress m-b-0">
-                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{{ $user->progress }}" aria-valuemin="0" aria-valuemax="100" style="width:{{ $user->progress }}%;">
-                                    <span class="sr-only">{{ $user->progress }}% Complete</span>
+                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" >
+                                    <span class="sr-only">% Complete</span>
                                 </div>
                             </div>
                         </div>

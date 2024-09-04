@@ -44,4 +44,14 @@ class Job extends Model
         return $this->belongsTo(JobType::class, 'job_type'); 
     }
 
+
+
+
+
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id'); 
+    }
+
 }

@@ -32,8 +32,8 @@
     <div class="left-sidebar-pro">
         <nav id="sidebar">
             <div class="sidebar-header">
-                <img src="{{asset('images/logo-transparent.png')}}" alt="" style="width: 200px;
-                    height: 100px;">
+               <a href="/dashboard"> <img src="{{asset('images/logo-transparent.png')}}" alt="" style="width: 200px;
+                    height: 100px;"></a>
             </div>
             <div class="left-custom-menu-adp-wrap comment-scrollbar">
                 <nav class="sidebar-nav left-sidebar-menu-pro">
@@ -87,10 +87,10 @@
                                             <div role="menu" class="author-message-top dropdown-menu animated zoomIn">
                                                 <div class="message-single-top">
                                                     <a href="/dashboard">Main</a><br>
-                                                    <a href="{{ route('employer') }}">Employers</a><br>
-                                                    <a href="{{ route('candidate') }}">Candidates</a><br>
-                                                    <a href="{{ route('category') }}">Categories</a><br>
-                                                    <a href="{{ route('jobs') }}">Jobs</a><br>
+                                                    <a href="{{route('employer')}}">Employers</a><br>
+                                                    <a href="{{route('candidate')}}">Candidates</a><br>
+                                                    <a href="{{route('category')}}">Categories</a><br>
+                                                    <a href="{{route('jobs')}}">Jobs</a><br>
                                                 </div>
                                             </div>
                                         </li>
