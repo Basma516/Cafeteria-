@@ -53,7 +53,6 @@
 
 
 
-
 <!-- Search Start -->
 <div class="container-fluid bg-primary mb-5 wow fadeIn" data-wow-delay="0.1s" style="padding: 35px;">
     <div class="container">
@@ -67,7 +66,11 @@
                         <select class="form-select border-0">
                             <option selected>Category</option>
                             @foreach($categories as $category)
+<<<<<<< HEAD
                             <option value="{{ $category->name }}">{{ $category->name }}</option>
+=======
+                                <option value="{{ $category->name }}">{{ $category->name }}</option>
+>>>>>>> d06ca9799142ef88e37eea3ee34312b22a76a57e
                             @endforeach
                         </select>
                     </div>
@@ -75,7 +78,11 @@
                         <select class="form-select border-0">
                             <option selected>Location</option>
                             @foreach($locations as $location)
+<<<<<<< HEAD
                             <option value="{{ $location->location }}">{{ $location->location }}</option>
+=======
+                                <option value="{{ $location->location }}">{{ $location->location }}</option>
+>>>>>>> d06ca9799142ef88e37eea3ee34312b22a76a57e
                             @endforeach
                         </select>
                     </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Job;
+use App\Models\User;
 use App\Models\Category;
 use App\Models\JobType;
 use App\Models\JobStatus;
@@ -20,6 +21,14 @@ class JobController extends Controller
 {
     public function index()
     {
+               // Assuming you want to check for a user with a specific ID
+    $userId = auth()->id(); // Get the authenticated user ID
+
+    // Check if the user ID exists
+    if (!$userId || !User::find($userId)) {
+        abort(404); // Redirect to 404 if user ID is not found
+    }
+
         $jobs = Job::with('jobType')
             ->withCount('applications')
             ->whereHas('status', function ($query) {
@@ -169,14 +178,20 @@ class JobController extends Controller
         // Find employer ID associated with the user
         $employer = Employer::where('user_id', $user->id)->first();
 
-        if (!$employer) {
-            return redirect()->route('home')->with('error', 'Employer profile not found. Please complete your employer profile.');
-        }
+    // Ensure the user is an employer
+    // if ($user->role != 2) {
+    //     return redirect()->route('home')->with('error', 'Access Denied. Only employers can view their job postings.');
+    // }
+       // Assuming you want to check for a user with a specific ID
+       $userId = auth()->id(); // Get the authenticated user ID
 
-        // Fetch jobs associated with the employer
-        $jobs = Job::with('employer', 'jobType', 'status')
-            ->where('emp_id', $employer->id)
-            ->get();
+       // Check if the user ID exists
+       if (!$userId || !User::find($userId)) {
+           abort(404); // Redirect to 404 if user ID is not found
+       }
+   
+    // Find employer ID associated with the user
+    $employer = Employer::where('user_id', $user->id)->first();
 
         return view('jobs.myjobs', compact('jobs'));
     }
