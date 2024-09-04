@@ -5,8 +5,10 @@
 @section('content')
 <div class="container-fluid p-0">
     <div class="position-relative" style="height: 530px;">
-        <img class="img-fluid" src="{{ asset('images/phomef.jpg') }}" style="width: 100%; height: 550px;" alt="Job Search Image">
-        <div class="position-absolute top-0 start-0 w-100 d-flex align-items-center" style="background: rgba(43, 57, 64, .5); height: 550px;">
+        <img class="img-fluid" src="{{ asset('images/phomef.jpg') }}" style="width: 100%; height: 550px;"
+            alt="Job Search Image">
+        <div class="position-absolute top-0 start-0 w-100 d-flex align-items-center"
+            style="background: rgba(43, 57, 64, .5); height: 550px;">
             <div class="container">
                 <div class="row justify-content-start">
                     <div class="col-10 col-lg-8">
@@ -25,11 +27,14 @@
                         <a href="{{ route('jobs.create') }}" class="btn btn-secondary py-md-3 px-md-5">Create a Job</a>
                         @elseif($isCandidate)
                         <!-- Show "View Available Jobs" button for candidates with a profile -->
-                        <a href="{{ route('jobs.index') }}" class="btn btn-primary py-md-3 px-md-5 me-3">View Available Jobs</a>
+                        <a href="{{ route('jobs.index') }}" class="btn btn-primary py-md-3 px-md-5 me-3">View Available
+                            Jobs</a>
                         @else
                         <!-- Show both buttons for users with role 3 but no profile -->
-                        <a href="{{ route('candidates.create') }}" class="btn btn-primary py-md-3 px-md-5 me-3">Find a Job</a>
-                        <a href="{{ route('employers.create') }}" class="btn btn-secondary py-md-3 px-md-5">Post a Job</a>
+                        <a href="{{ route('candidates.create') }}" class="btn btn-primary py-md-3 px-md-5 me-3">Find a
+                            Job</a>
+                        <a href="{{ route('employers.create') }}" class="btn btn-secondary py-md-3 px-md-5">Post a
+                            Job</a>
                         @endif
 
                         @else
@@ -61,17 +66,17 @@
                     <div class="col-md-4">
                         <select class="form-select border-0">
                             <option selected>Category</option>
-                            <option value="1">Category 1</option>
-                            <option value="2">Category 2</option>
-                            <option value="3">Category 3</option>
+                            @foreach($categories as $category)
+                            <option value="{{ $category->name }}">{{ $category->name }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="col-md-4">
                         <select class="form-select border-0">
                             <option selected>Location</option>
-                            <option value="1">Location 1</option>
-                            <option value="2">Location 2</option>
-                            <option value="3">Location 3</option>
+                            @foreach($locations as $location)
+                            <option value="{{ $location->location }}">{{ $location->location }}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
@@ -80,73 +85,34 @@
                 <button class="btn btn-dark border-0 w-100">Search</button>
             </div>
         </div>
+           
     </div>
 </div>
 
+
 <div class="container-xxl py-5">
     <div class="container">
-        <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Explore By Category</h1>
+        <h1 class="text-center mb-5">Explore By Category</h1>
         <div class="row g-4">
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
-                <a class="cat-item rounded p-4" href="">
-                    <i class="fa fa-3x fa-mail-bulk text-primary mb-4"></i>
-                    <h6 class="mb-3">Marketing</h6>
-                    <p class="mb-0">123 Vacancy</p>
-                </a>
-            </div>
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
-                <a class="cat-item rounded p-4" href="">
-                    <i class="fa fa-3x fa-headset text-primary mb-4"></i>
-                    <h6 class="mb-3">Customer Service</h6>
-                    <p class="mb-0">123 Vacancy</p>
-                </a>
-            </div>
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.5s">
-                <a class="cat-item rounded p-4" href="">
-                    <i class="fa fa-3x fa-user-tie text-primary mb-4"></i>
-                    <h6 class="mb-3">Human Resource</h6>
-                    <p class="mb-0">123 Vacancy</p>
-                </a>
-            </div>
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.7s">
-                <a class="cat-item rounded p-4" href="">
-                    <i class="fa fa-3x fa-tasks text-primary mb-4"></i>
-                    <h6 class="mb-3">Project Management</h6>
-                    <p class="mb-0">123 Vacancy</p>
-                </a>
-            </div>
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
-                <a class="cat-item rounded p-4" href="">
-                    <i class="fa fa-3x fa-chart-line text-primary mb-4"></i>
-                    <h6 class="mb-3">Business Development</h6>
-                    <p class="mb-0">123 Vacancy</p>
-                </a>
-            </div>
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
-                <a class="cat-item rounded p-4" href="">
-                    <i class="fa fa-3x fa-hands-helping text-primary mb-4"></i>
-                    <h6 class="mb-3">Sales & Communication</h6>
-                    <p class="mb-0">123 Vacancy</p>
-                </a>
-            </div>
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.5s">
-                <a class="cat-item rounded p-4" href="">
-                    <i class="fa fa-3x fa-book-reader text-primary mb-4"></i>
-                    <h6 class="mb-3">Teaching & Education</h6>
-                    <p class="mb-0">123 Vacancy</p>
-                </a>
-            </div>
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.7s">
-                <a class="cat-item rounded p-4" href="">
-                    <i class="fa fa-3x fa-drafting-compass text-primary mb-4"></i>
-                    <h6 class="mb-3">Design & Creative</h6>
-                    <p class="mb-0">123 Vacancy</p>
-                </a>
-            </div>
+            @foreach($categories as $category)
+                <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <a class="cat-item rounded p-4" href="{{ route('jobs.jobbycategory', ['categoryId' => $category->id]) }}">
+                        <i class="fa fa-3x fa-briefcase text-primary mb-4"></i>
+                        <h6 class="mb-3">{{ $category->name }}</h6>
+                        <p class="mb-0">{{ $category->jobs_count }} Vacancy</p>
+                    </a>
+                </div>
+            @endforeach
         </div>
     </div>
 </div>
-<!-- Category End -->
+
+
+
+
+
+
+
 
 
 <!-- About Start -->

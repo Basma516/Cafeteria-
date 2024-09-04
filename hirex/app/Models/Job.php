@@ -34,23 +34,22 @@ class Job extends Model
     {
         return $this->hasMany(Application::class);
     }
-    
+
     public function status()
     {
         return $this->belongsTo(JobStatus::class, 'job_status');
     }
     public function jobType()
     {
-        return $this->belongsTo(JobType::class, 'job_type'); 
+        return $this->belongsTo(JobType::class, 'job_type');
     }
 
     public function comments()
-         {
-    return $this->hasMany(Comment::class);
-         }      
-         public function category()
-         {
-             return $this->belongsTo(Category::class, 'category_id');
-         }
-
+    {
+        return $this->hasMany(Comment::class);
+    }
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id');
+    }
 }

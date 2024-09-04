@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployerController;
 use App\Http\Controllers\UserController;
@@ -6,6 +7,7 @@ use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\CommentsController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -25,7 +27,7 @@ use App\Http\Controllers\JobCategoryController;
 
 
 
- Route::get('/', function () {
+Route::get('/', function () {
     return view('home');
 });
 
@@ -65,7 +67,9 @@ use App\Http\Controllers\JobCategoryController;
 // })->name('jobView');
 
 Auth::routes();
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Define a new route for the home page
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+
 
 // Route::view('/profile', 'users.edit_profile')->name('profile');
 
@@ -99,6 +103,7 @@ Route::resource('employers', EmployerController::class);
 
 // Routes for Users
 Route::resource('users', UserController::class);
+Route::resource('/', HomeController::class);
 
 // Routes for Jobs
 Route::resource('jobs', JobController::class);
@@ -106,6 +111,12 @@ Route::resource('jobs', JobController::class);
 Route::resource('candidates', CandidateController::class);
 
 Route::get('/category', [JobCategoryController::class, 'index'])->name('category.index');
+// web.php
+ Route::get('jobs/category/{categoryId}', [JobController::class, 'showByCategory'])->name('jobs.jobbycategory');
+
+
+
+
 // Route::get('/category', [JobCategoryController::class, 'index'])->middleware('auth')->name('category.index');
 
 
@@ -134,8 +145,8 @@ Route::get('/jobs/{id}/comments', [CommentsController::class, 'show'])->name('co
 Route::get('/jobs/{id}', [JobController::class, 'show'])->name('jobs.show');
 
 
-// Route to show job details with comments
-Route::get('/jobs/{job}', [JobController::class, 'show'])->name('jobs.show');
+// // Route to show job details with comments
+// Route::get('/jobs/{job}', [JobController::class, 'show'])->name('jobs.show');
 
 // Route to store a comment
 Route::post('/jobs/{job}/comments', [CommentsController::class, 'store'])->name('comments.store');
