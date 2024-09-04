@@ -6,6 +6,7 @@ use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\CommentsController;
+use App\Models\Notifications;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -122,7 +123,7 @@ Route::resource('applications', ApplicationController::class)->only(['create', '
 // Route::get('/employer/jobs', [EmployerController::class, 'myJobs'])
 //      ->name('employer.jobs.index')
 //      ;
-Route::resource('jobs', JobController::class); // This provides index, show, create, store, etc.
+Route::resource('jobs', JobController::class)->middleware('auth'); // This provides index, show, create, store, etc.
 
 // Additional route for storing comments if needed
 Route::post('/jobs/{job}/comments', [JobController::class, 'storeComment'])->name('jobs.storeComment');
@@ -140,3 +141,13 @@ Route::post('/jobs/{job}/comments', [CommentsController::class, 'store'])->name(
 Route::get('/myjobs', [JobController::class, 'showEmployerJobs'])->name('jobs.empjobs');
 
 Route::get('/employer/job/{id}/analytics', [JobController::class, 'showAnalytics'])->name('job.analytics');
+// In routes/web.php
+Route::patch('/applications/{application}', [ApplicationController::class, 'update'])->name('applications.update');
+// In routes/web.php
+// routes/web.php
+Route::get('/applications/{id}/resume', [ApplicationController::class, 'viewResume'])->name('applications.resume');
+Route::get('/notifications/{id}', function(){
+    return view('');
+});
+
+

@@ -74,27 +74,48 @@ class JobController extends Controller
     public function show($id)
 {
     $job = Job::with('employer', 'jobType', 'status', 'comments.user')->findOrFail($id);
+  
     return view('jobs.jobdetails', compact('job'));
 }
 
   
 
-    public function edit(Job $job)
-    {
-        return view('jobs.edit', compact('job'));
+public function edit($id)
+{
+    // Fetch the job to edit
+    $job = Job::findOrFail($id);
+    
+    // Ensure the user is an employer
+    if (Auth::user()->role != 2) {
+        return redirect()->route('home')->with('error', 'Access Denied. Only employers can edit jobs.');
+    }
+    $categories = Category::all();
+    $statuses = JobStatus::all();
+    $jobTypes = JobType::all();
+
+    return view('jobs.edit', compact('job', 'categories', 'statuses', 'jobTypes'));
+}
+public function update(UpdateJobRequest $request, $id)
+{
+    $job = Job::findOrFail($id);
+    
+    $job->update($request->validated());
+
+    return redirect()->route('jobs.myjobs',Auth::id())->with('success', 'Job updated successfully.');
+}
+
+public function destroy($id)
+{
+
+    $job = Job::findOrFail($id);
+
+    if (Auth::user()->role != 2) {
+        return redirect()->route('home')->with('error', 'Access Denied. Only employers can delete jobs.');
     }
 
-    public function update(UpdateJobRequest $request, Job $job)
-    {
-        $job->update($request->validated());
-        return redirect()->route('jobs.index')->with('success', 'Job updated successfully.');
-    }
-
-    public function destroy(Job $job)
-    {
-        $job->delete();
-        return redirect()->route('jobs.index')->with('success', 'Job deleted successfully.');
-    }
+    $job->delete();
+    return redirect()->route('jobs.index')->with('success', 'Job deleted successfully.');
+}
     public function showAnalytics($id)
     {
         $job = Job::with('applications')->findOrFail($id);
@@ -103,17 +124,17 @@ class JobController extends Controller
         return view('employers.job.analytics', compact('job', 'applicationCount'));
     }
 
+ 
 
     public function showEmployerJobs()
 {
     $user = auth()->user();
 
-    // Ensure the user is an employer
-    if ($user->role != 2) {
+     if ($user->role != 2) {
         return redirect()->route('home')->with('error', 'Access Denied. Only employers can view their job postings.');
-    }
+     }
 
-    // Find employer ID associated with the user
+   
     $employer = Employer::where('user_id', $user->id)->first();
 
     if (!$employer) {
@@ -128,8 +149,4 @@ class JobController extends Controller
     return view('jobs.myjobs', compact('jobs'));
               }
          
-
-  
-
-    
 }
