@@ -5,12 +5,11 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\CandidateController;
-
-use App\Http\Controllers\AdminController;
-
-
+use App\Http\Controllers\CommentsController;
 use Illuminate\Support\Facades\Auth;
 
+
+use App\Http\Controllers\JobCategoryController;
 
 
 /*
@@ -21,9 +20,9 @@ use Illuminate\Support\Facades\Auth;
 | Here is where you can register web routes for your application. These
 | routes are loaded by the RouteServiceProvider and all of them will
 | be assigned to the "web" middleware group. Make something great!
-|
 */
 
+<<<<<<< HEAD
 Route::get('/', function () {
     return view('home');
 });
@@ -41,6 +40,14 @@ Route::get('/dashboard/category/edit/{id}', [AdminController::class, 'editCatego
 
 Route::get('/dashboard/jobs/view/{id}', [AdminController::class, 'viewJob'])->name('job.view');
 // End >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+=======
+
+
+
+ Route::get('/', function () {
+    return view('home');
+});
+>>>>>>> origin
 
 // Route::get('/dashboard/candidate', function () {
 //     return view('dashboard.candidate');
@@ -85,14 +92,15 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 // Route::get('/admin/dashboard', [AdminController::class, 'dashboard']);
 
 //  Route::get('/job', function () {
-//      return view('jobs.show');
-//  });
+//     return view('jobs.show');
+//   });
 
 //  Route::get('/category', function () {
 //      return view('jobs.jobbycategory'); 
 //  });
 
 
+// Route::view('/job-details', 'jobs.show')->name('job.details');
 
 //  Route::get('/all-jobs', function () {
 //     return view('jobs.alljobs'); 
@@ -114,5 +122,50 @@ Route::resource('jobs', JobController::class);
 
 Route::resource('candidates', CandidateController::class);
 
-Route::resource('applications', ApplicationController::class)->only(['create', 'store']);
+Route::get('/category', [JobCategoryController::class, 'index'])->name('category.index');
+// Route::get('/category', [JobCategoryController::class, 'index'])->middleware('auth')->name('category.index');
 
+
+Route::resource('applications', ApplicationController::class)->only(['create', 'store', 'destroy']);
+//  Route::get('/employer/jobs', [EmployerController::class, 'myJobs'])->name('jobs.show');
+
+
+
+
+
+// Route::get('/jobs/comments', [JobController::class, 'indexWithComments'])->name('jobs.indexWithComments');
+
+// Route::get('/jobs/{id}/details', [JobController::class, 'showWithComments'])->name('jobs.showWithComments');
+// Route::get('/jobs/{job}', [JobController::class, 'show'])->name('jobs.show');
+
+// Route::post('/jobs/{job}/comments', [JobController::class, 'storeComment'])->name('jobs.storeComment');
+
+// Route::get('/employer/jobs', [EmployerController::class, 'myJobs'])
+//      ->name('employer.jobs.index')
+//      ;
+Route::resource('jobs', JobController::class)->middleware('auth'); // This provides index, show, create, store, etc.
+
+// Additional route for storing comments if needed
+Route::post('/jobs/{job}/comments', [JobController::class, 'storeComment'])->name('jobs.storeComment');
+Route::get('/jobs/{id}/comments', [CommentsController::class, 'show'])->name('comments.show');
+Route::get('/jobs/{id}', [JobController::class, 'show'])->name('jobs.show');
+
+
+// Route to show job details with comments
+Route::get('/jobs/{job}', [JobController::class, 'show'])->name('jobs.show');
+
+// Route to store a comment
+Route::post('/jobs/{job}/comments', [CommentsController::class, 'store'])->name('comments.store');
+Route::get('/employer/myjobs/{id}', [EmployerController::class, 'myJobs'])->name('jobs.myjobs')->middleware('auth');
+
+Route::get('/myjobs', [JobController::class, 'showEmployerJobs'])->name('jobs.empjobs');
+
+Route::get('/employer/job/{id}/analytics', [JobController::class, 'showAnalytics'])->name('job.analytics');
+// In routes/web.php
+Route::patch('/applications/{application}', [ApplicationController::class, 'update'])->name('applications.update');
+// In routes/web.php
+// routes/web.php
+Route::get('/applications/{id}/resume', [ApplicationController::class, 'viewResume'])->name('applications.resume');
+// web.php
+
+Route::get('jobs/search', [JobController::class, 'search'])->name('jobs.search');

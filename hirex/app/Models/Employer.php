@@ -21,10 +21,13 @@ class Employer extends Model
     {
         return $this->belongsTo(User::class);
     }
-
+    
     public function job()
     {
         return $this->hasMany(Job::class);
     }
+
+   
+
 
 }
