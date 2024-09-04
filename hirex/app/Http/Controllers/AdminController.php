@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Candidate;
 use App\Models\Category;
+use App\Models\Comment;
 use App\Models\Employer;
 use App\Models\Job;
 use Illuminate\Http\Request;
@@ -63,47 +64,56 @@ class AdminController extends Controller
        // Edit Job
        public function viewJob($id)
        {
+           $comments = Comment::where('job_id', $id)->get();
            $job = Job::findOrFail($id);
-           return view('dashboard.jobs.view', compact('job'));
+           return view('dashboard.jobs.view', compact('comments','job'));
        }
 
-    public function store(Request $request)
-    {
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-        ]);
 
-        User::create($validatedData);
-        return redirect()->route('admin.index')->with('success', 'User created successfully.');
-    }
+       public function deleteEmployer($id)
+       {
+           $employer = Employer::findOrFail($id);
+           $employer->delete();
+           return redirect()->route('employer');
+       }
+   
+       // Delete Candidate
+       public function deleteCandidate($id)
+       {
+           $candidate = Candidate::findOrFail($id);
+           $candidate->delete();
+           return redirect()->route('candidate');
+       }
+   
+       // Delete Category
+       public function deleteCategory($id)
+       {
+           $category = Category::findOrFail($id);
+           $category->delete();
+           return redirect()->route('category');
+       }
+   
+       // Delete Job
+       public function deleteJob($id)
+       {
+           $job = Job::findOrFail($id);
+           $job->delete();
+           return redirect()->route('jobs');
+       }
 
-    public function show(User $user)
-    {
-        return view('admin.users.show', compact('user')); 
-    }
+       public function deleteComment($job_id, $id)
+       {
+           $comment = Comment::where('job_id', $job_id)->where('id', $id)->firstOrFail();
+           $comment->delete();
+           return redirect()->route('jobs.show', $job_id);
+       }
 
-    public function edit(User $user)
-    {
-        return view('admin.users.edit', compact('user')); 
-    }
-
-    public function update(Request $request, User $user)
-    {
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $user->id,
-            'password' => 'nullable|string|min:8|confirmed',
-        ]);
-
-        $user->update($validatedData);
-        return redirect()->route('admin.index')->with('success', 'User updated successfully.');
-    }
-
-    public function destroy(User $user)
-    {
-        $user->delete();
-        return redirect()->route('admin.index')->with('success', 'User deleted successfully.');
-    }
+       public function acceptJob($id)
+       {
+           $job = Job::findOrFail($id);
+           $job->job_status = 2; 
+           $job->save();
+   
+           return redirect()->route('jobs');
+       }
 }

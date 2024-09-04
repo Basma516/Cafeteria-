@@ -29,17 +29,33 @@ Route::get('/', function () {
 });
 
 // Dashboard Routes Start >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+// main 
 Route::get('/dashboard',[AdminController::class, 'index']);
 Route::get('/dashboard/employer',[AdminController::class, 'employers'])->name('employer');
 Route::get('/dashboard/candidate',[AdminController::class, 'candidates'])->name('candidate');
 Route::get('/dashboard/category',[AdminController::class, 'categories'])->name('category');
 Route::get('/dashboard/jobs',[AdminController::class, 'jobs'])->name('jobs');
 
-Route::get('/dashboard/employer/edit/{id}', [AdminController::class, 'editEmployer'])->name('employer.edit');
-Route::get('/dashboard/candidate/edit/{id}', [AdminController::class, 'editCandidate'])->name('candidate.edit');
+//edit
 Route::get('/dashboard/category/edit/{id}', [AdminController::class, 'editCategory'])->name('category.edit');
 
 Route::get('/dashboard/jobs/view/{id}', [AdminController::class, 'viewJob'])->name('job.view');
+
+//delete
+Route::delete('/dashboard/employer/{id}', [AdminController::class, 'deleteEmployer'])->name('employer.delete');
+Route::delete('/dashboard/candidate/{id}', [AdminController::class, 'deleteCandidate'])->name('candidate.delete');
+Route::delete('/dashboard/category/{id}', [AdminController::class, 'deleteCategory'])->name('category.delete');
+Route::delete('/dashboard/jobs/{job_id}/comments/{id}', [AdminController::class, 'deleteComment'])->name('comment.delete');
+Route::delete('/dashboard/jobs/{id}', [AdminController::class, 'deleteJob'])->name('jobs.delete'); //When Admin Rejects the post
+
+// Post Acceptence
+Route::post('/dashboard/jobs/{id}/accept', [AdminController::class, 'acceptJob'])->name('jobs.accept');
+
+
+
+
+
 // End >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
