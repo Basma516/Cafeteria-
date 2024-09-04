@@ -169,6 +169,7 @@ class JobController extends Controller
     public function showEmployerJobs()
     {
         $user = auth()->user();
+        $jobs = Job::all();
 
         // Ensure the user is an employer
         // if ($user->role != 2) {

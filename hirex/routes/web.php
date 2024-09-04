@@ -67,13 +67,7 @@ Route::get('/', function () {
 // })->name('jobView');
 
 Auth::routes();
-<<<<<<< HEAD
-// Define a new route for the home page
 Route::get('/home', [HomeController::class, 'index'])->name('home');
-
-=======
-Route::get('/home', [HomeController::class, 'index'])->name('home');
->>>>>>> d06ca9799142ef88e37eea3ee34312b22a76a57e
 
 // Route::view('/profile', 'users.edit_profile')->name('profile');
 
