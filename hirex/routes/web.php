@@ -6,6 +6,7 @@ use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\CommentsController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -65,7 +66,7 @@ use App\Http\Controllers\JobCategoryController;
 // })->name('jobView');
 
 Auth::routes();
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 // Route::view('/profile', 'users.edit_profile')->name('profile');
 
@@ -102,6 +103,8 @@ Route::resource('users', UserController::class);
 
 // Routes for Jobs
 Route::resource('jobs', JobController::class);
+Route::resource('/', HomeController::class);
+
 
 Route::resource('candidates', CandidateController::class);
 
