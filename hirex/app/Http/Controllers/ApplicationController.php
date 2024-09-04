@@ -73,7 +73,7 @@ class ApplicationController extends Controller
         $application = new Application();
         $application->candidate_id = $candidate->id; 
         $application->job_id = $request->job_id;
-        $application->status = 2;  
+        $application->status = 1;  
         $application->resume = $resumePath;
         $application->save();
     
