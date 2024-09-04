@@ -2,11 +2,13 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployerController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\CommentsController;
 use Illuminate\Support\Facades\Auth;
+
 
 
 use App\Http\Controllers\JobCategoryController;
@@ -22,7 +24,6 @@ use App\Http\Controllers\JobCategoryController;
 | be assigned to the "web" middleware group. Make something great!
 */
 
-<<<<<<< HEAD
 Route::get('/', function () {
     return view('home');
 });
@@ -40,14 +41,12 @@ Route::get('/dashboard/category/edit/{id}', [AdminController::class, 'editCatego
 
 Route::get('/dashboard/jobs/view/{id}', [AdminController::class, 'viewJob'])->name('job.view');
 // End >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-=======
 
 
 
- Route::get('/', function () {
-    return view('home');
-});
->>>>>>> origin
+//  Route::get('/', function () {
+//     return view('home');
+// });
 
 // Route::get('/dashboard/candidate', function () {
 //     return view('dashboard.candidate');
