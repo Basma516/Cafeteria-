@@ -34,7 +34,7 @@
                                 $status = $job->status;
                                 @endphp
                                 <tr>
-                                    <td>1</td>
+                                    <td>{{$job->id}}</td>
 
                                     <td>{{$data->name}}</td>
                                     <td>{{$job->title}}</td>
@@ -99,13 +99,13 @@
                                                         <h4> Do you want to Reject This Post ?</h4>
                                                     </div>
                                                     <form action="{{route('jobs.delete', $job->id)}}" method="POST">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                                                <button type="submit" class="btn btn-danger">Reject</button>
-                                                            </div>
-                                                        </form>
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                            <button type="submit" class="btn btn-danger">Reject</button>
+                                                        </div>
+                                                    </form>
 
 
                                                 </div>

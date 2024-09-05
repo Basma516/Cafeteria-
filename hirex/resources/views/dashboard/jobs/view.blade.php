@@ -53,6 +53,95 @@
         </div>
     </div>
 
+    <hr>
+
+    <h3>Applications</h3>
+    @if($applications && $applications-> isNotEmpty())
+    <div class="card-body mt-3">
+        <div class="table-responsive">
+            <table id="usersTable" class="table table-striped  table-dark" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+
+                        <th>Candidate Name</th>
+                        <th>status</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($applications as $app)
+                    @php
+                    $can = $app->candidate;
+                    $candidate = $can->user;
+                    $status = $app->status;
+                    @endphp
+                    <tr>
+                        <td>{{$app->id}}</td>
+                        <td>{{$candidate->name}}</td>
+                        <td>{{$status->name}}</td>
+
+                    </tr>
+                    @endforeach
+            </table>
+        </div>
+    </div>
+    @else
+    <div class="container ">
+        <span class="text-danger">* No Applications Found</span>
+    </div>
+
+    @endif
+
+    @if($applications && $applications-> isNotEmpty())
+
+    <h3 class="mt-5">Applications Over Time</h3>
+    <div class="row justify-content-center mt-4 ">
+        <div class="col-md-10 bg-dark">
+            <canvas id="applicationsChart" width="400" height="200"></canvas>
+        </div>
+    </div>
+    @endif
+
+
 </div>
 
+@endsection
+
+@section('scripts')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    var ctx = document.getElementById('applicationsChart').getContext('2d');
+    var applicationsChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: @json($applicationDates),  // Dates for x-axis
+            datasets: [{
+                label: 'Applications',
+                data: @json($applicationCounts),  // Number of applications per date
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',  // Chart fill color
+                borderColor: 'rgba(75, 192, 192, 1)',  // Chart line color
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Dates'
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Number of Applications'
+                    }
+                }
+            }
+        }
+    });
+</script>
 @endsection

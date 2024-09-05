@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
+use App\Models\Application;
 use App\Models\Candidate;
 use App\Models\Category;
 use App\Models\Comment;
@@ -98,9 +99,30 @@ class AdminController extends Controller
     // Edit Job
     public function viewJob($id)
     {
+        // Fetch job, comments, and applications
         $comments = Comment::where('job_id', $id)->get();
+        $applications = Application::where('job_id', $id)->with('candidate.user', 'status')->get();
         $job = Job::findOrFail($id);
-        return view('dashboard.jobs.view', compact('comments', 'job'));
+    
+        // Group applications by date
+        $dates = $applications->groupBy(function ($application) {
+            return Carbon::parse($application->created_at)->format('Y-m-d');  // Group by date (Y-m-d format)
+        });
+    
+        // Prepare data for the chart: array of dates and application counts
+        $applicationDates = $dates->keys()->toArray();  // Dates for x-axis
+        $applicationCounts = $dates->map(function ($group) {
+            return count($group);  // Count of applications on each date
+        })->values()->toArray();  // Data for y-axis
+    
+        // Pass data to the view
+        return view('dashboard.jobs.view', [
+            'comments' => $comments,
+            'job' => $job,
+            'applications' => $applications,
+            'applicationDates' => $applicationDates,
+            'applicationCounts' => $applicationCounts,
+        ]);
     }
 
 
