@@ -28,9 +28,9 @@ use App\Http\Controllers\JobCategoryController;
 
 
 
-Route::get('/', function () {
+ Route::get('/', function () {
     return view('home');
-});
+ });
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard.index');
@@ -68,7 +68,7 @@ Route::get('/', function () {
 // })->name('jobView');
 
 Auth::routes();
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+ Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 // Route::view('/profile', 'users.edit_profile')->name('profile');
 
