@@ -21,13 +21,17 @@ class JobController extends Controller
 {
     public function index(Request $request)
     {
-               // Assuming you want to check for a user with a specific ID
-    $userId = auth()->id(); // Get the authenticated user ID
 
-    // Check if the user ID exists
-    if (!$userId || !User::find($userId)) {
-        abort(404); // Redirect to 404 if user ID is not found
-    }
+        $userId = auth()->id();
+
+
+        if (!$userId || !User::find($userId)) {
+            abort(404);
+        }
+
+
+        $search = $request->input('search');
+
 
         $jobs = Job::with('jobType')
             ->withCount('applications')
@@ -44,8 +48,9 @@ class JobController extends Controller
 
         $categories = Category::all();
 
-        return view('jobs.alljobs', compact('jobs', 'categories'));
+        return view('jobs.index', compact('jobs', 'categories'));
     }
+
 
 
 
@@ -63,7 +68,7 @@ class JobController extends Controller
     {
         $user = Auth::user();
 
-       
+
         if ($user->role != 2) {
             return redirect()->route('home')->with('error', 'Access Denied. Only employers can post jobs.');
         }
@@ -78,15 +83,15 @@ class JobController extends Controller
         $job->requirements = $validatedData['requirements'];
         $job->location = $validatedData['location'];
         $job->category_id = $validatedData['category_id'];
-        $job->job_status =1;
+        $job->job_status = 1;
         $job->job_type = $validatedData['job_type'];
         $job->responsibilities = $validatedData['responsibilities'];
         $job->salary = $validatedData['salary'];
         $job->benefits = $validatedData['benefits'];
         $job->deadline = $validatedData['deadline'];
-        $job->emp_id = $emp_id; 
+        $job->emp_id = $emp_id;
         $job->save();
-        
+
         return redirect()->route('jobs.index')->with('success', 'Job created successfully.');
     }
 
@@ -189,20 +194,20 @@ class JobController extends Controller
         // Find employer ID associated with the user
         $employer = Employer::where('user_id', $user->id)->first();
 
-    // Ensure the user is an employer
-    // if ($user->role != 2) {
-    //     return redirect()->route('home')->with('error', 'Access Denied. Only employers can view their job postings.');
-    // }
-       // Assuming you want to check for a user with a specific ID
-       $userId = auth()->id(); // Get the authenticated user ID
+        // Ensure the user is an employer
+        // if ($user->role != 2) {
+        //     return redirect()->route('home')->with('error', 'Access Denied. Only employers can view their job postings.');
+        // }
+        // Assuming you want to check for a user with a specific ID
+        $userId = auth()->id(); // Get the authenticated user ID
 
-       // Check if the user ID exists
-       if (!$userId || !User::find($userId)) {
-           abort(404); // Redirect to 404 if user ID is not found
-       }
-   
-    // Find employer ID associated with the user
-    $employer = Employer::where('user_id', $user->id)->first();
+        // Check if the user ID exists
+        if (!$userId || !User::find($userId)) {
+            abort(404); // Redirect to 404 if user ID is not found
+        }
+
+        // Find employer ID associated with the user
+        $employer = Employer::where('user_id', $user->id)->first();
 
         return view('jobs.myjobs', compact('jobs'));
     }
