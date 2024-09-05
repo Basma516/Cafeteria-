@@ -6,6 +6,7 @@ use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\CommentsController;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -145,3 +146,37 @@ Route::patch('/applications/{application}', [ApplicationController::class, 'upda
 // In routes/web.php
 // routes/web.php
 Route::get('/applications/{id}/resume', [ApplicationController::class, 'viewResume'])->name('applications.resume');
+
+
+
+
+
+
+///////linkedin connect 
+
+use Laravel\Socialite\Facades\Socialite;
+
+Route::get('apply/linkedin', function () {
+    return Socialite::driver('linkedin')->redirect();
+})->name('apply.linkedin');
+
+Route::get('auth/linkedin/callback', function () {
+    $linkedinUser = Socialite::driver('linkedin')->user();
+
+    // Store LinkedIn data in the database
+    $user = User::updateOrCreate(
+        ['linkedin_id' => $linkedinUser->id], // Find the user by LinkedIn ID
+        [
+            'name' => $linkedinUser->name,
+            'email' => $linkedinUser->email,
+            'linkedin_token' => $linkedinUser->token,
+            'avatar' => $linkedinUser->avatar,
+        ]
+    );
+
+    // Log the user in
+    Auth::login($user);
+
+    // Redirect to the application success page or the next step
+    return redirect('/application/success');
+});
