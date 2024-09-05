@@ -11,7 +11,7 @@
             style="background: rgba(43, 57, 64, .5); height: 550px;">
             <div class="container">
                 <div class="row justify-content-start">
-                    <div class="col-10 col-lg-8">
+                    <div class="col-10 col-lg-8   mb-4">
                         <h1 class="display-3 text-white mb-4">Find The Perfect Job That You Deserve</h1>
                         <p class="fs-5 fw-medium text-white mb-4 pb-2">Endless Possibilities, One Career</p>
 
@@ -23,104 +23,88 @@
                         @endphp
 
                         @if($isEmployer)
-                        <!-- Show "Create a Job" button for employers -->
-                        <a href="{{ route('jobs.create') }}" class="btn btn-secondary py-md-3 px-md-5">Create a Job</a>
+                        <a href="{{ route('jobs.create') }}" class="btn  py-md-3 px-md-5" style="background: #1f3541">Create a Job</a>
                         @elseif($isCandidate)
-                        <!-- Show "View Available Jobs" button for candidates with a profile -->
-                        <a href="{{ route('jobs.index') }}" class="btn btn-primary py-md-3 px-md-5 me-3">View Available
+                        <a href="{{ route('jobs.index') }}" class="btn  py-md-3 px-md-5 me-3" style="background: #1f3541">View Available
                             Jobs</a>
                         @else
-                        <!-- Show both buttons for users with role 3 but no profile -->
-                        <a href="{{ route('candidates.create') }}" class="btn btn-primary py-md-3 px-md-5 me-3">Find a
+                        <a href="{{ route('candidates.create') }}" class="btn  py-md-3 px-md-5 me-3" style="background: #1f3541">Find a
                             Job</a>
-                        <a href="{{ route('employers.create') }}" class="btn btn-secondary py-md-3 px-md-5">Post a
+                        <a href="{{ route('employers.create') }}" class="btn  py-md-3 px-md-5" style="background: #1f3541">Post a
                             Job</a>
                         @endif
 
                         @else
-                        <!-- If not logged in, show login buttons -->
-                        <a href="{{ route('login') }}" class="btn btn-primary py-md-3 px-md-5 me-3">Find a Job</a>
-                        <a href="{{ route('login') }}" class="btn btn-secondary py-md-3 px-md-5">Post a Job</a>
+                        <a href="{{ route('login') }}" class="btn  py-md-3 px-md-5 me-3" style="background: #1f3541">Find a Job</a>
+                        <a href="{{ route('login') }}" class="btn  py-md-3 px-md-5" style="background: #1f3541">Post a Job</a>
                         @endauth
 
                     </div>
+                    
+                        <div class="container " style=" margin-top:120px;width:70%">
+                            <form action="{{ route('jobs.search') }}" method="GET">
+                                <div class="row g-2">
+                                    <div class="col-md-10">
+                                        <div class="row g-2">
+                                            <div class="col-md-4">
+                                                <input type="text" name="keyword" class="form-control border-0" placeholder="Keyword" />
+                                            </div>
+                                            <div class="col-md-4">
+                                                <select name="category" class="form-select border-0">
+                                                    <option value="">Category</option>
+                                                    @foreach($categories as $category)
+                                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <select name="location" class="form-select border-0">
+                                                    <option value="">Location</option>
+                                                    @foreach($locations as $location)
+                                                    <option value="{{ $location->location }}">{{ $location->location }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button type="submit" class="btn btn-dark border-0 w-100">Search</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    
+                
                 </div>
             </div>
         </div>
     </div>
+    <!-- Search Start -->
+   
 </div>
 <!-- Static Image Section End -->
 
 
 
-<!-- Search Start -->
-<div class="container-fluid bg-primary mb-5 wow fadeIn" data-wow-delay="0.1s" style="padding: 35px;">
-    <div class="container">
-        <div class="row g-2">
-            <div class="col-md-10">
-                <div class="row g-2">
-                    <div class="col-md-4">
-                        <input type="text" class="form-control border-0" placeholder="Keyword" />
-                    </div>
-                    <div class="col-md-4">
-                        <select class="form-select border-0">
-                            <option selected>Category</option>
-                            @foreach($categories as $category)
-<<<<<<< HEAD
-                            <option value="{{ $category->name }}">{{ $category->name }}</option>
-=======
-                                <option value="{{ $category->name }}">{{ $category->name }}</option>
->>>>>>> d06ca9799142ef88e37eea3ee34312b22a76a57e
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <select class="form-select border-0">
-                            <option selected>Location</option>
-                            @foreach($locations as $location)
-<<<<<<< HEAD
-                            <option value="{{ $location->location }}">{{ $location->location }}</option>
-=======
-                                <option value="{{ $location->location }}">{{ $location->location }}</option>
->>>>>>> d06ca9799142ef88e37eea3ee34312b22a76a57e
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2">
-                <button class="btn btn-dark border-0 w-100">Search</button>
-            </div>
-        </div>
-           
-    </div>
-</div>
-
 
 <div class="container-xxl py-5">
     <div class="container">
-        <h1 class="text-center mb-5">Explore By Category</h1>
+        <h1 class="text-center mb-5 wow fadeInUp">Explore By Category</h1>
         <div class="row g-4">
-            @foreach($categories as $category)
-                <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <a class="cat-item rounded p-4" href="{{ route('jobs.jobbycategory', ['categoryId' => $category->id]) }}">
-                        <i class="fa fa-3x fa-briefcase text-primary mb-4"></i>
-                        <h6 class="mb-3">{{ $category->name }}</h6>
-                        <p class="mb-0">{{ $category->jobs_count }} Vacancy</p>
-                    </a>
-                </div>
+            @foreach($categories as $index => $category)
+            <div class="col-lg-3 col-sm-6 wow fadeInUp">
+                <a class="cat-item rounded p-4"
+                    href="{{ route('jobs.jobbycategory', ['categoryId' => $category->id]) }}">
+                    <i class="fa fa-3x fa-mail-bulk text-primary mb-4{{ $category->icon_class }}  "></i>
+                    <h6 class="mb-3">{{ $category->name }}</h6>
+                    <p class="mb-0">{{ $category->jobs_count }} Categories</p>
+                </a>
+            </div>
             @endforeach
         </div>
     </div>
 </div>
-
-
-
-
-
-
-
-
+<!-- Category End -->
 
 <!-- About Start -->
 <div class="container-xxl py-5" id="about">
@@ -147,30 +131,11 @@
     </div>
 </div>
 
-{{--
 <!-- Jobs Start -->
 <div class="container-xxl py-5">
     <div class="container">
         <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Job Listing</h1>
         <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.3s">
-            <ul class="nav nav-pills d-inline-flex justify-content-center border-bottom mb-5">
-                <li class="nav-item">
-                    <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 active" data-bs-toggle="pill"
-                        href="#tab-1">
-                        <h6 class="mt-n1 mb-0">Featured</h6>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="d-flex align-items-center text-start mx-3 pb-3" data-bs-toggle="pill" href="#tab-2">
-                        <h6 class="mt-n1 mb-0">Full Time</h6>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="d-flex align-items-center text-start mx-3 me-0 pb-3" data-bs-toggle="pill" href="#tab-3">
-                        <h6 class="mt-n1 mb-0">Part Time</h6>
-                    </a>
-                </li>
-            </ul>
             <div class="tab-content">
                 <div id="tab-1" class="tab-pane fade show p-0 active">
                     @foreach ($jobs as $job)
@@ -192,24 +157,25 @@
                                     </span>
                                 </div>
                             </div>
+                            <div class="col-sm-12 col-md-4 d-flex align-items-center justify-content-end">
+                                @auth
+                                    @if(auth()->user()->role == 3)
+                                        <a href="{{ route('jobs.show', $job->id) }}" class="btn btn-outline-primary">View Details</a>
+                                    @endif
+                                @endauth
+                            </div>
                         </div>
                     </div>
                     @endforeach
-
-                    <!-- Pagination Links -->
-                    <div class="d-flex justify-content-center">
-                        {{ $jobs->links() }}
-                    </div>
+                    <a href="{{ route('jobs.index') }}" class="btn btn-primary py-md-3 px-md-5">View More</a>
                 </div>
-
-                <!-- Repeat similar blocks for tabs 2 and 3, filtering jobs as needed -->
             </div>
         </div>
     </div>
 </div>
-<!-- Jobs End --> --}}
+<!-- Jobs End -->
 
-<!-- Jobs End -->
+
 
 
 

@@ -9,6 +9,7 @@ use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Notifi;
 
 
 use App\Http\Controllers\JobCategoryController;
@@ -163,3 +164,9 @@ Route::get('/applications/{id}/resume', [ApplicationController::class, 'viewResu
 // web.php
 
 Route::get('jobs/search', [JobController::class, 'search'])->name('jobs.search');
+
+
+Route::get('/notifications', [Notifi::class, 'index'])->name('notifications.index');
+
+
+

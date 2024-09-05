@@ -7,6 +7,7 @@ use App\Models\Notifications;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Notifications\jobApp;
 
 
 
@@ -103,8 +104,6 @@ class ApplicationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-// In ApplicationController.php
-// In ApplicationController.php
 public function update(Request $request, $id)
 {
     $application = Application::findOrFail($id);
@@ -113,7 +112,7 @@ public function update(Request $request, $id)
     
     $application->save();
     $notification = Notifications::create ([
-        "user_id" => $application->_id,
+        "user_id" => $application->candidate_id,
         "job_id"=> $application->job_id,
         "status" => $request->input("status"),       
     ]);

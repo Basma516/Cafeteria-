@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
             $table->string('user_id');
-            $table->string('job_id');
+            $table->foreignId('job_id')->constrained('jobs');
             $table->string('status');
             $table->boolean('read')->default(false);          
             $table->timestamps();
