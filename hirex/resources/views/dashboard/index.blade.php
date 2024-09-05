@@ -4,68 +4,113 @@
 
 <div class="analytics-sparkle-area" style="margin-top: 45px;">
     <div class="container-fluid">
-        <div class="row">
-            <!-- Example of a dashboard card -->
-            @foreach ($users as $user)
-                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-12">
-                    <div class="analytics-sparkle-line reso-mg-b-30">
-                        <div class="analytics-content">
-                            <h5>{{ $user->name }}</h5>
-                            <h2> <span class="tuition-fees">Tuition Fees</span></h2>
-                            <span class="text-success">%</span>
-                            <div class="progress m-b-0">
-                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100" >
-                                    <span class="sr-only">% Complete</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            @endforeach
-        </div>
-    </div>
-</div>
+        <div class="row  justify-content-center">
 
-<div class="product-sales-area mg-tb-30">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
-                <div class="product-sales-chart">
-                    <div class="portlet-title">
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                <div class="caption pro-sl-hd">
-                                    <span class="caption-subject"><b>Admission Statistics</b></span>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                <div class="actions graph-rp actions-graph-rp">
-                                    <a href="#" class="btn btn-dark btn-circle active tip-top" data-toggle="tooltip" title="Refresh">
-                                        <i class="fa fa-reply" aria-hidden="true"></i>
-                                    </a>
-                                    <a href="#" class="btn btn-blue-grey btn-circle active tip-top" data-toggle="tooltip" title="Delete">
-                                        <i class="fa fa-trash-o" aria-hidden="true"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+            <a href="{{ route('employer') }}" class="card-link  col-md-6 col-lg-4" style="text-decoration:none;">
+                <div class="card text-bg-primary mb-3 mx-3 " style="max-width: 50rem; height:15rem; font-size:large;">
+                    <div class="card-header"><i class="fa-solid fa-users"></i></div>
+                    <div class="card-body">
+                        <h5 class="card-title" style="font-size: 22px;">Employers</h5>
+                        <p class="card-text">Total Employers: <b> {{ $employersCount }} </b> </p>
+                        <span style="font-size:12px;">Click For More Info</span>
                     </div>
-                    <ul class="list-inline cus-product-sl-rp">
-                        <li>
-                            <h5><i class="fa fa-circle" style="color: #006DF0;"></i>Python</h5>
-                        </li>
-                        <li>
-                            <h5><i class="fa fa-circle" style="color: #933EC5;"></i>PHP</h5>
-                        </li>
-                        <li>
-                            <h5><i class="fa fa-circle" style="color: #65b12d;"></i>Java</h5>
-                        </li>
-                    </ul>
-                    <div id="morris-area-chart"></div>
                 </div>
+            </a>
+
+            <a href="{{ route('candidate') }}" class="card-link  col-md-6 col-lg-4" style="text-decoration:none;">
+                <div class="card text-bg-warning mb-3 mx-3" style="max-width: 50rem; height:15rem; font-size:large;">
+                    <div class="card-header"><i class="fa-solid fa-user"></i></div>
+                    <div class="card-body">
+                        <h5 class="card-title" style="font-size: 22px;">Candidates</h5>
+                        <p class="card-text">Total Candidates: <b> {{ $candidatesCount }} </b></p>
+                        <span style="font-size:12px;">Click For More Info</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="{{ route('category') }}" class="card-link  col-md-6 col-lg-4" style="text-decoration:none;">
+                <div class="card text-bg-success mb-3 mx-3" style="max-width: 50rem; height:15rem; font-size:large;">
+                    <div class="card-header"><i class="fa-solid fa-list"></i></div>
+                    <div class="card-body">
+                        <h5 class="card-title" style="font-size: 22px;">Categories</h5>
+                        <p class="card-text">Total Categories: <b> {{ $categoriesCount }} </b></p>
+                        <span style="font-size:12px;">Click For More Info</span>
+                    </div>
+                </div>
+            </a>
+
+            <a href="{{ route('jobs') }}" class="card-link  col-md-6 col-lg-4" style="text-decoration:none;">
+                <div class="card text-bg-danger mb-3 mx-3" style="max-width: 50rem; height:15rem; font-size:large;">
+                    <div class="card-header"><i class="fa-solid fa-briefcase"></i></div>
+                    <div class="card-body">
+                        <h5 class="card-title" style="font-size: 22px;">Jobs</h5>
+                        <p class="card-text">Total Jobs: <b> {{ $jobsCount }} </b></p>
+                        <span style="font-size:12px;">Click For More Info</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+                <!-- Chart Section -->
+                <div class="row justify-content-center mt-5 ">
+            <div class="col-md-10 bg-dark">
+                <canvas id="dataChart" width="400" height="200"></canvas>
             </div>
         </div>
     </div>
 </div>
+    </div>
+</div>
+@endsection
 
+@section('scripts')
+<script>
+    var ctx = document.getElementById('dataChart').getContext('2d');
+    var dataChart = new Chart(ctx, {
+        type: 'line',  // Choose 'line', 'bar', or any chart type
+        data: {
+            labels: {!! json_encode($dates) !!},  // Dates for the x-axis
+            datasets: [
+                {
+                    label: 'Employers',
+                    data: {!! json_encode($employersData) !!},  // Employers data for each date
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)', // Light blue
+                    borderColor: 'rgba(54, 162, 235, 1)',  // Darker blue
+                    borderWidth: 1
+                },
+                {
+                    label: 'Candidates',
+                    data: {!! json_encode($candidatesData) !!},  // Candidates data for each date
+                    backgroundColor: 'rgba(255, 206, 86, 0.2)', // Light yellow
+                    borderColor: 'rgba(255, 206, 86, 1)',  // Darker yellow
+                    borderWidth: 1
+                },
+                {
+                    label: 'Jobs',
+                    data: {!! json_encode($jobsData) !!},  // Jobs data for each date
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)', // Light red
+                    borderColor: 'rgba(255, 99, 132, 1)',  // Darker red
+                    borderWidth: 1
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Dates'
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Count'
+                    }
+                }
+            }
+        }
+    });
+</script>
 @endsection

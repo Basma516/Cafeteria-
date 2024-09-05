@@ -9,7 +9,7 @@
                         <div class="card bg-white">
                             <div class="card-body mt-3">
                               <div class="table-responsive">
-                                <a href="" class="btn btn-success"> Add New Category</a>
+                                <a href="{{route('categories.create')}}" class="btn btn-success"> Add New Category</a>
                                   <table id="usersTable" class="table table-striped  bg-light" style="width:100%">
                                     <thead>
                                         <tr>

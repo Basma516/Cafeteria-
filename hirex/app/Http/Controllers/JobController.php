@@ -100,12 +100,8 @@ public function edit($id)
 }
 public function update(UpdateJobRequest $request, $id)
 {
-    // Fetch the job to update
     $job = Job::findOrFail($id);
-    
-    // Ensure the user is an employer
-   
-    // Validate and update job data
+       
     $job->update($request->validated());
 
     return redirect()->route('jobs.myjobs',Auth::id())->with('success', 'Job updated successfully.');
@@ -128,7 +124,7 @@ public function search(Request $request)
     }
 
     $jobs = $query->with('jobType', 'status', 'category')->paginate(10);
-    $categories = JobCategory::all();
+    $categories = Category::all();
 
     return view('jobs.search', compact('jobs', 'categories'));
 }

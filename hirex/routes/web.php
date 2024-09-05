@@ -39,6 +39,7 @@ Route::get('/dashboard/jobs',[AdminController::class, 'jobs'])->name('jobs');
 
 //edit
 Route::get('/dashboard/category/edit/{id}', [AdminController::class, 'editCategory'])->name('category.edit');
+Route::put('/dashboard/category/update/{id}', [AdminController::class, 'updateCategory'])->name('category.update');
 
 Route::get('/dashboard/jobs/view/{id}', [AdminController::class, 'viewJob'])->name('job.view');
 
@@ -51,6 +52,11 @@ Route::delete('/dashboard/jobs/{id}', [AdminController::class, 'deleteJob'])->na
 
 // Post Acceptence
 Route::post('/dashboard/jobs/{id}/accept', [AdminController::class, 'acceptJob'])->name('jobs.accept');
+
+// Store Category
+Route::get('/dashboard/category/add', [AdminController::class, 'categoryCreate'])->name('categories.create');
+Route::post('/dashboard/category/store', [AdminController::class, 'storeCategory'])->name('categories.store');
+
 
 
 
