@@ -32,9 +32,11 @@
             </div>
             <button type="submit" class="btn btn-primary">Submit Application</button>
         </form>
+
         <a href="{{ route('apply.linkedin') }}" class="btn btn-primary">
             <i class="fab fa-linkedin"></i> Apply with LinkedIn
         </a>
+
 
     </div>
 </div>

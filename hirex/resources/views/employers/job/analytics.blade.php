@@ -33,7 +33,7 @@
             <form action="{{ route('applications.destroy', $application->id) }}" method="POST" style="display:inline;">
                 @csrf
                 @method('DELETE')
-                <button type="submit" class="btn btn-danger btn-sm">Reject</button>
+                <button type="submit" onclick="return confirm('Are you sure you want to delete this application?')" class="btn btn-danger btn-sm" >Reject</button>
             </form>
 
             <!-- Display Current Status -->

@@ -1,4 +1,3 @@
-<!-- resources/views/applications/view_resume.blade.php -->
 
 @extends('layouts.app')
 

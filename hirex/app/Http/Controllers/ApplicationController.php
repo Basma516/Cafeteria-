@@ -24,6 +24,19 @@ class ApplicationController extends Controller
         return view('applications.view_resume', ['resumePath' => $resumePath]);
     }
 
+    public function applyWithLinkedIn(Request $request, $jobId)
+    {
+        $user = Auth::user();
+    
+        Application::create([
+            'job_id' => $jobId,
+            'user_id' => $user->id,
+            'linkedin_profile' => $user->linkedin_id,
+            // other fields like resume, cover letter, etc.
+        ]);
+    
+        return redirect()->route('jobs.index')->with('success', 'Your application has been submitted.');
+    }
     /**
      * Display a listing of the resource.
      */
