@@ -5,30 +5,20 @@ namespace App\Http\Controllers;
 use App\Models\Job;
 use App\Models\Application;
 use App\Models\Candidate;
+use App\Models\Notifications;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Smalot\PdfParser\Parser;
 use PhpOffice\PhpWord\IOFactory;
+use App\Notifications\jobApp;
 
 
 
 class ApplicationController extends Controller
 {
-    // public function viewResume($id)
-    // {
-    //     $application = Application::findOrFail($id);
-    //     $resumePath = $application->resume; // This should be the stored path (e.g., resumes/Zj8f6IxEUSg0xNDg5ri5FiMUPKy8JsXtDzXTNJlR.pdf)
-
-    //     // Check if the file exists in the public storage
-    //     if (!Storage::disk('public')->exists($resumePath)) {
-    //         return redirect()->back()->with('error', 'Resume file not found.');
-    //     }
-
-    //     return view('applications.view_resume', ['resumePath' => $resumePath]);
-    // }
-
+  
     /**
      * Display a listing of the resource.
      */
@@ -111,20 +101,25 @@ class ApplicationController extends Controller
      */
     // In ApplicationController.php
     // In ApplicationController.php
-    public function update(Request $request, $id)
-    {
-        // Find the application by its ID
-        $application = Application::findOrFail($id);
-
-        // Update the application status with the value from the form
-        $application->status = $request->input('status');
-
-        // Save the changes
-        $application->save();
+  
+public function update(Request $request, $id)
+{
+    $application = Application::findOrFail($id);
+    
+    $application->status = $request->input('status');
+    
+    $application->save();
+    $notification = Notifications::create ([
+        "user_id" => $application->candidate_id,
+        "job_id"=> $application->job_id,
+        "status" => $request->input("status"),       
+    ]);
 
         // Redirect back with a success message
         return redirect()->back()->with('success', 'Application status updated successfully.');
-    }
+
+    
+}
 
 
     /**
@@ -159,7 +154,6 @@ class ApplicationController extends Controller
         $extension = pathinfo($resumePath, PATHINFO_EXTENSION);
 
         if ($extension == 'pdf') {
-            // Use smalot/pdfparser to extract text from PDF
             $parser = new Parser();
             $pdf = $parser->parseContent($fileContent);
             return $pdf->getText();
@@ -176,7 +170,6 @@ class ApplicationController extends Controller
         $application = Application::findOrFail($id);
         $resumePath = $application->resume;
     
-        // Check if the file exists
         if (!Storage::disk('public')->exists($resumePath)) {
             return redirect()->back()->with('error', 'Resume file not found.');
         }
@@ -203,4 +196,5 @@ class ApplicationController extends Controller
         ]);
 
 }
+    
 }

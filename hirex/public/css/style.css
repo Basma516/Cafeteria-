@@ -1,4 +1,4 @@
-/********** Template CSS **********/
+/**** Template CSS ****/
 :root {
     --primary: #5289b5;
     --secondary: #afd8f2;
@@ -31,7 +31,7 @@ nav {
 }
 
 
-/*** Spinner ***/
+/* Spinner */
 #spinner {
     opacity: 0;
     visibility: hidden;
@@ -46,7 +46,7 @@ nav {
 }
 
 
-/*** Button ***/
+/* Button */
 .btn {
     font-family: 'Inter', sans-serif;
     font-weight: 600;
@@ -92,7 +92,7 @@ nav {
 }
 
 
-/*** Navbar ***/
+/* Navbar */
 .navbar .dropdown-toggle::after {
     border: none;
     content: "\f107";
@@ -173,7 +173,7 @@ nav {
 }
 
 
-/*** Header ***/
+/* Header */
 .header-carousel .container,
 .page-header .container {
     position: relative;
@@ -296,7 +296,7 @@ nav {
 }
 
 
-/*** About ***/
+/* About */
 .about-bg {
     background-image: -webkit-repeating-radial-gradient(center center, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) 1px, transparent 1px, transparent 100%);
     background-image: -moz-repeating-radial-gradient(center center, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) 1px, transparent 1px, transparent 100%);
@@ -307,7 +307,7 @@ nav {
 }
 
 
-/*** Category ***/
+/* Category */
 .cat-item {
     display: block;
     box-shadow: 0 0 45px rgba(0, 0, 0, .08);
@@ -321,7 +321,7 @@ nav {
 }
 
 
-/*** Job Listing ***/
+/* Job Listing */
 .nav-pills .nav-item .active {
     border-bottom: 2px solid var(--primary);
 }
@@ -339,7 +339,7 @@ nav {
 }
 
 
-/*** Testimonial ***/
+/* Testimonial */
 .testimonial-carousel .owl-item .testimonial-item,
 .testimonial-carousel .owl-item.center .testimonial-item * {
     transition: .5s;
@@ -377,7 +377,7 @@ nav {
 }
 
 
-/*** Footer ***/
+/* Footer */
 .footer .btn.btn-social {
     margin-right: 5px;
     width: 35px;

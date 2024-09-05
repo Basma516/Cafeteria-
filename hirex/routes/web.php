@@ -10,7 +10,7 @@ use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ResumeController;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\PdfController;
+use App\Http\Controllers\Notifi;
 
 
 use App\Http\Controllers\JobCategoryController;
@@ -29,9 +29,9 @@ use App\Http\Controllers\JobCategoryController;
 
 
 
-Route::get('/', function () {
+ Route::get('/', function () {
     return view('home');
-});
+ });
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard.index');
@@ -153,7 +153,7 @@ Route::get('/jobs/{id}/comments', [CommentsController::class, 'show'])->name('co
 
 // Route to store a comment
 Route::post('/jobs/{job}/comments', [CommentsController::class, 'store'])->name('comments.store');
-Route::get('/employer/myjobs/{id}', [EmployerController::class, 'myJobs'])->name('jobs.myjobs')->middleware('auth');
+// Route::get('/employer/myjobs/{id}', [EmployerController::class, 'myJobs'])->name('jobs.myjobs')->middleware('auth');
 
 Route::get('/myjobs', [JobController::class, 'showEmployerJobs'])->name('jobs.empjobs');
 
@@ -165,24 +165,11 @@ Route::patch('/applications/{application}', [ApplicationController::class, 'upda
 Route::get('/applications/{id}/resume', [ApplicationController::class, 'viewResume'])->name('applications.resume');
 // web.php
 
-Route::get('/search', [JobController::class, 'search'])->name('jobs.search');
+Route::get('jobs/search', [JobController::class, 'search'])->name('jobs.search');
+
+
+Route::get('/notifications', [Notifi::class, 'index'])->name('notifications.index');
 
 
 
 
-
-//Resume
-Route::resource('resumes', ResumeController::class);
-Route::get('resumes/search', [ResumeController::class, 'search'])->name('resumes.search');
-
-
-
-// // Password Reset Routes
-// Route::get('password/reset', [PasswordResetController::class, 'showResetForm'])->name('password.request');
-// Route::post('password/email', [PasswordResetController::class, 'sendResetLinkEmail'])->name('password.email');
-// Route::post('password/reset', [PasswordResetController::class, 'reset'])->name('password.update');
-
-
-
-Route::get('/applications/{id}/resume', [ApplicationController::class, 'viewResume'])->name('applications.viewResume');
-    Route::get('/applications/{applicationId}/resume', [ApplicationController::class, 'showResume'])->name('applications.showResume');

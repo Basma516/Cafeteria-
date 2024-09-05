@@ -19,15 +19,15 @@
         <div class="row mb-4">
             <div class="col-lg-12">
                 <h2 class="mb-5 h3 text-primary">{{ $job->title }}</h2>
-<<<<<<< HEAD
-                <a href="{{ url("/employer/job/$job->id/analytics") }}" class="btn btn-primary">View Analytics</a>
-=======
+
+                <!-- <a href="{{ url("/employer/job/$job->id/analytics") }}" class="btn btn-primary">View Analytics</a> -->
 
                 @if(auth()->check() && auth()->user()->role !== 3)
                 <a href="{{ route('job.analytics', $job->id) }}" class="btn btn-primary">View Analytics</a>
                 @endif
 
->>>>>>> cd0d7cffe19f961ca2a487e754c2c9ff7c6d0936
+                <!-- <a href="{{ url("/employer/job/$job->id/analytics") }}" class="btn btn-primary">View Analytics</a> -->
+
 
                 <div class="job-details">
                     <div class="d-block d-md-flex align-items-center mb-4">

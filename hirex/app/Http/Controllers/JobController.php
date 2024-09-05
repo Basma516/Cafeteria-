@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Job;
-use App\Models\User;
 use App\Models\Category;
 use App\Models\JobType;
 use App\Models\JobStatus;
@@ -20,17 +19,7 @@ class JobController extends Controller
 {
     public function index(Request $request)
     {
-
-        $userId = auth()->id();
-
-
-        if (!$userId || !User::find($userId)) {
-            abort(404);
-        }
-
-
         $search = $request->input('search');
-
 
         $jobs = Job::with('jobType')
             ->withCount('applications')
@@ -47,9 +36,15 @@ class JobController extends Controller
 
         $categories = Category::all();
 
-        return view('jobs.index', compact('jobs', 'categories'));
+        return view('jobs.alljobs', compact('jobs', 'categories'));
     }
 
+    public function show($id)
+    {
+        $job = Job::with('employer', 'jobType', 'status', 'comments.user')->findOrFail($id);
+      
+        return view('jobs.jobdetails', compact('job'));
+    }
 
 
     public function create()
@@ -113,15 +108,13 @@ class JobController extends Controller
     }
     public function update(UpdateJobRequest $request, $id)
     {
-        // Fetch the job to update
+        
         $job = Job::findOrFail($id);
 
-        // Ensure the user is an employer
-
-        // Validate and update job data
+     
         $job->update($request->validated());
 
-        return redirect()->route('jobs.myjobs', Auth::id())->with('success', 'Job updated successfully.');
+        return redirect()->route('jobs.index', Auth::id())->with('success', 'Job updated successfully.');
     }
     public function search(Request $request)
 
@@ -132,7 +125,6 @@ class JobController extends Controller
                 $query->where('name', 'accepted');
             });
 
-        // Apply filters if they exist
         if ($request->filled('keyword')) {
             $jobs->where('title', 'like', '%' . $request->keyword . '%')
                 ->orWhere('description', 'like', '%' . $request->keyword . '%');
@@ -146,10 +138,10 @@ class JobController extends Controller
             $jobs->where('location', $request->location);
         }
 
-        // Fetch filtered jobs
+
         $jobs = $jobs->with('jobType', 'status', 'category')->paginate(10);
 
-        // Get categories and locations for the search form
+      
         $categories = Category::all();
         $locations = Job::select('location')->distinct()->get();
 
@@ -158,10 +150,10 @@ class JobController extends Controller
 
     public function destroy($id)
     {
-        // Fetch the job to delete
+ 
         $job = Job::findOrFail($id);
 
-        // Ensure the user is an employer
+        
         if (Auth::user()->role != 2) {
             return redirect()->route('home')->with('error', 'Access Denied. Only employers can delete jobs.');
         }
@@ -181,32 +173,27 @@ class JobController extends Controller
     public function showEmployerJobs()
     {
         $user = auth()->user();
-        $jobs = Job::all();
 
-        // Ensure the user is an employer
-        // if ($user->role != 2) {
-        //     return redirect()->route('home')->with('error', 'Access Denied. Only employers can view their job postings.');
-        // }
-
-        // Find employer ID associated with the user
+        
+        if ($user->role != 2) {
+           return redirect()->route('home')->with('error', 'Access Denied. Only employers can view their job postings.');
+        }
         $employer = Employer::where('user_id', $user->id)->first();
 
-    // Ensure the user is an employer
-    // if ($user->role != 2) {
-    //     return redirect()->route('home')->with('error', 'Access Denied. Only employers can view their job postings.');
-    // }
-       // Assuming you want to check for a user with a specific ID
-       $userId = auth()->id(); // Get the authenticated user ID
+        if (!$employer) {
+            return redirect()->route('home')->with('error', 'Employer profile not found. Please complete your employer profile.');
+        }
 
-       // Check if the user ID exists
-       if (!$userId || !User::find($userId)) {
-           abort(404); // Redirect to 404 if user ID is not found
-       }
-   
-    // Find employer ID associated with the user
-    $employer = Employer::where('user_id', $user->id)->first();
+
+        $jobs = Job::with('employer', 'jobType', 'status')
+            ->where('emp_id', $employer->id)
+             ->whereHas('status', function ($query) {
+                $query->where('name', 'accepted');
+            })
+            ->get();
 
         return view('jobs.myjobs', compact('jobs'));
+        
     }
 
     public function showByCategory($categoryId)
