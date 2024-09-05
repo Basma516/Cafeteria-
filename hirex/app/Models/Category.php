@@ -13,4 +13,9 @@ class Category extends Model
 
     // Define the fillable fields
     protected $fillable = ['name'];
+
+    public function jobs()
+    {
+        return $this->hasMany(Job::class);
+    }
 }

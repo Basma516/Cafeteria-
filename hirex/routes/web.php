@@ -7,8 +7,11 @@ use App\Http\Controllers\JobController;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\CommentsController;
 use App\Models\User;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 
+
+use App\Http\Controllers\JobCategoryController;
 
 
 /*
@@ -64,7 +67,7 @@ use Illuminate\Support\Facades\Auth;
 // })->name('jobView');
 
 Auth::routes();
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 // Route::view('/profile', 'users.edit_profile')->name('profile');
 
@@ -101,9 +104,13 @@ Route::resource('users', UserController::class);
 
 // Routes for Jobs
 Route::resource('jobs', JobController::class);
+Route::resource('/', HomeController::class);
+
 
 Route::resource('candidates', CandidateController::class);
 
+Route::get('/category', [JobCategoryController::class, 'index'])->name('category.index');
+// Route::get('/category', [JobCategoryController::class, 'index'])->middleware('auth')->name('category.index');
 
 
 Route::resource('applications', ApplicationController::class)->only(['create', 'store', 'destroy']);
@@ -123,7 +130,7 @@ Route::resource('applications', ApplicationController::class)->only(['create', '
 // Route::get('/employer/jobs', [EmployerController::class, 'myJobs'])
 //      ->name('employer.jobs.index')
 //      ;
-Route::resource('jobs', JobController::class); // This provides index, show, create, store, etc.
+Route::resource('jobs', JobController::class)->middleware('auth'); // This provides index, show, create, store, etc.
 
 // Additional route for storing comments if needed
 Route::post('/jobs/{job}/comments', [JobController::class, 'storeComment'])->name('jobs.storeComment');
@@ -180,3 +187,6 @@ Route::get('auth/linkedin/callback', function () {
     // Redirect to the application success page or the next step
     return redirect('/application/success');
 });
+// web.php
+
+Route::get('jobs/search', [JobController::class, 'search'])->name('jobs.search');

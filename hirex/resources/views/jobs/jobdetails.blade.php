@@ -41,6 +41,9 @@
                     </div>
                     <h4>Description:</h4>
                     <p>{{ $job->description }}</p>
+                    <h4>Category:</h4>
+                    <p>{{ $job->category ? $job->category->name : 'No Category' }}</p>
+
                     <h4>Requirements:</h4>
                     <ul>
                         @foreach(explode("\n", $job->requirements) as $requirement)
