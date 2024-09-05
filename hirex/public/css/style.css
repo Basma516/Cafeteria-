@@ -51,6 +51,13 @@ nav {
     font-family: 'Inter', sans-serif;
     font-weight: 600;
     transition: .5s;
+    background-color: #5289b5 !important;
+    color: #FFFFFF;
+}
+
+.btn:hover {
+    background-color: #1f3541 !important;
+    color: #FFFFFF;
 }
 
 .btn.btn-primary,

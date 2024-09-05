@@ -19,7 +19,7 @@ use Carbon\Carbon;
 
 class JobController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
                // Assuming you want to check for a user with a specific ID
     $userId = auth()->id(); // Get the authenticated user ID
@@ -34,11 +34,19 @@ class JobController extends Controller
             ->whereHas('status', function ($query) {
                 $query->where('name', 'accepted');
             })
+            ->when($search, function ($query, $search) {
+                $query->where('title', 'LIKE', '%' . $search . '%')
+                    ->orWhereHas('jobType', function ($query) use ($search) {
+                        $query->where('name', 'LIKE', '%' . $search . '%');
+                    });
+            })
             ->paginate(10);
+
         $categories = Category::all();
 
         return view('jobs.alljobs', compact('jobs', 'categories'));
     }
+
 
 
 
@@ -54,42 +62,34 @@ class JobController extends Controller
     public function store(StoreJobRequest $request)
     {
         $user = Auth::user();
+
+       
         if ($user->role != 2) {
             return redirect()->route('home')->with('error', 'Access Denied. Only employers can post jobs.');
         }
         $emp_id = Employer::where('user_id', $user->id)->value('id');
-
         if (!$emp_id) {
             return redirect()->route('home')->with('error', 'Employer profile not found. Please complete your employer profile.');
         }
-
         $validatedData = $request->validated();
-
         $job = new Job();
         $job->title = $validatedData['title'];
         $job->description = $validatedData['description'];
         $job->requirements = $validatedData['requirements'];
         $job->location = $validatedData['location'];
         $job->category_id = $validatedData['category_id'];
-        $job->job_status = $validatedData['job_status'];
+        $job->job_status =1;
         $job->job_type = $validatedData['job_type'];
         $job->responsibilities = $validatedData['responsibilities'];
         $job->salary = $validatedData['salary'];
         $job->benefits = $validatedData['benefits'];
         $job->deadline = $validatedData['deadline'];
-        $job->emp_id = $emp_id;
-
+        $job->emp_id = $emp_id; 
         $job->save();
-
+        
         return redirect()->route('jobs.index')->with('success', 'Job created successfully.');
     }
 
-    public function show($id)
-    {
-        $job = Job::with('employer', 'jobType', 'status', 'comments.user')->findOrFail($id);
-
-        return view('jobs.jobdetails', compact('job'));
-    }
 
 
 
@@ -122,26 +122,36 @@ class JobController extends Controller
         return redirect()->route('jobs.myjobs', Auth::id())->with('success', 'Job updated successfully.');
     }
     public function search(Request $request)
+
     {
-        $query = Job::query();
+        $jobs = Job::with('jobType')
+            ->withCount('applications')
+            ->whereHas('status', function ($query) {
+                $query->where('name', 'accepted');
+            });
 
-        if ($request->filled('category')) {
-            $query->where('category_id', $request->category);
-        }
-
+        // Apply filters if they exist
         if ($request->filled('keyword')) {
-            $query->where('title', 'like', '%' . $request->keyword . '%')
+            $jobs->where('title', 'like', '%' . $request->keyword . '%')
                 ->orWhere('description', 'like', '%' . $request->keyword . '%');
         }
 
-        if ($request->filled('location')) {
-            $query->where('location', 'like', '%' . $request->location . '%');
+        if ($request->filled('category')) {
+            $jobs->where('category_id', $request->category);
         }
 
-        $jobs = $query->with('jobType', 'status', 'category')->paginate(10);
-        $categories = Category::all();
+        if ($request->filled('location')) {
+            $jobs->where('location', $request->location);
+        }
 
-        return view('jobs.search', compact('jobs', 'categories'));
+        // Fetch filtered jobs
+        $jobs = $jobs->with('jobType', 'status', 'category')->paginate(10);
+
+        // Get categories and locations for the search form
+        $categories = Category::all();
+        $locations = Job::select('location')->distinct()->get();
+
+        return view('jobs.search', compact('jobs', 'categories', 'locations'));
     }
 
     public function destroy($id)
@@ -198,16 +208,14 @@ class JobController extends Controller
     }
 
     public function showByCategory($categoryId)
-{
-    
-    $category = Category::findOrFail($categoryId);
+    {
+        $category = Category::findOrFail($categoryId);
 
-    $jobs = Job::where('category_id', $categoryId)->get();
 
-    return view('jobs.jobbycategory', compact('jobs', 'category'));
-}
+        $jobs = Job::where('category_id', $categoryId)
+            ->where('job_status', 6)
+            ->get();
 
-    
-
- 
+        return view('jobs.jobbycategory', compact('jobs', 'category'));
+    }
 }
