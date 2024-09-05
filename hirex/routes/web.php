@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployerController;
 use App\Http\Controllers\UserController;
@@ -6,8 +7,13 @@ use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\CommentsController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ResumeController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\PdfController;
 
+
+use App\Http\Controllers\JobCategoryController;
 
 
 /*
@@ -23,7 +29,7 @@ use Illuminate\Support\Facades\Auth;
 
 
 
- Route::get('/', function () {
+Route::get('/', function () {
     return view('home');
 });
 
@@ -63,7 +69,7 @@ use Illuminate\Support\Facades\Auth;
 // })->name('jobView');
 
 Auth::routes();
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 // Route::view('/profile', 'users.edit_profile')->name('profile');
 
@@ -97,12 +103,24 @@ Route::resource('employers', EmployerController::class);
 
 // Routes for Users
 Route::resource('users', UserController::class);
+Route::resource('/', HomeController::class);
 
 // Routes for Jobs
 Route::resource('jobs', JobController::class);
+Route::resource('/', HomeController::class);
+
 
 Route::resource('candidates', CandidateController::class);
 
+Route::get('/category', [JobCategoryController::class, 'index'])->name('category.index');
+
+// web.php
+ Route::get('jobs/category/{categoryId}', [JobController::class, 'showByCategory'])->name('jobs.jobbycategory');
+
+
+
+
+// Route::get('/category', [JobCategoryController::class, 'index'])->middleware('auth')->name('category.index');
 
 
 Route::resource('applications', ApplicationController::class)->only(['create', 'store', 'destroy']);
@@ -127,11 +145,11 @@ Route::resource('jobs', JobController::class)->middleware('auth'); // This provi
 // Additional route for storing comments if needed
 Route::post('/jobs/{job}/comments', [JobController::class, 'storeComment'])->name('jobs.storeComment');
 Route::get('/jobs/{id}/comments', [CommentsController::class, 'show'])->name('comments.show');
-Route::get('/jobs/{id}', [JobController::class, 'show'])->name('jobs.show');
+// Route::get('/jobs/{id}', [JobController::class, 'show'])->name('jobs.show');
 
 
-// Route to show job details with comments
-Route::get('/jobs/{job}', [JobController::class, 'show'])->name('jobs.show');
+// // Route to show job details with comments
+// Route::get('/jobs/{job}', [JobController::class, 'show'])->name('jobs.show');
 
 // Route to store a comment
 Route::post('/jobs/{job}/comments', [CommentsController::class, 'store'])->name('comments.store');
@@ -145,4 +163,26 @@ Route::patch('/applications/{application}', [ApplicationController::class, 'upda
 // In routes/web.php
 // routes/web.php
 Route::get('/applications/{id}/resume', [ApplicationController::class, 'viewResume'])->name('applications.resume');
+// web.php
 
+Route::get('/search', [JobController::class, 'search'])->name('jobs.search');
+
+
+
+
+
+//Resume
+Route::resource('resumes', ResumeController::class);
+Route::get('resumes/search', [ResumeController::class, 'search'])->name('resumes.search');
+
+
+
+// // Password Reset Routes
+// Route::get('password/reset', [PasswordResetController::class, 'showResetForm'])->name('password.request');
+// Route::post('password/email', [PasswordResetController::class, 'sendResetLinkEmail'])->name('password.email');
+// Route::post('password/reset', [PasswordResetController::class, 'reset'])->name('password.update');
+
+
+
+Route::get('/applications/{id}/resume', [ApplicationController::class, 'viewResume'])->name('applications.viewResume');
+    Route::get('/applications/{applicationId}/resume', [ApplicationController::class, 'showResume'])->name('applications.showResume');

@@ -5,12 +5,25 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+
 class Category extends Model
 {
+    
     use HasFactory;
-    // Define the table associated with the model
-    protected $table = 'job_categories';
+     
+     protected $fillable = ['name'];
 
-    // Define the fillable fields
-    protected $fillable = ['name'];
+    protected $primaryKey = 'id';
+
+    public $incrementing = true;
+
+    protected $keyType = 'int';
+   
+    protected $table = 'job_categories';
+    public function jobs()
+    {
+        return $this->hasMany(Job::class);
+    }
+
+   
 }

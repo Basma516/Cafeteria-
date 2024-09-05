@@ -51,6 +51,13 @@ nav {
     font-family: 'Inter', sans-serif;
     font-weight: 600;
     transition: .5s;
+    background-color: #5289b5 !important;
+    color: #FFFFFF;
+}
+
+.btn:hover {
+    background-color: #1f3541 !important;
+    color: #FFFFFF;
 }
 
 .btn.btn-primary,
@@ -191,6 +198,37 @@ nav {
 .page-header .container::after {
     top: 100%;
     margin-top: -15px;
+}
+
+
+/*category style */
+.cat-item {
+    background-color: var(--light);
+    border: 1px solid var(--secondary);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cat-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.cat-item .icon {
+    background-color: var(--secondary);
+    padding: 15px;
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.cat-item h6 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--dark);
+}
+
+.cat-item p {
+    font-size: 1rem;
+    color: var(--dark);
 }
 
 @media (max-width: 768px) {
@@ -407,6 +445,7 @@ nav {
     padding-right: 0;
     border-right: none;
 }
+
 /*alljobs css  */
 /* Custom styles for job listings */
 .job-item {

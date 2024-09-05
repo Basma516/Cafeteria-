@@ -27,7 +27,7 @@ class StoreJobRequest extends FormRequest
             'requirements' => 'required|string',
             'location' => 'required|string',
             'category_id' => 'required|exists:job_categories,id',
-            'job_status' => 'required|exists:jobs_status,id',
+           
             'job_type' => 'required|exists:job_type,id',
             'responsibilities' => 'required|string',
             'salary' => 'required|numeric',
