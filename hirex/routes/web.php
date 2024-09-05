@@ -8,7 +8,9 @@ use App\Http\Controllers\JobController;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ResumeController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\PdfController;
 
 
 use App\Http\Controllers\JobCategoryController;
@@ -111,6 +113,7 @@ Route::resource('jobs', JobController::class);
 Route::resource('candidates', CandidateController::class);
 
 Route::get('/category', [JobCategoryController::class, 'index'])->name('category.index');
+
 // web.php
  Route::get('jobs/category/{categoryId}', [JobController::class, 'showByCategory'])->name('jobs.jobbycategory');
 
@@ -142,7 +145,7 @@ Route::resource('jobs', JobController::class)->middleware('auth'); // This provi
 // Additional route for storing comments if needed
 Route::post('/jobs/{job}/comments', [JobController::class, 'storeComment'])->name('jobs.storeComment');
 Route::get('/jobs/{id}/comments', [CommentsController::class, 'show'])->name('comments.show');
-Route::get('/jobs/{id}', [JobController::class, 'show'])->name('jobs.show');
+// Route::get('/jobs/{id}', [JobController::class, 'show'])->name('jobs.show');
 
 
 // // Route to show job details with comments
@@ -162,4 +165,24 @@ Route::patch('/applications/{application}', [ApplicationController::class, 'upda
 Route::get('/applications/{id}/resume', [ApplicationController::class, 'viewResume'])->name('applications.resume');
 // web.php
 
-Route::get('jobs/search', [JobController::class, 'search'])->name('jobs.search');
+Route::get('/search', [JobController::class, 'search'])->name('jobs.search');
+
+
+
+
+
+//Resume
+Route::resource('resumes', ResumeController::class);
+Route::get('resumes/search', [ResumeController::class, 'search'])->name('resumes.search');
+
+
+
+// // Password Reset Routes
+// Route::get('password/reset', [PasswordResetController::class, 'showResetForm'])->name('password.request');
+// Route::post('password/email', [PasswordResetController::class, 'sendResetLinkEmail'])->name('password.email');
+// Route::post('password/reset', [PasswordResetController::class, 'reset'])->name('password.update');
+
+
+
+Route::get('/applications/{id}/resume', [ApplicationController::class, 'viewResume'])->name('applications.viewResume');
+    Route::get('/applications/{applicationId}/resume', [ApplicationController::class, 'showResume'])->name('applications.showResume');

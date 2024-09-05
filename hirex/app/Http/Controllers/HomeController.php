@@ -30,11 +30,11 @@ class HomeController extends Controller
     public function index()
 {
     $jobs = Job::with('jobType')
-        ->withCount('applications')
-        ->whereHas('status', function ($query) {
-            $query->where('name', 'accepted');
-        })
-        ->paginate(10);
+    ->withCount('applications')
+    ->whereHas('status', function ($query) {
+        $query->where('name', 'accepted');
+    })
+    ->paginate(10);
 
     $categories = Category::withCount('jobs')->get();
     $locations = Job::select('location')->distinct()->get();

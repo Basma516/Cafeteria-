@@ -8,7 +8,7 @@ class JobCategoryController extends Controller
 {
     public function index()
     {
-        $categories = Category::all(); // Retrieve all job categories
-        return view('categories.index', compact('categories')); // Return a view with the categories
+        $categories = Category::all(); 
+        return view('categories.index', compact('categories')); 
     }
 }
