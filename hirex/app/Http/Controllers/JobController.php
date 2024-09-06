@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Job;
-use App\Models\User;
 use App\Models\Category;
 use App\Models\JobType;
 use App\Models\JobStatus;
 use App\Models\Employer;
+use App\Models\User;
 use App\Models\Comment;
 
 use App\Http\Controllers\JobCategory;
@@ -51,7 +51,12 @@ class JobController extends Controller
         return view('jobs.index', compact('jobs', 'categories'));
     }
 
-
+    public function show($id)
+    {
+        $job = Job::with('employer', 'jobType', 'status', 'comments.user')->findOrFail($id);
+      
+        return view('jobs.jobdetails', compact('job'));
+    }
 
 
 
@@ -114,17 +119,14 @@ class JobController extends Controller
         // Return the view with job data
         return view('jobs.edit', compact('job', 'categories', 'statuses', 'jobTypes'));
     }
-    public function update(UpdateJobRequest $request, $id)
-    {
-        // Fetch the job to update
-        $job = Job::findOrFail($id);
 
-        // Ensure the user is an employer
+public function update(UpdateJobRequest $request, $id)
+{
+    $job = Job::findOrFail($id);
+       
+    $job->update($request->validated());
 
-        // Validate and update job data
-        $job->update($request->validated());
-
-        return redirect()->route('jobs.myjobs', Auth::id())->with('success', 'Job updated successfully.');
+        return redirect()->route('jobs.index', Auth::id())->with('success', 'Job updated successfully.');
     }
     public function search(Request $request)
 
@@ -135,7 +137,6 @@ class JobController extends Controller
                 $query->where('name', 'accepted');
             });
 
-        // Apply filters if they exist
         if ($request->filled('keyword')) {
             $jobs->where('title', 'like', '%' . $request->keyword . '%')
                 ->orWhere('description', 'like', '%' . $request->keyword . '%');
@@ -149,29 +150,30 @@ class JobController extends Controller
             $jobs->where('location', $request->location);
         }
 
-        // Fetch filtered jobs
+
         $jobs = $jobs->with('jobType', 'status', 'category')->paginate(10);
 
-        // Get categories and locations for the search form
+      
         $categories = Category::all();
         $locations = Job::select('location')->distinct()->get();
 
         return view('jobs.search', compact('jobs', 'categories', 'locations'));
     }
 
-    public function destroy($id)
-    {
-        // Fetch the job to delete
-        $job = Job::findOrFail($id);
 
-        // Ensure the user is an employer
-        if (Auth::user()->role != 2) {
-            return redirect()->route('home')->with('error', 'Access Denied. Only employers can delete jobs.');
-        }
+public function destroy($id)
+{
+    // Fetch the job to delete
+    $job = Job::findOrFail($id);
 
-        $job->delete();
-        return redirect()->route('jobs.index')->with('success', 'Job deleted successfully.');
+    // Ensure the user is an employer
+    if (Auth::user()->role != 2) {
+        return redirect()->route('home')->with('error', 'Access Denied. Only employers can delete jobs.');
     }
+
+    $job->delete();
+    return redirect()->route('jobs.index')->with('success', 'Job deleted successfully.');
+}
     public function showAnalytics($id)
     {
         $job = Job::with('applications')->findOrFail($id);
@@ -184,14 +186,11 @@ class JobController extends Controller
     public function showEmployerJobs()
     {
         $user = auth()->user();
-        $jobs = Job::all();
 
-        // Ensure the user is an employer
-        // if ($user->role != 2) {
-        //     return redirect()->route('home')->with('error', 'Access Denied. Only employers can view their job postings.');
-        // }
-
-        // Find employer ID associated with the user
+        
+        if ($user->role != 2) {
+           return redirect()->route('home')->with('error', 'Access Denied. Only employers can view their job postings.');
+        }
         $employer = Employer::where('user_id', $user->id)->first();
 
         // Ensure the user is an employer
@@ -210,6 +209,7 @@ class JobController extends Controller
         $employer = Employer::where('user_id', $user->id)->first();
 
         return view('jobs.myjobs', compact('jobs'));
+        
     }
 
     public function showByCategory($categoryId)
