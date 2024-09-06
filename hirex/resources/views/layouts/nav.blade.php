@@ -1,5 +1,6 @@
 <header>
-    <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
+
+    <nav class="navbar logo navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
         <a href="{{ url('/') }}" class="navbar-brand d-flex align-items-center text-center py-0 px-4 px-lg-5">
             <h1 class="m-0 text-primary">HireX</h1>
         </a>
@@ -55,3 +56,7 @@
         </div>
     </nav>
 </header>
+<style>
+
+
+</style>

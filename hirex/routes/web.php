@@ -14,7 +14,7 @@ use App\Http\Controllers\PdfController;
 
 
 use App\Http\Controllers\JobCategoryController;
-
+use App\Models\Candidate;
 
 /*
 |--------------------------------------------------------------------------
@@ -184,5 +184,12 @@ Route::get('resumes/search', [ResumeController::class, 'search'])->name('resumes
 
 
 
-Route::get('/applications/{id}/resume', [ApplicationController::class, 'viewResume'])->name('applications.viewResume');
-    Route::get('/applications/{applicationId}/resume', [ApplicationController::class, 'showResume'])->name('applications.showResume');
+// Route::get('/applications/{id}/resume', [ApplicationController::class, 'viewResume'])->name('applications.viewResume');
+//     Route::get('/applications/{applicationId}/resume', [ApplicationController::class, 'showResume'])->name('applications.showResume');
+
+Route::get('/applications/{id}/resume', [ApplicationController::class, 'viewResume'])->name('applications.resume');
+Route::get('/applications/{id}/resume', [Candidate::class, 'viewResume'])->name('candiadates.viewResume');
+
+Route::patch('/applications/{id}/reject', [ApplicationController::class, 'reject'])->name('applications.reject');
+
+

@@ -18,7 +18,7 @@ use Carbon\Carbon;
 
 class JobController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request) 
     {
         $search = $request->input('search');
 
@@ -33,7 +33,7 @@ class JobController extends Controller
                         $query->where('name', 'LIKE', '%' . $search . '%');
                     });
             })
-            ->paginate(10);
+            ->paginate(4);
 
         $categories = Category::all();
 
@@ -54,7 +54,7 @@ class JobController extends Controller
 
     public function store(StoreJobRequest $request)
     {
-        $user = Auth::user();
+        $user = Auth::user(); 
 
        
         if ($user->role != 2) {
@@ -82,6 +82,13 @@ class JobController extends Controller
         
         return redirect()->route('jobs.index')->with('success', 'Job created successfully.');
     }
+
+    public function show($id)
+{
+    $job = Job::with('employer', 'jobType', 'status', 'comments.user')->findOrFail($id);
+  
+    return view('jobs.jobdetails', compact('job'));
+}
 
 
 
