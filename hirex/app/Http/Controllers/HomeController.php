@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Job;
+
+
+
 use App\Models\Employer;
 use App\Models\Category;
 
@@ -14,10 +17,10 @@ class HomeController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
 
     /**
      * Show the application dashboard.
@@ -28,13 +31,21 @@ class HomeController extends Controller
 
     public function index()
 {
-    $jobs = Job::paginate(10); 
-    // Fetch distinct categories and locations from the jobs table
-    $categories = Category::select('name')->distinct()->get();
+    $jobs = Job::with('jobType')
+    ->withCount('applications')
+    ->whereHas('status', function ($query) {
+        $query->where('name', 'accepted');
+    })
+    ->paginate(10);
+
+    $categories = Category::withCount('jobs')->get();
     $locations = Job::select('location')->distinct()->get();
 
-    // Pass the data to the view
-    return view('home', compact('jobs','categories', 'locations'));
-}
+    return view('home', compact('jobs', 'categories', 'locations'));
+        
 
+    
+
+  
+}
 }

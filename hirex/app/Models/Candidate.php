@@ -27,4 +27,8 @@ class Candidate extends Model
     {
         return $this->hasMany(Application::class);
     }
+    public function resumes()
+    {
+        return $this->hasMany(Resume::class);
+    }
 }

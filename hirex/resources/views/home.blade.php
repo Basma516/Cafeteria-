@@ -3,13 +3,15 @@
 @section('title', 'Home')
 
 @section('content')
-<div class="container-fluid p-0">
-    <div class="position-relative" style="height: 530px;">
-        <img class="img-fluid" src="{{ asset('images/phomef.jpg') }}" style="width: 100%; height: 550px;" alt="Job Search Image">
-        <div class="position-absolute top-0 start-0 w-100 d-flex align-items-center" style="background: rgba(43, 57, 64, .5); height: 550px;">
+<div class="container-fluid p-0"  >
+    <div class="position-relative" style="height: 650px;">
+        <img class="img-fluid" src="{{ asset('images/phomef.jpg') }}" style="width: 100%; height: 650px;"
+            alt="Job Search Image">
+        <div class="position-absolute top-0 start-0 w-100 d-flex align-items-center"
+            style="background: rgba(43, 57, 64, .5); height: 650px;">
             <div class="container">
                 <div class="row justify-content-start">
-                    <div class="col-10 col-lg-8">
+                    <div class="col-10 col-lg-8   mb-4">
                         <h1 class="display-3 text-white mb-4">Find The Perfect Job That You Deserve</h1>
                         <p class="fs-5 fw-medium text-white mb-4 pb-2">Endless Possibilities, One Career</p>
 
@@ -21,132 +23,89 @@
                         @endphp
 
                         @if($isEmployer)
-                        <!-- Show "Create a Job" button for employers -->
-                        <a href="{{ route('jobs.create') }}" class="btn btn-secondary py-md-3 px-md-5">Create a Job</a>
+                        <a href="{{ route('jobs.create') }}" class="btn btn-primary mt-5  py-md-3 px-md-5">Create a Job</a>
                         @elseif($isCandidate)
-                        <!-- Show "View Available Jobs" button for candidates with a profile -->
-                        <a href="{{ route('jobs.index') }}" class="btn btn-primary py-md-3 px-md-5 me-3">View Available Jobs</a>
+                        <a href="{{ route('jobs.index') }}" class="btn btn-primary mt-4  py-md-3 px-md-5 me-3">View Available
+                            Jobs</a>
                         @else
-                        <!-- Show both buttons for users with role 3 but no profile -->
-                        <a href="{{ route('candidates.create') }}" class="btn btn-primary py-md-3 px-md-5 me-3">Find a Job</a>
-                        <a href="{{ route('employers.create') }}" class="btn btn-secondary py-md-3 px-md-5">Post a Job</a>
+                        <a href="{{ route('candidates.create') }}" class="btn btn-primary mt-4  py-md-3 px-md-5 me-3">Find a
+                            Job</a>
+                        <a href="{{ route('employers.create') }}" class="btn btn-primary mt-4  py-md-3 px-md-5" >Post a
+                            Job</a>
                         @endif
 
                         @else
-                        <!-- If not logged in, show login buttons -->
-                        <a href="{{ route('login') }}" class="btn btn-primary py-md-3 px-md-5 me-3">Find a Job</a>
-                        <a href="{{ route('login') }}" class="btn btn-secondary py-md-3 px-md-5">Post a Job</a>
+                        <a href="{{ route('login') }}" class="btn btn-primary mt-4  py-md-3 px-md-5 me-3" >Find a Job</a>
+                        <a href="{{ route('login') }}" class="btn btn-primary mt-4  py-md-3 px-md-5" >Post a Job</a>
                         @endauth
 
                     </div>
+                    
+                        <div class="container " style=" margin-top:95px;width:70%">
+                            <form action="{{ route('jobs.search') }}" method="GET">
+                                <div class="row g-2">
+                                    <div class="col-md-10">
+                                        <div class="row g-2">
+                                            <div class="col-md-4">
+                                                <input type="text" name="keyword" class="form-control border-0" placeholder="Keyword" />
+                                            </div>
+                                            <div class="col-md-4">
+                                                <select name="category" class="form-select border-0">
+                                                    <option value="">Category</option>
+                                                    @foreach($categories as $category)
+                                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <select name="location" class="form-select border-0">
+                                                    <option value="">Location</option>
+                                                    @foreach($locations as $location)
+                                                    <option value="{{ $location->location }}">{{ $location->location }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 col-sm-4 col-12 mb-3">
+                                        <button type="submit" class="btn btn-primary border-0 w-100">Search</button>
+                                    </div>
+                                </div>
+                            </form>
+                            
+                        </div>
+                    
+                
                 </div>
             </div>
         </div>
     </div>
+    <!-- Search Start -->
+   
 </div>
 <!-- Static Image Section End -->
 
 
 
-<!-- Search Start -->
-<div class="container-fluid bg-primary mb-5 wow fadeIn" data-wow-delay="0.1s" style="padding: 35px;">
-    <div class="container">
-        <div class="row g-2">
-            <div class="col-md-10">
-                <div class="row g-2">
-                    <div class="col-md-4">
-                        <input type="text" class="form-control border-0" placeholder="Keyword" />
-                    </div>
-                    <div class="col-md-4">
-                        <select class="form-select border-0">
-                            <option selected>Category</option>
-                            @foreach($categories as $category)
-                                <option value="{{ $category->name }}">{{ $category->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <select class="form-select border-0">
-                            <option selected>Location</option>
-                            @foreach($locations as $location)
-                                <option value="{{ $location->location }}">{{ $location->location }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2">
-                <button class="btn btn-dark border-0 w-100">Search</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 <div class="container-xxl py-5">
     <div class="container">
-        <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Explore By Category</h1>
-        <div class="row g-4">
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
-                <a class="cat-item rounded p-4" href="">
-                    <i class="fa fa-3x fa-mail-bulk text-primary mb-4"></i>
-                    <h6 class="mb-3">Marketing</h6>
-                    <p class="mb-0">123 Vacancy</p>
+        <h1 class="text-center mb-5 wow fadeInUp">Explore By Category</h1>
+        <div class="row g-4" style=" border-radius:30px;">
+            @foreach($categories as $index => $category)
+            <div class="col-lg-3 col-sm-6 wow fadeInUp"  >
+                <a class="cat-item rounded p-4"  style="box-shadow: 0px 4px 10px var(--primary) ; "
+                    href="{{ route('jobs.jobbycategory', ['categoryId' => $category->id]) }}">
+                    <i class="fa fa-3x fa-mail-bulk text-primary mb-4{{ $category->icon_class }}  "></i>
+                    <h6 class="mb-3">{{ $category->name }}</h6>
+                    <p class="mb-0">{{ $category->jobs_count }} Categories</p>
                 </a>
             </div>
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
-                <a class="cat-item rounded p-4" href="">
-                    <i class="fa fa-3x fa-headset text-primary mb-4"></i>
-                    <h6 class="mb-3">Customer Service</h6>
-                    <p class="mb-0">123 Vacancy</p>
-                </a>
-            </div>
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.5s">
-                <a class="cat-item rounded p-4" href="">
-                    <i class="fa fa-3x fa-user-tie text-primary mb-4"></i>
-                    <h6 class="mb-3">Human Resource</h6>
-                    <p class="mb-0">123 Vacancy</p>
-                </a>
-            </div>
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.7s">
-                <a class="cat-item rounded p-4" href="">
-                    <i class="fa fa-3x fa-tasks text-primary mb-4"></i>
-                    <h6 class="mb-3">Project Management</h6>
-                    <p class="mb-0">123 Vacancy</p>
-                </a>
-            </div>
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
-                <a class="cat-item rounded p-4" href="">
-                    <i class="fa fa-3x fa-chart-line text-primary mb-4"></i>
-                    <h6 class="mb-3">Business Development</h6>
-                    <p class="mb-0">123 Vacancy</p>
-                </a>
-            </div>
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
-                <a class="cat-item rounded p-4" href="">
-                    <i class="fa fa-3x fa-hands-helping text-primary mb-4"></i>
-                    <h6 class="mb-3">Sales & Communication</h6>
-                    <p class="mb-0">123 Vacancy</p>
-                </a>
-            </div>
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.5s">
-                <a class="cat-item rounded p-4" href="">
-                    <i class="fa fa-3x fa-book-reader text-primary mb-4"></i>
-                    <h6 class="mb-3">Teaching & Education</h6>
-                    <p class="mb-0">123 Vacancy</p>
-                </a>
-            </div>
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.7s">
-                <a class="cat-item rounded p-4" href="">
-                    <i class="fa fa-3x fa-drafting-compass text-primary mb-4"></i>
-                    <h6 class="mb-3">Design & Creative</h6>
-                    <p class="mb-0">123 Vacancy</p>
-                </a>
-            </div>
+            @endforeach
         </div>
     </div>
 </div>
 <!-- Category End -->
-
 
 <!-- About Start -->
 <div class="container-xxl py-5" id="about">
@@ -173,69 +132,50 @@
     </div>
 </div>
 
-{{--
 <!-- Jobs Start -->
 <div class="container-xxl py-5">
     <div class="container">
-        <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Job Listing</h1>
-        <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.3s">
-            <ul class="nav nav-pills d-inline-flex justify-content-center border-bottom mb-5">
-                <li class="nav-item">
-                    <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 active" data-bs-toggle="pill"
-                        href="#tab-1">
-                        <h6 class="mt-n1 mb-0">Featured</h6>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="d-flex align-items-center text-start mx-3 pb-3" data-bs-toggle="pill" href="#tab-2">
-                        <h6 class="mt-n1 mb-0">Full Time</h6>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="d-flex align-items-center text-start mx-3 me-0 pb-3" data-bs-toggle="pill" href="#tab-3">
-                        <h6 class="mt-n1 mb-0">Part Time</h6>
-                    </a>
-                </li>
-            </ul>
-            <div class="tab-content">
-                <div id="tab-1" class="tab-pane fade show p-0 active">
-                    @foreach ($jobs as $job)
-                    <div class="job-item p-4 mb-4">
-                        <div class="row g-4">
-                            <div class="col-sm-12 col-md-8 d-flex align-items-center">
-                                <img class="flex-shrink-0 img-fluid border rounded"
-                                    src="{{ asset('images/' . $job->logo) }}" alt="" style="width: 80px; height: 80px;">
-                                <div class="text-start ps-4">
-                                    <h5 class="mb-3">{{ $job->title }}</h5>
-                                    <span class="text-truncate me-3">
-                                        <i class="fa fa-map-marker-alt text-primary me-2"></i>{{ $job->location }}
-                                    </span>
-                                    <span class="text-truncate me-3">
-                                        <i class="far fa-clock text-primary me-2"></i>{{ $job->job_type }}
-                                    </span>
-                                    <span class="text-truncate me-0">
-                                        <i class="far fa-money-bill-alt text-primary me-2"></i>{{ $job->salary }}
-                                    </span>
-                                </div>
+        <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Job Listings</h1>
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                @foreach ($jobs as $job)
+                <div class="card job-item mb-4 shadow-sm wow fadeInUp" data-wow-delay="0.2s" style="border-radius: 8px; transition: transform 0.3s ease, box-shadow 0.3s ease;">
+                    <div class="card-body p-4" onclick="window.location.href='{{ route('jobs.show', $job->id) }}'" style="cursor: pointer; background-color: var(--light); border-radius: 6px;">
+                        <div class="row align-items-center">
+                            <div class="col-md-2 text-center company-logo">
+                                <img class="img-fluid border rounded-circle" src="{{ asset('images/' . $job->logo) }}" alt="" style="width: 80px; height: 80px; border: 2px solid #ddd;">
+                            </div>
+                            <div class="col-md-7 job-details">
+                                <h4 class="job-title mb-1">{{ $job->title }}</h4>
+                                <p class="text-muted mb-2">{{ $job->location }} | {{ $job->job_type }}</p>
+                                <p class="text-primary font-weight-bold mb-0">
+                                    <i class="far fa-money-bill-alt"></i> ${{ $job->salary }}
+                                </p>
+                            </div>
+                            <div class="col-md-3 text-end">
+                                @auth
+                                    @if(auth()->user()->role == 3)
+                                    <a href="{{ route('jobs.show', $job->id) }}" class="btn btn-outline-primary px-4 py-2">
+                                        <i class="fas fa-info-circle"></i> View Details
+                                    </a>
+                                    @endif
+                                @endauth
                             </div>
                         </div>
                     </div>
-                    @endforeach
-
-                    <!-- Pagination Links -->
-                    <div class="d-flex justify-content-center">
-                        {{ $jobs->links() }}
-                    </div>
                 </div>
-
-                <!-- Repeat similar blocks for tabs 2 and 3, filtering jobs as needed -->
+                @endforeach
+                <div class="text-center mt-4">
+                    <a href="{{ route('jobs.index') }}" class="btn btn-outline-primary py-3 px-5">View More Jobs</a>
+                </div>
             </div>
         </div>
     </div>
 </div>
-<!-- Jobs End --> --}}
+<!-- Jobs End -->
 
-<!-- Jobs End -->
+
+
 
 
 
@@ -303,61 +243,89 @@
 
 
 <!-- Footer Start -->
-<div class="container-fluid bg-dark text-white-50 footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
-    <div class="container py-5">
-        <div class="row g-5">
-            <div class="col-lg-3 col-md-6">
-                <h5 class="text-white mb-4">Company</h5>
-                <a class="btn btn-link text-white-50" href="">About Us</a>
-                <a class="btn btn-link text-white-50" href="">Contact Us</a>
-                <a class="btn btn-link text-white-50" href="">Our Services</a>
-                <a class="btn btn-link text-white-50" href="">Privacy Policy</a>
-                <a class="btn btn-link text-white-50" href="">Terms & Condition</a>
+<footer class="bg-primary text-white pt-5 pb-4">
+    <div class="container text-center text-md-left">
+        <div class="row text-center text-md-left">
+            <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+                <h5 class="text-uppercase mb-4 text-white font-weight-bold">HireX</h5>
+                <p class="text-white">Your ultimate job search and talent discovery platform. We bridge the gap between top employers and qualified candidates.</p>
             </div>
-            <div class="col-lg-3 col-md-6">
-                <h5 class="text-white mb-4">Quick Links</h5>
-                <a class="btn btn-link text-white-50" href="">About Us</a>
-                <a class="btn btn-link text-white-50" href="">Contact Us</a>
-                <a class="btn btn-link text-white-50" href="">Our Services</a>
-                <a class="btn btn-link text-white-50" href="">Privacy Policy</a>
-                <a class="btn btn-link text-white-50" href="">Terms & Condition</a>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <h5 class="text-white mb-4">Contact</h5>
-                <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>123 Street, New York, USA</p>
-                <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
-                <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
-                <div class="d-flex pt-2">
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
-                    <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <h5 class="text-white mb-4">Newsletter</h5>
-                <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
 
+            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
+                <h5 class="text-uppercase mb-4 text-white font-weight-bold">Quick Links</h5>
+                <p class="text-white">
+                    <a href="{{ route('jobs.index') }}" class="text-white">Find Jobs</a>
+                </p>
+                <p class="text-white">
+                    <a href="{{ route('employers.create') }}" class="text-white">Post a Job</a>
+                </p>
+                <p class="text-white">
+                    <a href="#" class="text-white">About Us</a>
+                </p>
+                <p class="text-white">
+                    <a href="#" class="text-white">Contact</a>
+                </p>
+            </div>
+
+            <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
+                <h5 class="text-uppercase mb-4 text-white font-weight-bold">Categories</h5>
+                <p>
+                    <a href="#" class="text-white">IT & Software</a>
+                </p>
+                <p>
+                    <a href="#" class="text-white">Finance</a>
+                </p>
+                <p>
+                    <a href="#" class="text-white">Healthcare</a>
+                </p>
+                <p>
+                    <a href="#" class="text-white">Marketing</a>
+                </p>
+            </div>
+
+            <div class="col-md-4 col-lg-4 col-xl-4 mx-auto mt-3">
+                <h5 class="text-uppercase mb-4 text-white font-weight-bold">Contact Us</h5>
+                <p>
+                    <i class="fas fa-home mr-3"></i> 123 HireX St., Cairo , Egypt  
+                </p>
+                <p>
+                    <i class="fas fa-envelope mr-3"></i> info@hirex.com
+                </p>
+                <p class="text-white">
+                    <i class="fas fa-phone mr-3"></i> +1 234 567 8901
+                </p>
+            </div>
+        </div>
+
+        <hr class="mb-4">
+
+        <div class="row align-items-center">
+            <div class="col-md-7 col-lg-8">
+                <p class="text-white">© 2024 HireX. All rights reserved.</p>
+            </div>
+            <div class="col-md-5 col-lg-4">
+                <div class="text-center text-md-right">
+                    <ul class="list-unstyled list-inline">
+                        <li class="list-inline-item">
+                            <a href="#" class="btn-floating btn-sm text-white"><i class="fab fa-facebook-f"></i></a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="#" class="btn-floating btn-sm text-white"><i class="fab fa-twitter"></i></a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="#" class="btn-floating btn-sm text-white"><i class="fab fa-linkedin-in"></i></a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="#" class="btn-floating btn-sm text-white"><i class="fab fa-instagram"></i></a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
-    <div class="container">
-        <div class="copyright">
-            <div class="row">
-
-                <div class="col-md-6 text-center text-md-end">
-                    <div class="footer-menu">
-                        <a href="">Home</a>
-                        <a href="">Cookies</a>
-                        <a href="">Help</a>
-                        <a href="">FQAs</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+</footer>
 <!-- Footer End -->
+
 
 
 <!-- Back to Top -->
