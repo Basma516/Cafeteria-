@@ -44,19 +44,19 @@ class JobController extends Controller
                         $query->where('name', 'LIKE', '%' . $search . '%');
                     });
             })
-            ->paginate(10);
+            ->paginate(4);
 
         $categories = Category::all();
 
-        return view('jobs.index', compact('jobs', 'categories'));
+        return view('jobs.alljobs', compact('jobs', 'categories'));
     }
 
-    public function show($id)
-    {
-        $job = Job::with('employer', 'jobType', 'status', 'comments.user')->findOrFail($id);
-      
-        return view('jobs.jobdetails', compact('job'));
-    }
+    // public function show($id)
+    // {
+    //     $job = Job::with('employer', 'jobType', 'status', 'comments.user')->findOrFail($id);
+
+    //     return view('jobs.jobdetails', compact('job'));
+    // }
 
 
 
@@ -100,6 +100,13 @@ class JobController extends Controller
         return redirect()->route('jobs.index')->with('success', 'Job created successfully.');
     }
 
+    public function show($id)
+    {
+        $job = Job::with('employer', 'jobType', 'status', 'comments.user')->findOrFail($id);
+
+        return view('jobs.jobdetails', compact('job'));
+    }
+
 
 
 
@@ -120,13 +127,23 @@ class JobController extends Controller
         return view('jobs.edit', compact('job', 'categories', 'statuses', 'jobTypes'));
     }
 
-public function update(UpdateJobRequest $request, $id)
-{
-    $job = Job::findOrFail($id);
-       
-    $job->update($request->validated());
+    public function update(UpdateJobRequest $request, $id)
+    {
+        $user = auth()->user();
+        $job = Job::findOrFail($id);
+        if ($user->role != 2) {
+            return redirect()->route('home')->with('error', 'Access Denied. Only employers can view their job postings.');
+        }
+        $employer = Employer::where('user_id', $user->id)->first();
+        $job->update($request->validated());
+        $jobs = Job::with('employer', 'jobType', 'status')
+            ->where('emp_id', $employer->id)
+            ->whereHas('status', function ($query) {
+                $query->where('name', 'accepted');
+            })
+            ->get();
 
-        return redirect()->route('jobs.index', Auth::id())->with('success', 'Job updated successfully.');
+        return view('jobs.myjobs', compact('jobs'));
     }
     public function search(Request $request)
 
@@ -153,7 +170,7 @@ public function update(UpdateJobRequest $request, $id)
 
         $jobs = $jobs->with('jobType', 'status', 'category')->paginate(10);
 
-      
+
         $categories = Category::all();
         $locations = Job::select('location')->distinct()->get();
 
@@ -161,19 +178,19 @@ public function update(UpdateJobRequest $request, $id)
     }
 
 
-public function destroy($id)
-{
-    // Fetch the job to delete
-    $job = Job::findOrFail($id);
+    public function destroy($id)
+    {
+        // Fetch the job to delete
+        $job = Job::findOrFail($id);
 
-    // Ensure the user is an employer
-    if (Auth::user()->role != 2) {
-        return redirect()->route('home')->with('error', 'Access Denied. Only employers can delete jobs.');
+        // Ensure the user is an employer
+        if (Auth::user()->role != 2) {
+            return redirect()->route('home')->with('error', 'Access Denied. Only employers can delete jobs.');
+        }
+
+        $job->delete();
+        return redirect()->route('jobs.index')->with('success', 'Job deleted successfully.');
     }
-
-    $job->delete();
-    return redirect()->route('jobs.index')->with('success', 'Job deleted successfully.');
-}
     public function showAnalytics($id)
     {
         $job = Job::with('applications')->findOrFail($id);
@@ -187,29 +204,25 @@ public function destroy($id)
     {
         $user = auth()->user();
 
-        
+
         if ($user->role != 2) {
-           return redirect()->route('home')->with('error', 'Access Denied. Only employers can view their job postings.');
+            return redirect()->route('home')->with('error', 'Access Denied. Only employers can view their job postings.');
         }
         $employer = Employer::where('user_id', $user->id)->first();
 
-        // Ensure the user is an employer
-        // if ($user->role != 2) {
-        //     return redirect()->route('home')->with('error', 'Access Denied. Only employers can view their job postings.');
-        // }
-        // Assuming you want to check for a user with a specific ID
-        $userId = auth()->id(); // Get the authenticated user ID
-
-        // Check if the user ID exists
-        if (!$userId || !User::find($userId)) {
-            abort(404); // Redirect to 404 if user ID is not found
+        if (!$employer) {
+            return redirect()->route('home')->with('error', 'Employer profile not found. Please complete your employer profile.');
         }
 
-        // Find employer ID associated with the user
-        $employer = Employer::where('user_id', $user->id)->first();
+
+        $jobs = Job::with('employer', 'jobType', 'status')
+            ->where('emp_id', $employer->id)
+            ->whereHas('status', function ($query) {
+                $query->where('name', 'accepted');
+            })
+            ->get();
 
         return view('jobs.myjobs', compact('jobs'));
-        
     }
 
     public function showByCategory($categoryId)

@@ -16,7 +16,7 @@ use App\Http\Controllers\Notifi;
 
 
 use App\Http\Controllers\JobCategoryController;
-
+use App\Models\Candidate;
 
 /*
 |--------------------------------------------------------------------------
@@ -199,9 +199,9 @@ Route::get('/jobs/{id}/comments', [CommentsController::class, 'show'])->name('co
 
 // Route to store a comment
 Route::post('/jobs/{job}/comments', [CommentsController::class, 'store'])->name('comments.store');
-// Route::get('/employer/myjobs/{id}', [EmployerController::class, 'myJobs'])->name('jobs.myjobs')->middleware('auth');
+//Route::get('/employer/myjobs/{id}', [EmployerController::class, 'myJobs'])->name('jobs.myjobs');
 
-Route::get('/myjobs', [JobController::class, 'showEmployerJobs'])->name('jobs.empjobs');
+ Route::get('/myjobs', [JobController::class, 'showEmployerJobs'])->name('jobs.empjobs');
 
 Route::get('/employer/job/{id}/analytics', [JobController::class, 'showAnalytics'])->name('job.analytics');
 // In routes/web.php
@@ -224,3 +224,14 @@ Route::get('/notifications', [Notifi::class, 'index'])->name('notifications.inde
 Route::get('/profile', function () {
     return view('CandidateProfile');
 });*/
+
+
+// Route::get('/applications/{id}/resume', [ApplicationController::class, 'viewResume'])->name('applications.viewResume');
+//     Route::get('/applications/{applicationId}/resume', [ApplicationController::class, 'showResume'])->name('applications.showResume');
+
+Route::get('/applications/{id}/resume', [ApplicationController::class, 'viewResume'])->name('applications.resume');
+//Route::get('/applications/{id}/resume', [Candidate::class, 'viewResume'])->name('candiadates.viewResume');
+
+Route::patch('/applications/{id}/reject', [ApplicationController::class, 'reject'])->name('applications.reject');
+
+

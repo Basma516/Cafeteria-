@@ -2,33 +2,42 @@
 
 @section('content')
 <div class="site-section py-5">
-    <div class="container">
+    <div class="container" style="max-width: 950px; margin: 0 auto;">
 
         <!-- Display error and success messages -->
         @if (session('error'))
-        <div class="alert alert-danger">
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
             {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         @endif
 
         @if (session('success'))
-        <div class="alert alert-success">
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
             {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         @endif
 
+        <!-- Search Bar -->
         <div class="row mb-4">
             <div class="col-lg-12">
-                <form action="{{ route('jobs.index') }}" method="GET">
-                    <input type="text" name="search" class="form-control" placeholder="Search for jobs..."
-                        value="{{ request('search') }}" style="border-radius: 25px; padding: 10px 20px;">
+                <form action="{{ route('jobs.index') }}" method="GET" class="search-form">
+                    <div class="input-group">
+                        <input type="text" name="search" class="form-control search-input"
+                            placeholder="Search for jobs..." value="{{ request('search') }}">
+                        <button class="btn btn-primary" type="submit">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>
 
+        <!-- Recent Jobs -->
         <div class="row">
             <div class="col-md-12 mb-5">
-                <h2 class="mb-5 h3 text-primary">Recent Jobs</h2>
+                <h2 class="mb-5 h3 text-primary text-center">Recent Jobs</h2>
                 <div class="rounded border jobs-wrap">
                     @forelse($jobs as $job)
                     @php
@@ -49,35 +58,40 @@
                     }
                     @endphp
 
-                    <div class="job-item d-block d-md-flex align-items-center border-bottom p-3 mb-3"
-                        onclick="window.location.href='{{ route('jobs.show', $job->id) }}'" style="cursor: pointer;">
+                    <div class="job-item d-block d-md-flex align-items-center border-bottom p-4 mb-4"
+                        onclick="window.location.href='{{ route('jobs.show', $job->id) }}'"
+                        style="cursor: pointer; border-radius: 10px; transition: background-color 0.3s ease;">
+
                         <div class="company-logo text-center text-md-left pl-3">
                             <img src="{{ $job->company_logo ? asset('storage/' . $job->company_logo) : 'https://via.placeholder.com/50' }}"
                                 alt="Company Logo" class="img-fluid rounded-circle"
-                                style="width: 50px; height: 50px; object-fit: cover;">
+                                style="width: 70px; height: 70px; object-fit: cover; box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);">
                         </div>
+
+                        <!-- Job Details -->
                         <div class="job-details h-100 p-3 flex-grow-1">
                             <h3 class="text-dark">{{ $job->title }}</h3>
-                            <div class="d-block d-lg-flex">
-                                <div class="mr-3"><span class="fas fa-briefcase mr-1"></span> {{ $job->jobType->name }}
-                                </div>
+                            <div class="d-block d-lg-flex mt-2 text-muted">
+                                <div class="mr-3"><i class="fas fa-briefcase mr-1"></i> {{ $job->jobType->name }}</div>
                                 <div class="mr-3" style="display: {{ $job->location ? 'block' : 'none' }};">
-                                    <span class="fas fa-map-marker-alt mr-1"></span>
-                                    {{ $job->location ?? 'Location not available' }}
+                                    <i class="fas fa-map-marker-alt mr-1"></i> {{ $job->location ?? 'Location not
+                                    available' }}
                                 </div>
-                                <div><span class="mr-1"></span> ${{ $job->salary }}</div>
-                                <div class="mr-3"> <span class="mr-3"><strong>Total Applications:</strong> {{
-                                        $job->applications_count }}</span>
-                                </div>
+                                <div class="mr-3"><i class="fas fa-dollar-sign mr-1"></i> ${{ $job->salary }}</div>
+                                <div><strong>Total Applications:</strong> {{ $job->applications_count }}</div>
                             </div>
                         </div>
-                        <div class="job-category p-3">
+
+                        <!-- Job Status -->
+                        <div class="job-category p-3 text-end">
                             @auth
                             @if(auth()->user()->role == 2)
-                            <span class="badge " style="background-color:#5289b5 ">{{ $job->status->name }}</span>
+                            <span class="badge bg-primary">{{ $job->status->name }}</span>
                             @endif
                             @endauth
                         </div>
+
+                        <!-- Apply Button -->
                         @auth
                         @if(auth()->user()->role == 3)
                         <div class="job-apply p-3">
@@ -90,7 +104,7 @@
                                 onsubmit="return confirm('Are you sure you want to cancel your application?');">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-secondary">Cancel Application</button>
+                                <button type="submit" class="btn btn-danger">Cancel Application</button>
                             </form>
                             @else
                             <a href="{{ route('applications.create', ['job' => $job->id]) }}"
@@ -103,14 +117,16 @@
 
                     </div>
                     @empty
-                    <p>No jobs found matching your search criteria.</p>
+                    <p class="text-center">No jobs found matching your search criteria.</p>
                     @endforelse
                 </div>
             </div>
         </div>
-        {{-- <div class="col-md-12 text-center mt-5">
+
+        <div class="col-md-12 text-center mt-5 pagination">
             {{ $jobs->links('pagination::bootstrap-5') }}
-        </div> --}}
+        </div>
     </div>
 </div>
+
 @endsection

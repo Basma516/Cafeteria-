@@ -18,3 +18,9 @@ navOpenBtn.addEventListener("click", () => {
 navCloseBtn.addEventListener("click", () => {
   nav.classList.remove("openNav");
 });
+
+
+window.onload = function () {
+  document.querySelector('form').reset(); 
+}
+
