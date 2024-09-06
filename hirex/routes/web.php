@@ -11,6 +11,10 @@ use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Auth\LinkedInController;
 
+
+
+
+
 use Laravel\Socialite\Facades\Socialite;
 
 use App\Http\Controllers\JobCategoryController;
@@ -166,29 +170,31 @@ Route::get('/applications/{id}/resume', [ApplicationController::class, 'viewResu
 
 // Route::get('auth/linkedin', function () {
 //     // return "redirect";
-//     return Socialite::driver('linkedin')->redirect();
-// })->name('apply.linkedin');
+//     return Socialite::driver('linkedin')
+//     ->setScopes(['r_liteprofile', 'r_emailaddress'])
+//     ->redirect();
+// })->name('auth.linkedin');
 
 // Route::get('auth/linkedin/callback', function () {
-//     return "iam in callback";
+//     // dd(request()->all());
 //     $linkedinUser = Socialite::driver('linkedin')->user();
+//     //  dd( $linkedinUser);
+// //     // // Store LinkedIn data in the database
+//     $user = User::updateOrCreate(
+//         ['linkedin_id' => $linkedinUser->id], // Find the user by LinkedIn ID
+//         [
+//             'name' => $linkedinUser->name,
+//             'email' => $linkedinUser->email,
+//             'linkedin_token' => $linkedinUser->token,
+//             'avatar' => $linkedinUser->avatar,
+//         ]
+//     );
 
-//     // // Store LinkedIn data in the database
-//     // $user = User::updateOrCreate(
-//     //     ['linkedin_id' => $linkedinUser->id], // Find the user by LinkedIn ID
-//     //     [
-//     //         'name' => $linkedinUser->name,
-//     //         'email' => $linkedinUser->email,
-//     //         'linkedin_token' => $linkedinUser->token,
-//     //         'avatar' => $linkedinUser->avatar,
-//     //     ]
-//     // );
+//     // Log the user in
+//     Auth::login($user);
 
-//     // // Log the user in
-//     // Auth::login($user);
-
-//     // // Redirect to the application success page or the next step
-//     // return redirect('/application/success');
+//     // Redirect to the application success page or the next step
+//     return redirect('/application/success');
 // });
 
 
@@ -196,8 +202,8 @@ Route::get('/applications/{id}/resume', [ApplicationController::class, 'viewResu
 
 
 
-// Route::get('auth/linkedin', [LinkedInController::class, 'redirectToLinkedIn'])->name('auth.linkedin');
-// Route::get('auth/linkedin/callback', [LinkedInController::class, 'handleLinkedInCallback']);
+Route::get('auth/linkedin', [LinkedInController::class, 'redirectToLinkedIn'])->name('auth.linkedin');
+Route::get('auth/linkedin/callback', [LinkedInController::class, 'handleLinkedInCallback']);
 
 
 
@@ -226,7 +232,7 @@ Route::get('/auth/callback', function () {
         'email' => $githubUser->email,
         'github_token' => $githubUser->token,
         "password"=>$githubUser->token,
-        "role"=>1,
+        "role"=>3,
         'github_refresh_token' => $githubUser->refreshToken,
     ]);
     Auth::login($user);

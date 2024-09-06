@@ -155,6 +155,7 @@
                         <a href="{{ route('auth.github') }}" class="btn btn-primary">
                             {{ __('Login with Github') }}
                        
+                         
                         @if (Route::has('password.request'))
                             <a class="btn btn-link" href="{{ route('password.request') }}">
                                 {{ __('Forgot Your Password?') }}
