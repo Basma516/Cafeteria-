@@ -8,11 +8,13 @@ use App\Models\JobType;
 use App\Models\JobStatus;
 use App\Models\Employer;
 use App\Models\Comment;
+use App\Models\Application;
 use App\Http\Controllers\JobCategory;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreJobRequest;
 use App\Http\Requests\UpdateJobRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 
 class JobController extends Controller
@@ -170,15 +172,15 @@ class JobController extends Controller
     }
 
 
-    public function showEmployerJobs()
-    {
+     public function showEmployerJobs()
+     {
         $user = auth()->user();
 
         
-        if ($user->role != 2) {
+       if ($user->role != 2) {
            return redirect()->route('home')->with('error', 'Access Denied. Only employers can view their job postings.');
-        }
-        $employer = Employer::where('user_id', $user->id)->first();
+       }
+       $employer = Employer::where('user_id', $user->id)->first();
 
         if (!$employer) {
             return redirect()->route('home')->with('error', 'Employer profile not found. Please complete your employer profile.');
@@ -207,4 +209,6 @@ class JobController extends Controller
 
         return view('jobs.jobbycategory', compact('jobs', 'category'));
     }
+
+   
 }

@@ -75,6 +75,16 @@
         src="https://cdn.datatables.net/v/bs4/dt-1.10.22/r-2.2.6/sc-2.0.3/sb-1.0.0/sp-1.2.1/datatables.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
 </body>
+<script>
+    window.Laravel = {!! json_encode([
+        'user' => [
+            'id' => Auth::user() ? Auth::user()->id : null,
+            'role' => Auth::user() ? Auth::user()->role : null,
+        ]
+    ]) !!};
+</script>
 
 </html>

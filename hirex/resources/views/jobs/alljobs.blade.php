@@ -3,8 +3,6 @@
 @section('content')
 <div class="site-section py-5">
     <div class="container">
-
-        <!-- Display error and success messages -->
         @if (session('error'))
         <div class="alert alert-danger">
             {{ session('error') }}
@@ -71,13 +69,13 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="job-category p-3">
+                        <!-- <div class="job-category p-3">
                             @auth
                             @if(auth()->user()->role == 2)
                             <span class="badge " style="background-color:#5289b5 ">{{ $job->status->name }}</span>
                             @endif
                             @endauth
-                        </div>
+                        </div> -->
                         @auth
                         @if(auth()->user()->role == 3)
                         <div class="job-apply p-3">

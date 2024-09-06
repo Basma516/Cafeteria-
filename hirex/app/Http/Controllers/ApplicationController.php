@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\File;
 use Smalot\PdfParser\Parser;
 use PhpOffice\PhpWord\IOFactory;
 use App\Notifications\jobApp;
+use App\Notifications\ApplicationStatusUpdatedNotification;
 
 
 
@@ -102,24 +103,24 @@ class ApplicationController extends Controller
     // In ApplicationController.php
     // In ApplicationController.php
   
-public function update(Request $request, $id)
-{
-    $application = Application::findOrFail($id);
+// public function update(Request $request, $id)
+// {
+//     $application = Application::findOrFail($id);
     
-    $application->status = $request->input('status');
+//     $application->status = $request->input('status');
     
-    $application->save();
-    $notification = Notifications::create ([
-        "user_id" => $application->candidate_id,
-        "job_id"=> $application->job_id,
-        "status" => $request->input("status"),       
-    ]);
+//     $application->save();
+//     $notification = Notifications::create ([
+//         "user_id" => $application->candidate_id,
+//         "job_id"=> $application->job_id,
+//         "status" => $request->input("status"),       
+//     ]);
 
-        // Redirect back with a success message
-        return redirect()->back()->with('success', 'Application status updated successfully.');
+//         // Redirect back with a success message
+//         return redirect()->back()->with('success', 'Application status updated successfully.');
 
     
-}
+// }
 
 
     /**
@@ -165,36 +166,73 @@ public function update(Request $request, $id)
         return '';
     }
 
-    public function viewResume(Request $request, $id)
-    {
-        $application = Application::findOrFail($id);
-        $resumePath = $application->resume;
+//     public function viewResume(Request $request, $id)
+//     {
+//         $application = Application::findOrFail($id);
+//         $resumePath = $application->resume;
     
-        if (!Storage::disk('public')->exists($resumePath)) {
-            return redirect()->back()->with('error', 'Resume file not found.');
-        }
+//         if (!Storage::disk('public')->exists($resumePath)) {
+//             return redirect()->back()->with('error', 'Resume file not found.');
+//         }
     
     
-        $fileContent = Storage::disk('public')->get($resumePath);
-        $textContent = $this->extractText($resumePath, $fileContent);
+//         $fileContent = Storage::disk('public')->get($resumePath);
+//         $textContent = $this->extractText($resumePath, $fileContent);
     
       
-        if ($request->has('query')) {
-            $query = $request->input('query');
-            $highlightedText = str_ireplace($query, "<mark>$query</mark>", $textContent); 
-            return view('applications.view_resume', [
-                'resumePath' => Storage::url($resumePath),
-                'resumeText' => $highlightedText,
-                'application' => $application
-            ]);
-        }
+//         if ($request->has('query')) {
+//             $query = $request->input('query');
+//             $highlightedText = str_ireplace($query, "<mark>$query</mark>", $textContent); 
+//             return view('applications.view_resume', [
+//                 'resumePath' => Storage::url($resumePath),
+//                 'resumeText' => $highlightedText,
+//                 'application' => $application
+//             ]);
+//         }
     
-        return view('applications.view_resume', [
-            'resumePath' => Storage::url($resumePath),
-            'resumeText' => $textContent,
-            'application' => $application
-        ]);
+//         return view('applications.view_resume', [
+//             'resumePath' => Storage::url($resumePath),
+//             'resumeText' => $textContent,
+//             'application' => $application
+//         ]);
 
+// }
+
+public function viewResume($id)
+{
+    $application = Application::findOrFail($id);
+    $resumePath = $application->resume; 
+
+   
+    if (!Storage::disk('public')->exists($resumePath)) {
+        return redirect()->back()->with('error', 'Resume file not found.');
+    }
+
+    return view('applications.view_resume', ['resumePath' => $resumePath]);
 }
-    
+
+public function update(Request $request, $id)
+{
+    $application = Application::findOrFail($id);
+    $application->status = $request->input('status');
+    $application->save();
+
+    // Ensure candidate and user exist
+    $candidate = $application->candidate;
+    $candidateUser = $candidate ? $candidate->user : null;
+
+    if ($candidateUser && $candidateUser->role == 3) {
+        // Check if the User model uses the Notifiable trait
+        if (in_array('Illuminate\Notifications\Notifiable', class_uses($candidateUser))) {
+            $candidateUser->notify(new ApplicationStatusUpdatedNotification($request->input('status'), $application->job->title));
+        } else {
+            return redirect()->back()->with('error', 'The user model does not have the Notifiable trait.');
+        }
+    } else {
+        return redirect()->back()->with('error', 'Candidate user not found or not a candidate.');
+    }
+
+    return redirect()->back()->with('success', 'Application status updated successfully.');
+}
+
 }
