@@ -106,13 +106,12 @@ class JobController extends Controller
         // Return the view with job data
         return view('jobs.edit', compact('job', 'categories', 'statuses', 'jobTypes'));
     }
-    public function update(UpdateJobRequest $request, $id)
-    {
-        
-        $job = Job::findOrFail($id);
 
-     
-        $job->update($request->validated());
+public function update(UpdateJobRequest $request, $id)
+{
+    $job = Job::findOrFail($id);
+       
+    $job->update($request->validated());
 
         return redirect()->route('jobs.index', Auth::id())->with('success', 'Job updated successfully.');
     }
@@ -148,19 +147,20 @@ class JobController extends Controller
         return view('jobs.search', compact('jobs', 'categories', 'locations'));
     }
 
-    public function destroy($id)
-    {
- 
-        $job = Job::findOrFail($id);
 
-        
-        if (Auth::user()->role != 2) {
-            return redirect()->route('home')->with('error', 'Access Denied. Only employers can delete jobs.');
-        }
+public function destroy($id)
+{
+    // Fetch the job to delete
+    $job = Job::findOrFail($id);
 
-        $job->delete();
-        return redirect()->route('jobs.index')->with('success', 'Job deleted successfully.');
+    // Ensure the user is an employer
+    if (Auth::user()->role != 2) {
+        return redirect()->route('home')->with('error', 'Access Denied. Only employers can delete jobs.');
     }
+
+    $job->delete();
+    return redirect()->route('jobs.index')->with('success', 'Job deleted successfully.');
+}
     public function showAnalytics($id)
     {
         $job = Job::with('applications')->findOrFail($id);

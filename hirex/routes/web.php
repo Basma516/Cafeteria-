@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployerController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\CandidateController;
@@ -11,6 +12,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ResumeController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Notifi;
+
 
 
 use App\Http\Controllers\JobCategoryController;
@@ -26,16 +28,52 @@ use App\Http\Controllers\JobCategoryController;
 | be assigned to the "web" middleware group. Make something great!
 */
 
-
-
-
- Route::get('/', function () {
+Route::get('/', function () {
     return view('home');
  });
 
-// Route::get('/dashboard', function () {
-//     return view('dashboard.index');
+// Dashboard Routes Start >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+// main 
+Route::get('/dashboard',[AdminController::class, 'index']);
+Route::get('/dashboard/employer',[AdminController::class, 'employers'])->name('employer');
+Route::get('/dashboard/candidate',[AdminController::class, 'candidates'])->name('candidate');
+Route::get('/dashboard/category',[AdminController::class, 'categories'])->name('category');
+Route::get('/dashboard/jobs',[AdminController::class, 'jobs'])->name('jobs');
+
+//edit
+Route::get('/dashboard/category/edit/{id}', [AdminController::class, 'editCategory'])->name('category.edit');
+Route::put('/dashboard/category/update/{id}', [AdminController::class, 'updateCategory'])->name('category.update');
+
+Route::get('/dashboard/jobs/view/{id}', [AdminController::class, 'viewJob'])->name('job.view');
+
+//delete
+Route::delete('/dashboard/employer/{id}', [AdminController::class, 'deleteEmployer'])->name('employer.delete');
+Route::delete('/dashboard/candidate/{id}', [AdminController::class, 'deleteCandidate'])->name('candidate.delete');
+Route::delete('/dashboard/category/{id}', [AdminController::class, 'deleteCategory'])->name('category.delete');
+Route::delete('/dashboard/jobs/{job_id}/comments/{id}', [AdminController::class, 'deleteComment'])->name('comment.delete');
+Route::delete('/dashboard/jobs/{id}', [AdminController::class, 'deleteJob'])->name('jobs.delete'); //When Admin Rejects the post
+
+// Post Acceptence
+Route::post('/dashboard/jobs/{id}/accept', [AdminController::class, 'acceptJob'])->name('jobs.accept');
+
+// Store Category
+Route::get('/dashboard/category/add', [AdminController::class, 'categoryCreate'])->name('categories.create');
+Route::post('/dashboard/category/store', [AdminController::class, 'storeCategory'])->name('categories.store');
+
+
+
+
+
+
+// End >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+
+//  Route::get('/', function () {
+//     return view('home');
 // });
+
 // Route::get('/dashboard/candidate', function () {
 //     return view('dashboard.candidate');
 // })->name('candidate');

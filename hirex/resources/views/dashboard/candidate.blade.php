@@ -22,36 +22,42 @@
                                     </thead>
                                     <tbody>
                                           
+                                    @foreach($candidates as $candidate)
+                                    @php
+                                    $user_data = $candidate->user;
+                                    @endphp
                                             <tr>
                                                 <td>1</td>
                                                 
-                                                <td>Omar</td>
+                                                <td>{{$user_data->name}}</td>
                                                 <td>
-                                                    <i class="material-icons  ">omar@gmail.com</i>
+                                                    <i class="material-icons  ">{{$user_data->email}}</i>
         
                                                 </td>
 
                                                
                                                 <td style="width: 18%">
-                                                    <a  class="btn btn-sm bg-color" href="{{route('updateCandidate')}}"><i class="material-icons">edit</i></a> 
         
         
-                                                  <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#candidateDelete-" type="button"><i class="material-icons">delete</i></button>
+                                                  <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#candidateDelete-{{$candidate->id}}" type="button"><i class="material-icons">delete</i></button>
         
                                                     <!-- Delete modal -->
-                                                    <div class="modal fade" id="candidateDelete-" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel-" aria-hidden="true">
+                                                    <div class="modal fade" id="candidateDelete-{{$candidate->id}}" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel-" aria-hidden="true">
                                                         <div class="modal-dialog modal-dialog-centered">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                            <h5 class="modal-title text-center" id="staticBackdropLabel-">Name: </h5>
+                                                            <h5 class="modal-title text-center" id="staticBackdropLabel-{{$candidate->id}}">Name: {{$user_data->name}}</h5>
                                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                 <span aria-hidden="true">&times;</span>
                                                             </button>
                                                             </div>
                                                             <div class="modal-body text-center">
-                                                                <h4> Do you want to move candidate Trash?</h4>
+                                                                <h4> Do you want to move candidate to Trash?</h4>
                                                             </div>
-                                                            <form action="" method="POST">
+                                                            <form action="{{route('candidate.delete', $candidate->id)}}" method="POST">
+                                                                @csrf
+                                                                @method('DELETE')
+
                                                                 <div class="modal-footer">
                                                                     <input type="hidden" name="id" value="">
                                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -67,243 +73,8 @@
         
         
                                                 </td>
-                                            </tr>
-
-                                            <tr>
-                                              <td>1</td>
-                                              
-                                              <td>Omar</td>
-                                              <td>
-                                                  <i class="material-icons  ">omar@gmail.com</i>
-      
-                                              </td>
-
-                                             
-                                              <td style="width: 18%">
-                                                  <a  class="btn btn-sm btn-info" href=""><i class="material-icons">edit</i></a> 
-      
-      
-                                                <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#candidateDelete-" type="button"><i class="material-icons">delete</i></button>
-      
-                                                  <!-- Delete modal -->
-                                                  <div class="modal fade" id="candidateDelete-" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel-" aria-hidden="true">
-                                                      <div class="modal-dialog modal-dialog-centered">
-                                                      <div class="modal-content">
-                                                          <div class="modal-header">
-                                                          <h5 class="modal-title text-center" id="staticBackdropLabel-">Name: </h5>
-                                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                              <span aria-hidden="true">&times;</span>
-                                                          </button>
-                                                          </div>
-                                                          <div class="modal-body text-center">
-                                                              <h4> Do you want to move candidate Trash?</h4>
-                                                          </div>
-                                                          <form action="" method="POST">
-                                                              <div class="modal-footer">
-                                                                  <input type="hidden" name="id" value="">
-                                                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                                                  <button type="submit" class="btn btn-danger">Delete</button>
-                                                              </div>
-                                                          </form>
-      
-      
-                                                      </div>
-                                                      </div>
-                                                  </div>
-      
-      
-      
-                                              </td>
-                                          </tr>
-
-                                          <tr>
-                                            <td>1</td>
-                                            
-                                            <td>Omar</td>
-                                            <td>
-                                                <i class="material-icons  ">omar@gmail.com</i>
-    
-                                            </td>
-
-                                           
-                                            <td style="width: 18%">
-                                                <a  class="btn btn-sm btn-info" href=""><i class="material-icons">edit</i></a> 
-    
-    
-                                              <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#candidateDelete-" type="button"><i class="material-icons">delete</i></button>
-    
-                                                <!-- Delete modal -->
-                                                <div class="modal fade" id="candidateDelete-" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel-" aria-hidden="true">
-                                                    <div class="modal-dialog modal-dialog-centered">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                        <h5 class="modal-title text-center" id="staticBackdropLabel-">Name: </h5>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                        </div>
-                                                        <div class="modal-body text-center">
-                                                            <h4> Do you want to move candidate Trash?</h4>
-                                                        </div>
-                                                        <form action="" method="POST">
-                                                            <div class="modal-footer">
-                                                                <input type="hidden" name="id" value="">
-                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                                                <button type="submit" class="btn btn-danger">Delete</button>
-                                                            </div>
-                                                        </form>
-    
-    
-                                                    </div>
-                                                    </div>
-                                                </div>
-    
-    
-    
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                          <td>1</td>
-                                          
-                                          <td>Omar</td>
-                                          <td>
-                                              <i class="material-icons  ">omar@gmail.com</i>
-  
-                                          </td>
-
-                                         
-                                          <td style="width: 18%">
-                                              <a  class="btn btn-sm btn-info" href=""><i class="material-icons">edit</i></a> 
-  
-  
-                                            <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#candidateDelete-" type="button"><i class="material-icons">delete</i></button>
-  
-                                              <!-- Delete modal -->
-                                              <div class="modal fade" id="candidateDelete-" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel-" aria-hidden="true">
-                                                  <div class="modal-dialog modal-dialog-centered">
-                                                  <div class="modal-content">
-                                                      <div class="modal-header">
-                                                      <h5 class="modal-title text-center" id="staticBackdropLabel-">Name: </h5>
-                                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                          <span aria-hidden="true">&times;</span>
-                                                      </button>
-                                                      </div>
-                                                      <div class="modal-body text-center">
-                                                          <h4> Do you want to move candidate Trash?</h4>
-                                                      </div>
-                                                      <form action="" method="POST">
-                                                          <div class="modal-footer">
-                                                              <input type="hidden" name="id" value="">
-                                                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                                              <button type="submit" class="btn btn-danger">Delete</button>
-                                                          </div>
-                                                      </form>
-  
-  
-                                                  </div>
-                                                  </div>
-                                              </div>
-  
-  
-  
-                                          </td>
-                                      </tr>
-
-                                      <tr>
-                                        <td>1</td>
-                                        
-                                        <td>Omar</td>
-                                        <td>
-                                            <i class="material-icons  ">omar@gmail.com</i>
-
-                                        </td>
-
-                                       
-                                        <td style="width: 18%">
-                                            <a  class="btn btn-sm btn-info" href=""><i class="material-icons">edit</i></a> 
-
-
-                                          <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#candidateDelete-" type="button"><i class="material-icons">delete</i></button>
-
-                                            <!-- Delete modal -->
-                                            <div class="modal fade" id="candidateDelete-" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel-" aria-hidden="true">
-                                                <div class="modal-dialog modal-dialog-centered">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                    <h5 class="modal-title text-center" id="staticBackdropLabel-">Name: </h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                    </div>
-                                                    <div class="modal-body text-center">
-                                                        <h4> Do you want to move candidate Trash?</h4>
-                                                    </div>
-                                                    <form action="" method="POST">
-                                                        <div class="modal-footer">
-                                                            <input type="hidden" name="id" value="">
-                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                                            <button type="submit" class="btn btn-danger">Delete</button>
-                                                        </div>
-                                                    </form>
-
-
-                                                </div>
-                                                </div>
-                                            </div>
-
-
-
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                      <td>1</td>
-                                      
-                                      <td>Omar</td>
-                                      <td>
-                                          <i class="material-icons  ">omar@gmail.com</i>
-
-                                      </td>
-
-                                     
-                                      <td style="width: 18%">
-                                          <a  class="btn btn-sm btn-info" href=""><i class="material-icons">edit</i></a> 
-
-
-                                        <button class="btn btn-sm btn-danger" data-toggle="modal" data-target="#candidateDelete-" type="button"><i class="material-icons">delete</i></button>
-
-                                          <!-- Delete modal -->
-                                          <div class="modal fade" id="candidateDelete-" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel-" aria-hidden="true">
-                                              <div class="modal-dialog modal-dialog-centered">
-                                              <div class="modal-content">
-                                                  <div class="modal-header">
-                                                  <h5 class="modal-title text-center" id="staticBackdropLabel-">Name: </h5>
-                                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                      <span aria-hidden="true">&times;</span>
-                                                  </button>
-                                                  </div>
-                                                  <div class="modal-body text-center">
-                                                      <h4> Do you want to move candidate Trash?</h4>
-                                                  </div>
-                                                  <form action="" method="POST">
-                                                      <div class="modal-footer">
-                                                          <input type="hidden" name="id" value="">
-                                                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                                          <button type="submit" class="btn btn-danger">Delete</button>
-                                                      </div>
-                                                  </form>
-
-
-                                              </div>
-                                              </div>
-                                          </div>
-
-
-
-                                      </td>
-                                  </tr>
-                                                                      
+                                            </tr>    
+                                            @endforeach                                         
         
                                 </table>
                               </div>

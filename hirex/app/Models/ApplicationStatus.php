@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class ApplicationStatus extends Model
 {
     use HasFactory;
+    protected $table = 'application_status'; 
 
     
     protected $table = 'application_status';
@@ -22,6 +23,6 @@ class ApplicationStatus extends Model
 
     public function applications()
     {
-        return $this->hasMany(Application::class, 'status');
+        return $this->hasMany(Application::class, 'status_id');
     }
 }
