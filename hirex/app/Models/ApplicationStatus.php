@@ -9,10 +9,6 @@ class ApplicationStatus extends Model
 {
     use HasFactory;
     protected $table = 'application_status'; 
-
-    
-    protected $table = 'application_status';
-
    
     protected $primaryKey = 'id';
 

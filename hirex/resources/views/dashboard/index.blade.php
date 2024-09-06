@@ -86,7 +86,28 @@
 
 @section('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+<script id="chartData" type="application/json">
+    {
+        "employers": {
+            "dates": @json($employerDates),
+            "counts": @json($employersData)
+        },
+        "candidates": {
+            "dates": @json($candidateDates),
+            "counts": @json($candidatesData)
+        },
+        "jobs": {
+            "dates": @json($jobDates),
+            "counts": @json($jobsData)
+        }
+    }
+</script>
 <script>
+    // Parse chart data from script tag
+    const chartData = JSON.parse(document.getElementById('chartData').textContent);
+
     // Common chart options with white text
     const commonOptions = {
         responsive: true,
@@ -123,14 +144,14 @@
     };
 
     // Employers Chart
-    var employersCtx = document.getElementById('employersChart').getContext('2d');
-    var employersChart = new Chart(employersCtx, {
+    const employersCtx = document.getElementById('employersChart').getContext('2d');
+    const employersChart = new Chart(employersCtx, {
         type: 'line',
         data: {
-            labels: @json($employerDates),  // Dates for x-axis (specific to employers)
+            labels: chartData.employers.dates,  // Dates for x-axis (specific to employers)
             datasets: [{
                 label: 'Employers',
-                data: @json($employersData),  // Number of employers per date
+                data: chartData.employers.counts,  // Number of employers per date
                 backgroundColor: 'rgba(75, 192, 192, 0.2)',  // Chart fill color
                 borderColor: 'rgba(75, 192, 192, 1)',  // Chart line color
                 borderWidth: 1
@@ -140,14 +161,14 @@
     });
 
     // Candidates Chart
-    var candidatesCtx = document.getElementById('candidatesChart').getContext('2d');
-    var candidatesChart = new Chart(candidatesCtx, {
+    const candidatesCtx = document.getElementById('candidatesChart').getContext('2d');
+    const candidatesChart = new Chart(candidatesCtx, {
         type: 'line',
         data: {
-            labels: @json($candidateDates),  // Dates for x-axis (specific to candidates)
+            labels: chartData.candidates.dates,  // Dates for x-axis (specific to candidates)
             datasets: [{
                 label: 'Candidates',
-                data: @json($candidatesData),  // Number of candidates per date
+                data: chartData.candidates.counts,  // Number of candidates per date
                 backgroundColor: 'rgba(54, 162, 235, 0.2)',  // Chart fill color
                 borderColor: 'rgba(54, 162, 235, 1)',  // Chart line color
                 borderWidth: 1
@@ -157,14 +178,14 @@
     });
 
     // Jobs Chart
-    var jobsCtx = document.getElementById('jobsChart').getContext('2d');
-    var jobsChart = new Chart(jobsCtx, {
+    const jobsCtx = document.getElementById('jobsChart').getContext('2d');
+    const jobsChart = new Chart(jobsCtx, {
         type: 'line',
         data: {
-            labels: @json($jobDates),  // Dates for x-axis (specific to jobs)
+            labels: chartData.jobs.dates,  // Dates for x-axis (specific to jobs)
             datasets: [{
                 label: 'Jobs',
-                data: @json($jobsData),  // Number of jobs per date
+                data: chartData.jobs.counts,  // Number of jobs per date
                 backgroundColor: 'rgba(255, 206, 86, 0.2)',  // Chart fill color
                 borderColor: 'rgba(255, 206, 86, 1)',  // Chart line color
                 borderWidth: 1
