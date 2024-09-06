@@ -169,3 +169,10 @@ Route::get('/applications/{id}/resume', [ApplicationController::class, 'viewResu
 // web.php
 
 Route::get('jobs/search', [JobController::class, 'search'])->name('jobs.search');
+
+
+
+/*
+Route::get('/profile', function () {
+    return view('CandidateProfile');
+});*/
