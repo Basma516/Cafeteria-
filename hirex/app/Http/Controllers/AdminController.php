@@ -15,42 +15,66 @@ use App\Models\User;
 
 class AdminController extends Controller
 {
+
     public function index()
     {
-        // Example to get count grouped by date for employers, candidates, and jobs
-        $dates = Employer::selectRaw('DATE(created_at) as date')->distinct()->pluck('date')->toArray();
+
+        $employersCount = Employer::count();
+        $candidatesCount = Candidate::count();
+        $jobsCount = Job::count();
+        $categoriesCount = Category::count();
+
+        // Get distinct dates and counts for employers, candidates, and jobs
+        $employerDates = Employer::selectRaw('DATE(created_at) as date')->distinct()->pluck('date')->toArray();
+        $candidateDates = Candidate::selectRaw('DATE(created_at) as date')->distinct()->pluck('date')->toArray();
+        $jobDates = Job::selectRaw('DATE(created_at) as date')->distinct()->pluck('date')->toArray();
     
-        $employersData = Employer::selectRaw('DATE(created_at) as date, COUNT(*) as count')
+        // Sort the date arrays
+        sort($employerDates);
+        sort($candidateDates);
+        sort($jobDates);
+    
+        // Initialize empty data arrays with all dates set to 0
+        $employersData = array_fill_keys($employerDates, 0);
+        $candidatesData = array_fill_keys($candidateDates, 0);
+        $jobsData = array_fill_keys($jobDates, 0);
+    
+        // Fetch actual data and merge it with initialized arrays
+        $employersDataFromDB = Employer::selectRaw('DATE(created_at) as date, COUNT(*) as count')
             ->groupBy('date')
             ->pluck('count', 'date')->toArray();
     
-        $candidatesData = Candidate::selectRaw('DATE(created_at) as date, COUNT(*) as count')
+        $candidatesDataFromDB = Candidate::selectRaw('DATE(created_at) as date, COUNT(*) as count')
             ->groupBy('date')
             ->pluck('count', 'date')->toArray();
     
-        $jobsData = Job::selectRaw('DATE(created_at) as date, COUNT(*) as count')
+        $jobsDataFromDB = Job::selectRaw('DATE(created_at) as date, COUNT(*) as count')
             ->groupBy('date')
             ->pluck('count', 'date')->toArray();
     
-        // Fill missing dates with 0
-        foreach ($dates as $date) {
-            $employersData[$date] = $employersData[$date] ?? 0;
-            $candidatesData[$date] = $candidatesData[$date] ?? 0;
-            $jobsData[$date] = $jobsData[$date] ?? 0;
-        }
+        // Merge the actual data with the initialized arrays
+        $employersData = array_replace($employersData, $employersDataFromDB);
+        $candidatesData = array_replace($candidatesData, $candidatesDataFromDB);
+        $jobsData = array_replace($jobsData, $jobsDataFromDB);
+    
+        // Ensure data is sorted by date
+        ksort($employersData);
+        ksort($candidatesData);
+        ksort($jobsData);
     
         return view('dashboard.index', [
-            'employersCount' => Employer::count(),
-            'candidatesCount' => Candidate::count(),
-            'categoriesCount' => Category::count(),
-            'jobsCount' => Job::count(),
-            'dates' => $dates,
-            'employersData' => $employersData,
-            'candidatesData' => $candidatesData,
-            'jobsData' => $jobsData,
+            'employerDates' => $employerDates,  // Employer-specific dates
+            'candidateDates' => $candidateDates,  // Candidate-specific dates
+            'jobDates' => $jobDates,  // Job-specific dates
+            'employersData' => array_values($employersData),  // Employer data as indexed array for chart
+            'candidatesData' => array_values($candidatesData),  // Candidate data as indexed array for chart
+            'jobsData' => array_values($jobsData),  // Job data as indexed array for chart
+            'employersCount' => $employersCount,
+            'candidatesCount' => $candidatesCount,
+            'jobsCount' => $jobsCount,
+            'categoriesCount' => $categoriesCount,
         ]);
     }
-    
     
 
     public function employers()
@@ -97,33 +121,37 @@ class AdminController extends Controller
     }
 
     // Edit Job
-    public function viewJob($id)
-    {
-        // Fetch job, comments, and applications
-        $comments = Comment::where('job_id', $id)->get();
-        $applications = Application::where('job_id', $id)->with('candidate.user', 'status')->get();
-        $job = Job::findOrFail($id);
-    
-        // Group applications by date
-        $dates = $applications->groupBy(function ($application) {
-            return Carbon::parse($application->created_at)->format('Y-m-d');  // Group by date (Y-m-d format)
-        });
-    
-        // Prepare data for the chart: array of dates and application counts
-        $applicationDates = $dates->keys()->toArray();  // Dates for x-axis
-        $applicationCounts = $dates->map(function ($group) {
-            return count($group);  // Count of applications on each date
-        })->values()->toArray();  // Data for y-axis
-    
-        // Pass data to the view
-        return view('dashboard.jobs.view', [
-            'comments' => $comments,
-            'job' => $job,
-            'applications' => $applications,
-            'applicationDates' => $applicationDates,
-            'applicationCounts' => $applicationCounts,
-        ]);
-    }
+public function viewJob($id)
+{
+    // Fetch job, comments, and applications
+    $comments = Comment::where('job_id', $id)->get();
+    $applications = Application::where('job_id', $id)->with('candidate.user', 'status')->get();
+    $job = Job::findOrFail($id);
+
+    // Group applications by date
+    $dates = $applications->groupBy(function ($application) {
+        return Carbon::parse($application->created_at)->format('Y-m-d');  // Group by date (Y-m-d format)
+    });
+
+    // Prepare data for the chart: array of dates and application counts
+    $applicationDates = $dates->keys()->toArray();  // Dates for x-axis
+    $applicationCounts = $dates->map(function ($group) {
+        return count($group);  // Count of applications on each date
+    })->values()->toArray();  // Data for y-axis
+
+    // Sort dates and counts in ascending order
+    array_multisort($applicationDates, SORT_ASC, $applicationCounts);
+
+    // Pass data to the view
+    return view('dashboard.jobs.view', [
+        'comments' => $comments,
+        'job' => $job,
+        'applications' => $applications,
+        'applicationDates' => $applicationDates,
+        'applicationCounts' => $applicationCounts,
+    ]);
+}
+
 
 
     public function deleteEmployer($id)
@@ -161,7 +189,7 @@ class AdminController extends Controller
     {
         $comment = Comment::where('job_id', $job_id)->where('id', $id)->firstOrFail();
         $comment->delete();
-        return redirect()->route('jobs.show', $job_id);
+        return redirect()->route('job.view', $job_id);
     }
 
     public function acceptJob($id)

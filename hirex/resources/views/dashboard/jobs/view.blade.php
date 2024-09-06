@@ -106,8 +106,11 @@
 
 </div>
 
-@endsection
 
+
+
+
+@endsection
 @section('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
@@ -126,18 +129,41 @@
         },
         options: {
             responsive: true,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: 'white'  // Legend text color
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            return tooltipItems[0].label;
+                        },
+                        label: function(tooltipItem) {
+                            return tooltipItem.dataset.label + ': ' + tooltipItem.formattedValue;
+                        }
+                    },
+                    titleColor: 'white',  // Tooltip title color
+                    bodyColor: 'white',   // Tooltip body color
+                    footerColor: 'white'  // Tooltip footer color
+                }
+            },
             scales: {
                 x: {
+                    ticks: {
+                        color: 'white'  // X-axis text color
+                    },
                     title: {
-                        display: true,
-                        text: 'Dates'
+                        color: 'white'  // X-axis title color
                     }
                 },
                 y: {
-                    beginAtZero: true,
+                    ticks: {
+                        color: 'white'  // Y-axis text color
+                    },
                     title: {
-                        display: true,
-                        text: 'Number of Applications'
+                        color: 'white'  // Y-axis title color
                     }
                 }
             }
@@ -145,3 +171,4 @@
     });
 </script>
 @endsection
+
