@@ -502,3 +502,86 @@ nav {
     background-color: #007bff;
     border-color: #007bff;
 }
+
+
+/* CandidateProfile styles  */
+
+body {
+    background-color: #afd8f2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.profile-card {
+    background-color: white;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    width: 550px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.profile-card img {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    margin-bottom: 20px;
+}
+
+.profile-card h2 {
+    margin: 10px 0;
+}
+
+.profile-card p {
+    color: gray;
+    margin-bottom: 5px;
+}
+
+.profile-card .btn-primary {
+    background-color: #5289b5;
+    border: none;
+}
+
+.profile-card .btn-primary:hover {
+    background-color: #ff3a3a;
+}
+
+.profile-card .stats {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.profile-card .stats div {
+    text-align: center;
+}
+
+.profile-card .icon-text {
+    position: absolute;
+    top: 15px;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.profile-card .icon-text i {
+    font-size: 20px;
+    margin-right: 5px;
+    color: #5289b5;
+}
+
+.profile-card .icon-connect {
+    left: 20px;
+}
+
+.profile-card .icon-message {
+    right: 20px;
+}
+
+
+

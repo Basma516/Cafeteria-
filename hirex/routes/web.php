@@ -71,6 +71,14 @@ use App\Http\Controllers\JobCategoryController;
 Auth::routes();
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
+// HEAD
+// Define a new route for the home page
+//Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+
+//Route::get('/home', [HomeController::class, 'index'])->name('home');
+// d06ca9799142ef88e37eea3ee34312b22a76a57e
+
 // Route::view('/profile', 'users.edit_profile')->name('profile');
 
 // // Dashboard routes for different user types
@@ -173,3 +181,8 @@ Route::get('/notifications', [Notifi::class, 'index'])->name('notifications.inde
 
 
 
+
+/*
+Route::get('/profile', function () {
+    return view('CandidateProfile');
+});*/
