@@ -1,5 +1,3 @@
-<!-- resources/views/resumes/index.blade.php -->
-
 @extends('layouts.app')
 
 @section('content')
@@ -19,30 +17,32 @@
             </div>
             <div class="col-md-4 mb-3">
                 <label for="education">Education</label>
-                <input type="text" name="education" id="education" class="form-control" placeholder="e.g., Bachelor's Degree">
+                <input type="text" name="education" id="education" class="form-control"
+                    placeholder="e.g., Bachelor's Degree">
             </div>
         </div>
         <button type="submit" class="btn btn-primary">Search</button>
     </form>
 
-    <!-- Resumes List -->
-    @if ($resumes->isEmpty())
-        <p>No resumes found matching your criteria.</p>
+    @if ($candidates->isEmpty())
+    <p>No resumes found matching your criteria.</p>
     @else
-        <div class="row">
-            @foreach ($resumes as $resume)
-                <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Candidate ID: {{ $resume->candidate_id }}</h5>
-                            <p class="card-text"><strong>Skills:</strong> {{ $resume->skills }}</p>
-                            <p class="card-text"><strong>Experience:</strong> {{ $resume->experience }}</p>
-                            <p class="card-text"><strong>Education:</strong> {{ $resume->education }}</p>
-                        </div>
+    <div class="row">
+        @foreach ($candidates as $candidate)
+        <div class="col-md-4 mb-4">
+            <a href="{{ route('resumes.show', $candidate->id) }}">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Candidate Name: {{ $candidate->user->name }}</h5>
+                        <p class="card-text"><strong>Skills:</strong> {{ $candidate->skills }}</p>
+                        <p class="card-text"><strong>Experience:</strong> {{ $candidate->experience }}</p>
+                        <p class="card-text"><strong>Education:</strong> {{ $candidate->education }}</p>
                     </div>
                 </div>
-            @endforeach
+            </a>
         </div>
+        @endforeach
+    </div>
     @endif
 </div>
 @endsection

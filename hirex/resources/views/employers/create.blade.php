@@ -5,9 +5,9 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header" style="background-color: #2B9BFF; color: white;">Find a Talent</div>
+                <div class="card-header" style="background-color: #5289b5; color: white;">Find a Talent</div>
 
-                <div class="card-body" style="background-color: #EFFDF5;">
+                <div class="card-body" ;>
                     @if (session('success'))
                         <div class="alert alert-success">
                             {{ session('success') }}
@@ -44,7 +44,7 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
-                        <button type="submit" class="btn" style="background-color: #2B9BFF; color: white;">Submit</button>
+                        <button type="submit" class="btn" style="background-color: #5289b5; color: white; ">Submit</button>
                     </form>
                 </div>
             </div>

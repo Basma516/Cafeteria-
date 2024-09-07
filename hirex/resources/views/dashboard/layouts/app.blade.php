@@ -14,12 +14,12 @@
 
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,700,900" rel="stylesheet">
 
-    <link rel="stylesheet" href="{{asset('css/bootstrapNew.min.css')}}">
+     <link rel="stylesheet" href="{{asset('css/bootstrapNew.min.css')}}"> 
 
-    <link rel="stylesheet" href="{{asset('css/font-awesome.min.css')}}">
+     <link rel="stylesheet" href="{{asset('css/font-awesome.min.css')}}"> 
 
     <link rel="stylesheet" href="{{asset('css/scrollbar/jquery.mCustomScrollbar.min.css')}}">
-
+     <link href=" {{asset('images/logo-transparent.png')}}" rel="icon" type="image/x-icon"> 
     <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('css/responsive.css')}}">
     <script src="{{asset('js/vendor/modernizr-2.8.3.min.js')}}"></script>

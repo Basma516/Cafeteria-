@@ -24,7 +24,9 @@ class StoreCandidateRequest extends FormRequest
         return [
             'skills' => 'required|array|min:1', // Ensure at least one skill is selected
             'skills.*' => 'string', // Each skill should be a string
-            'resume' => 'string|max:1000', // Adjust validation as needed
+            'resume' => '|max:1000', // Adjust validation as needed
+            'experience' => '|max:1000', // Adjust validation as needed
+            'education' => '|max:1000', // Adjust validation as needed
         ];
     }
 
