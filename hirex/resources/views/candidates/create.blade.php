@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <h1>Create Candidate Profile</h1>
-    <form action="{{ route('candidates.store') }}" method="POST">
+    <form action="{{ route('candidates.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -32,16 +32,24 @@
                 </div>
             @endforeach
         </div>
+            <div class="form-group">
+                <label for="resume">Upload Resume</label>
+                <input type="file" name="resume" id="resume" class="form-control">
+                @error('resume')
+                <small class="text-danger">{{ $message }}</small>
+                @enderror
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
 
-        <div class="mb-3">
-            <label for="resume" class="form-label">Bio</label>
-            <textarea id="resume" name="resume" class="form-control @error('resume') is-invalid @enderror" rows="3" required>{{ old('resume') }}</textarea>
-            @error('resume')
-                <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
+        <div class="form-group">
+            <label for="edu"> Education</label>
+            <input type="text" name="education" id="edu">
         </div>
 
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+        <div class="form-group">
+            <label for="exp"> Experience</label>
+            <input type="text" name="experience" id="exp">
+        </div>
 </div>
 @endsection

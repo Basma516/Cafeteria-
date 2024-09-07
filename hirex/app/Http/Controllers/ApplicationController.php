@@ -120,7 +120,7 @@ public function update(Request $request, $id)
 {
     $application = Application::findOrFail($id);
     
-    $application->status = $request->input('status');
+    $application->status_id = $request->input('status');
     
     $application->save();
     $notification = Notifications::create ([
@@ -172,7 +172,7 @@ public function update(Request $request, $id)
             }
     
             // Update the application status to '3' (Rejected)
-            $application->status = 3;
+            $application->status_id = 3;
             $application->save();
     
             // Redirect with success message

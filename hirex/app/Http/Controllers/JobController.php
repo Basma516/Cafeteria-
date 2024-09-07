@@ -73,15 +73,27 @@ class JobController extends Controller
     {
         $user = Auth::user();
 
-
+        // Check if user is an employer
         if ($user->role != 2) {
             return redirect()->route('home')->with('error', 'Access Denied. Only employers can post jobs.');
         }
+
+        // Get employer ID
         $emp_id = Employer::where('user_id', $user->id)->value('id');
         if (!$emp_id) {
             return redirect()->route('home')->with('error', 'Employer profile not found. Please complete your employer profile.');
         }
+
+        // Validate and upload the logo
+        $imagePath = null;
+        if ($request->hasFile('logo')) {
+            $imagePath = $request->file('logo')->store('job_logos', 'public'); // Save image in 'job_logos' directory
+        }
+
+     
         $validatedData = $request->validated();
+
+
         $job = new Job();
         $job->title = $validatedData['title'];
         $job->description = $validatedData['description'];
@@ -95,10 +107,18 @@ class JobController extends Controller
         $job->benefits = $validatedData['benefits'];
         $job->deadline = $validatedData['deadline'];
         $job->emp_id = $emp_id;
+
+      
+        if ($imagePath) {
+            $job->logo = $imagePath;
+        }
+
+    
         $job->save();
 
         return redirect()->route('jobs.index')->with('success', 'Job created successfully.');
     }
+
 
     public function show($id)
     {
@@ -154,6 +174,7 @@ class JobController extends Controller
                 $query->where('name', 'accepted');
             });
 
+        // Apply filters if they exist
         if ($request->filled('keyword')) {
             $jobs->where('title', 'like', '%' . $request->keyword . '%')
                 ->orWhere('description', 'like', '%' . $request->keyword . '%');
@@ -167,10 +188,10 @@ class JobController extends Controller
             $jobs->where('location', $request->location);
         }
 
-
+        // Fetch filtered jobs
         $jobs = $jobs->with('jobType', 'status', 'category')->paginate(10);
 
-
+        // Get categories and locations for the search form
         $categories = Category::all();
         $locations = Job::select('location')->distinct()->get();
 
