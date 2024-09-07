@@ -112,16 +112,25 @@
 
 @endsection
 @section('scripts')
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script id="chartData" type="application/json">
+    {
+        "dates": @json($applicationDates),
+        "counts": @json($applicationCounts)
+    }
+</script>
 <script>
+    var chartData = JSON.parse(document.getElementById('chartData').textContent);
+
     var ctx = document.getElementById('applicationsChart').getContext('2d');
     var applicationsChart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: @json($applicationDates),  // Dates for x-axis
+            labels: chartData.dates,  // Dates for x-axis
             datasets: [{
                 label: 'Applications',
-                data: @json($applicationCounts),  // Number of applications per date
+                data: chartData.counts,  // Number of applications per date
                 backgroundColor: 'rgba(75, 192, 192, 0.2)',  // Chart fill color
                 borderColor: 'rgba(75, 192, 192, 1)',  // Chart line color
                 borderWidth: 1
@@ -171,4 +180,3 @@
     });
 </script>
 @endsection
-

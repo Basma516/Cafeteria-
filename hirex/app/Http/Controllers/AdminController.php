@@ -77,25 +77,62 @@ class AdminController extends Controller
     }
     
 
-    public function employers()
+    public function employers(Request $request)
     {
-        $employers = Employer::all();
+        $search = $request->input('search');
+    
+        $query = Employer::query();
+    
+        if ($search) {
+            $query->whereHas('user', function ($q) use ($search) {
+                $q->where('name', 'LIKE', "%{$search}%");
+            });
+        }
+    
+        $employers = $query->paginate(10);
+    
         return view('dashboard.employer', compact('employers'));
     }
 
-    public function candidates()
+    public function candidates(Request $request)
     {
-        $candidates = Candidate::all();
+        $search = $request->input('search');
+    
+        $query = Candidate::query();
+    
+        if ($search) {
+            $query->whereHas('user', function ($q) use ($search) {
+                $q->where('name', 'LIKE', "%{$search}%");
+            });
+        }
+    
+        $candidates = $query->paginate(10);
+    
         return view('dashboard.candidate', compact('candidates'));
     }
-    public function categories()
+    public function categories(Request $request)
     {
-        $categories = Category::all();
+        $search = $request->input('search');
+        
+        $categories = Category::query()
+            ->when($search, function ($query, $search) {
+                return $query->where('name', 'like', "%{$search}%");
+            })
+            ->paginate(10);
+
         return view('dashboard.category', compact('categories'));
     }
-    public function jobs()
+    public function jobs(Request $request)
     {
-        $jobs = Job::all();
+        $search = $request->input('search');
+
+        $jobs = Job::query()
+            ->when($search, function ($query, $search) {
+                return $query->where('title', 'like', "%{$search}%");
+            })
+            ->with('employer.user', 'category', 'jobType', 'status')
+            ->paginate(10);
+
         return view('dashboard.jobs', compact('jobs'));
     }
 

@@ -1,100 +1,182 @@
-@extends('layouts.app')
-
+@extends('dashboard.layouts.app')
 @section('content')
-<div class="site-section py-5">
-    <div class="container">
-        <div class="row mb-4">
-            <div class="col-lg-12">
-                <input type="text" class="form-control" placeholder="Search for jobs..."
-                    style="border-radius: 25px; padding: 10px 20px;">
-            </div>
+<div class="container mt-5" style="margin-top: 50px;">
+
+    <div class="card mb-3">
+        <div class="card-header">
+            <h2 class="mb-0">{{$job->title}}</h2>
         </div>
+        <div class="card-body">
+            <p class="card-text">{{$job->description}}</p>
 
-        <div class="row">
-            <div class="col-md-12 mb-5">
-                <h2 class="mb-5 h3 text-primary">Recent Jobs</h2>
-                <div class="rounded border jobs-wrap">
-                    @foreach($jobs as $job)
-                    @php
-                        $isDeadlinePassed = \Carbon\Carbon::now()->gt(\Carbon\Carbon::parse($job->deadline));
-                        $applied = false;
-                        $application = null;
+            <h5 class="mt-4">Comments:</h5>
+            <ul class="list-group">
+                @foreach($comments as $comment)
+                @php
+                $user = $comment->user;
+                @endphp
+                <li class="list-group-item" style="margin-bottom: 10px;">
+                    {{$comment->comment}}
+                    <span class="badge badge-secondary float-right">by {{$user->name}}</span>
+                    <button class="badge btn bg-delete " data-toggle="modal" data-target="#commentDelete-{{$comment->id}}" type="button"><i class="material-icons">Delete</i></button>
 
-                        if (auth()->check() && auth()->user()->candidate) {
-                            $applied = \App\Models\Application::where('candidate_id', auth()->user()->candidate->id)
-                                ->where('job_id', $job->id)
-                                ->exists();
-
-                            if ($applied) {
-                                $application = \App\Models\Application::where('candidate_id', auth()->user()->candidate->id)
-                                    ->where('job_id', $job->id)
-                                    ->first();
-                            }
-                        }
-                    @endphp
-
-                    <div class="job-item d-block d-md-flex align-items-center border-bottom p-3 mb-3" 
-                         onclick="window.location.href='{{ route('jobs.show', $job->id) }}'"
-                         style="cursor: pointer;">
-                        <div class="company-logo text-center text-md-left pl-3">
-                            <img src="{{ $job->company_logo ? asset('storage/' . $job->company_logo) : 'https://via.placeholder.com/50' }}"
-                                alt="Company Logo" class="img-fluid rounded-circle"
-                                style="width: 50px; height: 50px; object-fit: cover;">
-                        </div>
-                        <div class="job-details h-100 p-3 flex-grow-1">
-                            <h3 class="text-dark">{{ $job->title }}</h3>
-                            <div class="d-block d-lg-flex">
-                                <div class="mr-3"><span class="fas fa-briefcase mr-1"></span> {{ $job->jobType->name }}</div>
-                                <div class="mr-3" style="display: {{ $job->location ? 'block' : 'none' }};">
-                                    <span class="fas fa-map-marker-alt mr-1"></span> 
-                                    {{ $job->location ?? 'Location not available' }}
+                    <!-- Delete modal -->
+                    <div class="modal fade" id="commentDelete-{{$comment->id}}" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel-" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title text-center" id="staticBackdropLabel-{{$comment->id}}">Name: {{$user->name}} </h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
                                 </div>
-                                <div><span class="mr-1"></span> ${{ $job->salary }}</div>
-                                <div> <p><strong>Total Applications:</strong> {{ $job->applications_count }}</p>
+                                <div class="modal-body text-center">
+                                    <h4> Do you want to Delete This Comment ?</h4>
                                 </div>
+                                <form action="{{route('comment.delete', ['job_id' => $job->id, 'id' => $comment->id])}}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <div class="modal-footer">
+                                        <input type="hidden" name="id" value="">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </div>
+                                </form>
+
+
                             </div>
                         </div>
-                        <div class="job-category p-3">
-                            @auth
-                            @if(auth()->user()->role == 2)
-                                <span class="badge badge-info">{{ $job->status->name }}</span>
-                            @endif
-                            @endauth
-                        </div>
-                        @auth
-                        @if(auth()->user()->role == 3)
-                        <div class="job-apply p-3">
-                            @if($isDeadlinePassed)
-                                <button class="btn btn-secondary" disabled>Apply Now</button>
-                            @else
-                                @if($applied)
-                                    <form action="{{ route('applications.destroy', $application->id) }}" method="POST" style="display: inline;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-secondary">Cancel Application</button>
-                                    </form>
-                                @else
-                                    <a href="{{ route('applications.create', ['job' => $job->id]) }}" class="btn btn-primary">Apply Now</a>
-                                @endif
-                            @endif
-                        </div>
-                        @endif
-                        @endauth
                     </div>
-                    @endforeach
-                </div>
-            </div>
+                </li>
+                @endforeach
+            </ul>
         </div>
-        <div>
-            <!-- <div class="col-md-12 text-center mt-5">
-                <div >
-                    <ul >
-                        {{ $jobs->links('pagination::bootstrap-5') }}
-                    </ul>
-                </div>
-            </div>
-        </div> -->
-        
     </div>
+
+    <hr>
+
+    <h3>Applications</h3>
+    @if($applications && $applications-> isNotEmpty())
+    <div class="card-body mt-3">
+        <div class="table-responsive">
+            <table id="usersTable" class="table table-striped  table-dark" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+
+                        <th>Candidate Name</th>
+                        <th>status</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($applications as $app)
+                    @php
+                    $can = $app->candidate;
+                    $candidate = $can->user;
+                    $status = $app->status;
+                    @endphp
+                    <tr>
+                        <td>{{$app->id}}</td>
+                        <td>{{$candidate->name}}</td>
+                        <td>{{$status->name}}</td>
+
+                    </tr>
+                    @endforeach
+            </table>
+        </div>
+    </div>
+    @else
+    <div class="container ">
+        <span class="text-danger">* No Applications Found</span>
+    </div>
+
+    @endif
+
+    @if($applications && $applications-> isNotEmpty())
+
+    <h3 class="mt-5">Applications Over Time</h3>
+    <div class="row justify-content-center mt-4 ">
+        <div class="col-md-10 bg-dark">
+            <canvas id="applicationsChart" width="400" height="200"></canvas>
+        </div>
+    </div>
+    @endif
+
+
 </div>
+
+
+
+
+
+@endsection
+@section('scripts')
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script id="chartData" type="application/json">
+    {
+        "dates": @json($applicationDates),
+        "counts": @json($applicationCounts)
+    }
+</script>
+<script>
+    var chartData = JSON.parse(document.getElementById('chartData').textContent);
+
+    var ctx = document.getElementById('applicationsChart').getContext('2d');
+    var applicationsChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: chartData.dates,  // Dates for x-axis
+            datasets: [{
+                label: 'Applications',
+                data: chartData.counts,  // Number of applications per date
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',  // Chart fill color
+                borderColor: 'rgba(75, 192, 192, 1)',  // Chart line color
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: 'white'  // Legend text color
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            return tooltipItems[0].label;
+                        },
+                        label: function(tooltipItem) {
+                            return tooltipItem.dataset.label + ': ' + tooltipItem.formattedValue;
+                        }
+                    },
+                    titleColor: 'white',  // Tooltip title color
+                    bodyColor: 'white',   // Tooltip body color
+                    footerColor: 'white'  // Tooltip footer color
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color: 'white'  // X-axis text color
+                    },
+                    title: {
+                        color: 'white'  // X-axis title color
+                    }
+                },
+                y: {
+                    ticks: {
+                        color: 'white'  // Y-axis text color
+                    },
+                    title: {
+                        color: 'white'  // Y-axis title color
+                    }
+                }
+            }
+        }
+    });
+</script>
 @endsection
