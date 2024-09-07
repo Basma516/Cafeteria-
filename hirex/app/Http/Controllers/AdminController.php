@@ -77,15 +77,37 @@ class AdminController extends Controller
     }
     
 
-    public function employers()
+    public function employers(Request $request)
     {
-        $employers = Employer::all();
+        $search = $request->input('search');
+    
+        $query = Employer::query();
+    
+        if ($search) {
+            $query->whereHas('user', function ($q) use ($search) {
+                $q->where('name', 'LIKE', "%{$search}%");
+            });
+        }
+    
+        $employers = $query->paginate(10);
+    
         return view('dashboard.employer', compact('employers'));
     }
 
-    public function candidates()
+    public function candidates(Request $request)
     {
-        $candidates = Candidate::all();
+        $search = $request->input('search');
+    
+        $query = Candidate::query();
+    
+        if ($search) {
+            $query->whereHas('user', function ($q) use ($search) {
+                $q->where('name', 'LIKE', "%{$search}%");
+            });
+        }
+    
+        $candidates = $query->paginate(10);
+    
         return view('dashboard.candidate', compact('candidates'));
     }
     public function categories()
