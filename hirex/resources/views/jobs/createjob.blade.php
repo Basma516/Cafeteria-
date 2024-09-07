@@ -69,21 +69,7 @@
                                 @enderror
                             </div>
 
-                            <!-- Job Status -->
-                            <div class="form-group mt-3">
-                                <label for="job_status" class="text-primary">Job Status:</label>
-                                <select name="job_status" id="job_status" class="form-control @error('job_status') is-invalid @enderror">
-                                    @foreach($statuses as $status)
-                                        <option value="{{ $status->id }}" {{ old('job_status') == $status->id ? 'selected' : '' }}>
-                                            {{ $status->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                @error('job_status')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-
+                           
                             <!-- Job Type -->
                             <div class="form-group mt-3">
                                 <label for="job_type" class="text-primary">Job Type:</label>

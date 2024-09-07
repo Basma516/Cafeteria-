@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployerController;
 use App\Http\Controllers\UserController;
@@ -7,7 +8,10 @@ use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\CommentsController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ResumeController;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Notifi;
 
 
 
@@ -26,7 +30,7 @@ use App\Http\Controllers\JobCategoryController;
 
 Route::get('/', function () {
     return view('home');
-});
+ });
 
 // Dashboard Routes Start >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -103,7 +107,15 @@ Route::post('/dashboard/category/store', [AdminController::class, 'storeCategory
 // })->name('jobView');
 
 Auth::routes();
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+// HEAD
+// Define a new route for the home page
+//Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+
+//Route::get('/home', [HomeController::class, 'index'])->name('home');
+// d06ca9799142ef88e37eea3ee34312b22a76a57e
 
 // Route::view('/profile', 'users.edit_profile')->name('profile');
 
@@ -137,13 +149,23 @@ Route::resource('employers', EmployerController::class);
 
 // Routes for Users
 Route::resource('users', UserController::class);
+Route::resource('/', HomeController::class);
 
 // Routes for Jobs
 Route::resource('jobs', JobController::class);
+Route::resource('/', HomeController::class);
+
 
 Route::resource('candidates', CandidateController::class);
 
 Route::get('/category', [JobCategoryController::class, 'index'])->name('category.index');
+
+// web.php
+ Route::get('jobs/category/{categoryId}', [JobController::class, 'showByCategory'])->name('jobs.jobbycategory');
+
+
+
+
 // Route::get('/category', [JobCategoryController::class, 'index'])->middleware('auth')->name('category.index');
 
 
@@ -169,15 +191,15 @@ Route::resource('jobs', JobController::class)->middleware('auth'); // This provi
 // Additional route for storing comments if needed
 Route::post('/jobs/{job}/comments', [JobController::class, 'storeComment'])->name('jobs.storeComment');
 Route::get('/jobs/{id}/comments', [CommentsController::class, 'show'])->name('comments.show');
-Route::get('/jobs/{id}', [JobController::class, 'show'])->name('jobs.show');
+// Route::get('/jobs/{id}', [JobController::class, 'show'])->name('jobs.show');
 
 
-// Route to show job details with comments
-Route::get('/jobs/{job}', [JobController::class, 'show'])->name('jobs.show');
+// // Route to show job details with comments
+// Route::get('/jobs/{job}', [JobController::class, 'show'])->name('jobs.show');
 
 // Route to store a comment
 Route::post('/jobs/{job}/comments', [CommentsController::class, 'store'])->name('comments.store');
-Route::get('/employer/myjobs/{id}', [EmployerController::class, 'myJobs'])->name('jobs.myjobs')->middleware('auth');
+// Route::get('/employer/myjobs/{id}', [EmployerController::class, 'myJobs'])->name('jobs.myjobs')->middleware('auth');
 
 Route::get('/myjobs', [JobController::class, 'showEmployerJobs'])->name('jobs.empjobs');
 
@@ -190,3 +212,15 @@ Route::get('/applications/{id}/resume', [ApplicationController::class, 'viewResu
 // web.php
 
 Route::get('jobs/search', [JobController::class, 'search'])->name('jobs.search');
+
+
+Route::get('/notifications', [Notifi::class, 'index'])->name('notifications.index');
+
+
+
+
+
+/*
+Route::get('/profile', function () {
+    return view('CandidateProfile');
+});*/

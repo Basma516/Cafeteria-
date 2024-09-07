@@ -1,4 +1,4 @@
-/********** Template CSS **********/
+/**** Template CSS ****/
 :root {
     --primary: #5289b5;
     --secondary: #afd8f2;
@@ -31,7 +31,7 @@ nav {
 }
 
 
-/*** Spinner ***/
+/* Spinner */
 #spinner {
     opacity: 0;
     visibility: hidden;
@@ -46,11 +46,18 @@ nav {
 }
 
 
-/*** Button ***/
+/* Button */
 .btn {
     font-family: 'Inter', sans-serif;
     font-weight: 600;
     transition: .5s;
+    background-color: #5289b5 !important;
+    color: #FFFFFF;
+}
+
+.btn:hover {
+    background-color: #1f3541 !important;
+    color: #FFFFFF;
 }
 
 .btn.btn-primary,
@@ -85,7 +92,7 @@ nav {
 }
 
 
-/*** Navbar ***/
+/* Navbar */
 .navbar .dropdown-toggle::after {
     border: none;
     content: "\f107";
@@ -166,7 +173,7 @@ nav {
 }
 
 
-/*** Header ***/
+/* Header */
 .header-carousel .container,
 .page-header .container {
     position: relative;
@@ -191,6 +198,37 @@ nav {
 .page-header .container::after {
     top: 100%;
     margin-top: -15px;
+}
+
+
+/*category style */
+.cat-item {
+    background-color: var(--light);
+    border: 1px solid var(--secondary);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cat-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.cat-item .icon {
+    background-color: var(--secondary);
+    padding: 15px;
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.cat-item h6 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--dark);
+}
+
+.cat-item p {
+    font-size: 1rem;
+    color: var(--dark);
 }
 
 @media (max-width: 768px) {
@@ -258,7 +296,7 @@ nav {
 }
 
 
-/*** About ***/
+/* About */
 .about-bg {
     background-image: -webkit-repeating-radial-gradient(center center, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) 1px, transparent 1px, transparent 100%);
     background-image: -moz-repeating-radial-gradient(center center, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) 1px, transparent 1px, transparent 100%);
@@ -269,7 +307,7 @@ nav {
 }
 
 
-/*** Category ***/
+/* Category */
 .cat-item {
     display: block;
     box-shadow: 0 0 45px rgba(0, 0, 0, .08);
@@ -283,7 +321,7 @@ nav {
 }
 
 
-/*** Job Listing ***/
+/* Job Listing */
 .nav-pills .nav-item .active {
     border-bottom: 2px solid var(--primary);
 }
@@ -301,7 +339,7 @@ nav {
 }
 
 
-/*** Testimonial ***/
+/* Testimonial */
 .testimonial-carousel .owl-item .testimonial-item,
 .testimonial-carousel .owl-item.center .testimonial-item * {
     transition: .5s;
@@ -339,7 +377,7 @@ nav {
 }
 
 
-/*** Footer ***/
+/* Footer */
 .footer .btn.btn-social {
     margin-right: 5px;
     width: 35px;
@@ -407,6 +445,7 @@ nav {
     padding-right: 0;
     border-right: none;
 }
+
 /*alljobs css  */
 /* Custom styles for job listings */
 .job-item {
@@ -463,3 +502,86 @@ nav {
     background-color: #007bff;
     border-color: #007bff;
 }
+
+/* 
+/* CandidateProfile styles  */
+/* 
+body {
+    background-color: #afd8f2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.profile-card {
+    background-color: white;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    width: 550px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.profile-card img {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    margin-bottom: 20px;
+}
+
+.profile-card h2 {
+    margin: 10px 0;
+}
+
+.profile-card p {
+    color: gray;
+    margin-bottom: 5px;
+}
+
+.profile-card .btn-primary {
+    background-color: #5289b5;
+    border: none;
+}
+
+.profile-card .btn-primary:hover {
+    background-color: #ff3a3a;
+}
+
+.profile-card .stats {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.profile-card .stats div {
+    text-align: center;
+}
+
+.profile-card .icon-text {
+    position: absolute;
+    top: 15px;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.profile-card .icon-text i {
+    font-size: 20px;
+    margin-right: 5px;
+    color: #5289b5;
+}
+
+.profile-card .icon-connect {
+    left: 20px;
+}
+
+.profile-card .icon-message {
+    right: 20px;
+}
+
+
+ */ 

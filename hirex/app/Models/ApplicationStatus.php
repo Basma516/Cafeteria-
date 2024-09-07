@@ -9,6 +9,13 @@ class ApplicationStatus extends Model
 {
     use HasFactory;
     protected $table = 'application_status'; 
+   
+    protected $primaryKey = 'id';
+
+ 
+    protected $fillable = [
+        'name',
+    ];
 
     public function applications()
     {

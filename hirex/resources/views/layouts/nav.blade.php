@@ -8,16 +8,26 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto p-4 p-lg-0">
-                <a href="{{ url('/') }}" class="nav-item nav-link active">Home</a>
+                <a href="{{ url('/') }}" class="nav-item nav-link">Home</a>
                 <a href="{{ url('/') }}#about" class="nav-item nav-link">About</a>
-                <a href="{{ url('/myjobs') }}" class="nav-item nav-link">myjobs</a>
+
+                @auth
+                    @if(auth()->user()->role != 3)
+                        <a href="{{ url('/myjobs') }}" class="nav-item nav-link">My Jobs</a>
+                    @endif
+
+                    @if(auth()->user()->role == 2)
+                        <a href="{{ url('/resumes') }}" class="nav-item nav-link">Resumes</a>
+                    @endif
+                @endauth
+
                 <a href="{{ url('/jobs') }}" class="nav-item nav-link">All Jobs</a>
 
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                     <div class="dropdown-menu rounded-0 m-0">
-                    <a href="{{ route('category.index') }}" class="dropdown-item">Job Category</a>
-                    <a href="{{ url('/testimonial') }}" class="dropdown-item">Testimonial</a>
+                        <a href="{{ route('category.index') }}" class="dropdown-item">Job Category</a>
+                        <a href="{{ url('/testimonial') }}" class="dropdown-item">Testimonial</a>
                         <a href="{{ url('/404') }}" class="dropdown-item">404</a>
                     </div>
                 </div>
@@ -27,7 +37,7 @@
             @auth
                 <div class="navbar-nav ms-auto p-4 p-lg-0">
                     <a href="{{ route('home') }}" class="nav-item nav-link">My Account</a>
-                   
+
                     <form method="POST" action="{{ route('logout') }}" class="d-inline">
                         @csrf
                         <button type="submit" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">
