@@ -9,16 +9,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
 
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,700,900" rel="stylesheet">
 
-    <link rel="stylesheet" href="{{asset('css/bootstrapNew.min.css')}}">
+     <link rel="stylesheet" href="{{asset('css/bootstrapNew.min.css')}}"> 
 
-    <link rel="stylesheet" href="{{asset('css/font-awesome.min.css')}}">
+     <link rel="stylesheet" href="{{asset('css/font-awesome.min.css')}}"> 
 
     <link rel="stylesheet" href="{{asset('css/scrollbar/jquery.mCustomScrollbar.min.css')}}">
-
+     <link href=" {{asset('images/logo-transparent.png')}}" rel="icon" type="image/x-icon"> 
     <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('css/responsive.css')}}">
     <script src="{{asset('js/vendor/modernizr-2.8.3.min.js')}}"></script>
@@ -32,8 +33,8 @@
     <div class="left-sidebar-pro">
         <nav id="sidebar">
             <div class="sidebar-header">
-                <img src="{{asset('images/logo-transparent.png')}}" alt="" style="width: 200px;
-                    height: 100px;">
+               <a href="/dashboard"> <img src="{{asset('images/logo-transparent.png')}}" alt="" style="width: 200px;
+                    height: 100px;"></a>
             </div>
             <div class="left-custom-menu-adp-wrap comment-scrollbar">
                 <nav class="sidebar-nav left-sidebar-menu-pro">
@@ -87,10 +88,10 @@
                                             <div role="menu" class="author-message-top dropdown-menu animated zoomIn">
                                                 <div class="message-single-top">
                                                     <a href="/dashboard">Main</a><br>
-                                                    <a href="{{ route('employer') }}">Employers</a><br>
-                                                    <a href="{{ route('candidate') }}">Candidates</a><br>
-                                                    <a href="{{ route('category') }}">Categories</a><br>
-                                                    <a href="{{ route('jobs') }}">Jobs</a><br>
+                                                    <a href="{{route('employer')}}">Employers</a><br>
+                                                    <a href="{{route('candidate')}}">Candidates</a><br>
+                                                    <a href="{{route('category')}}">Categories</a><br>
+                                                    <a href="{{route('jobs')}}">Jobs</a><br>
                                                 </div>
                                             </div>
                                         </li>
@@ -116,6 +117,8 @@
 </script>
 
 
+
+
     <script src="{{asset('js/vendor/jquery-1.12.4.min.js')}}"></script>
     <script src="{{asset('js/bootstrap.min.js')}}"></script>
     <script src="{{asset('js/jquery.meanmenu.js')}}"></script>
@@ -123,6 +126,10 @@
     <script src="{{asset('js/morrisjs/raphael-min.js')}}"></script>
     <script src="{{asset('js/morrisjs/morris.js')}}"></script>
     <script src="{{asset('js/morrisjs/morris-active.js')}}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+    @yield('scripts')
 
 </body>
 

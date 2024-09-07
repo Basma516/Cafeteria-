@@ -36,7 +36,7 @@ class HomeController extends Controller
     ->whereHas('status', function ($query) {
         $query->where('name', 'accepted');
     })
-    ->paginate(10);
+    ->paginate(3);
 
     $categories = Category::withCount('jobs')->get();
     $locations = Job::select('location')->distinct()->get();

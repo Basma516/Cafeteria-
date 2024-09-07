@@ -10,6 +10,12 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
+use Smalot\PdfParser\Parser;
+use App\Models\Application;
+
+
 
 class CandidateController extends Controller
 {
@@ -45,10 +51,19 @@ class CandidateController extends Controller
         $validatedData = $request->validated();
 
         $candidate = new Candidate();
-       
+
+        if($validatedData['resume']){
+            $resumePath = $request->file('resume')->store('resumes', 'public');
+            }else{
+                $resumePath = null;
+            }
+
         $candidate->user_id = Auth::id(); // Assuming the candidate is associated with the logged-in user
         $candidate->skills = implode(', ', $validatedData['skills']); // Convert array to comma-separated string
-        $candidate->resume = $validatedData['resume'];
+      
+        $candidate->resume = $resumePath;
+        $candidate->education = $validatedData['education'];
+        $candidate->experience = $validatedData['experience'];
 
         $candidate->save();
         User::where('id', $candidate->id)->update(['role' => 3]);
@@ -67,6 +82,11 @@ class CandidateController extends Controller
     {
         return view('candidates.show', compact('candidate'));
     }
+
+
+
+
+
 
     /**
      * Show the form for editing the specified candidate.
@@ -111,4 +131,58 @@ class CandidateController extends Controller
         return redirect()->route('candidates.index')
             ->with('success', 'Candidate profile deleted successfully.');
     }
+
+
+
+
+
+    // public function extractText($resumePath, $fileContent)
+    //    {
+    //         $extension = pathinfo($resumePath, PATHINFO_EXTENSION);
+    
+    //         if ($extension == 'pdf') {
+    //            // Use smalot/pdfparser to extract text from PDF
+    //              $parser = new Parser();
+    //              $pdf = $parser->parseContent($fileContent);
+    //          return $pdf->getText();
+            
+              
+    //        }
+    
+    
+    //         return '';
+    //    }
+    
+    //     public function viewResume(Request $request, $id)
+    //     {
+    //         $application = Application::findOrFail($id);
+    //         $resumePath = $application->resume;
+        
+    //         // Check if the file exists
+    //         if (!Storage::disk('public')->exists($resumePath)) {
+    //             return redirect()->back()->with('error', 'Resume file not found.');
+    //         }
+        
+        
+    //         $fileContent = Storage::disk('public')->get($resumePath);
+    //         $textContent = $this->extractText($resumePath, $fileContent);
+        
+          
+    //         if ($request->has('query')) {
+    //             $query = $request->input('query');
+    //             $highlightedText = str_ireplace($query, "<mark>$query</mark>", $textContent); // Highlight the query in the text
+    //             return view('applications.view_resume', [
+    //                 'resumePath' => Storage::url($resumePath),
+    //                 'resumeText' => $highlightedText,
+    //                 'application' => $application
+    //             ]);
+    //         }
+        
+    //         return view('applications.view_resume', [
+    //             'resumePath' => Storage::url($resumePath),
+    //             'resumeText' => $textContent,
+    //             'application' => $application
+    //         ]);
+    //     }
+    
 }
