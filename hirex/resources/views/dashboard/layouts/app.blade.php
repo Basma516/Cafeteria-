@@ -53,7 +53,10 @@
                             <a title="Landing Page" href="{{route('jobs')}}" aria-expanded="false"><span><i class="fa-solid fa-briefcase"></i></span> <span class="mini-click-non">Jobs</span></a>
                         </li>
 
+                        <li>
+                            <a title="Landing Page" href="{{route('home')}}" aria-expanded="false"><span><i class="fa-solid fa-house"></i></span> <span class="mini-click-non">Home</span></a>
                         </li>
+
                     </ul>
                 </nav>
             </div>
@@ -92,6 +95,7 @@
                                                     <a href="{{route('candidate')}}">Candidates</a><br>
                                                     <a href="{{route('category')}}">Categories</a><br>
                                                     <a href="{{route('jobs')}}">Jobs</a><br>
+                                                    <a href="{{route('home')}}">Home</a><br>
                                                 </div>
                                             </div>
                                         </li>
