@@ -1,5 +1,4 @@
-@extends('layouts.app')
-
+@extends('dashboard.layouts.app')
 @section('content')
 <div class="site-section py-5">
     <div class="container" style="max-width: 950px; margin: 0 auto;">
@@ -33,6 +32,8 @@
                 </form>
             </div>
         </div>
+        <div class="card-body">
+            <p class="card-text">{{$job->description}}</p>
 
         <!-- Recent Jobs -->
         <div class="row">
@@ -58,7 +59,7 @@
                     }
                     @endphp
 
-                    <div class="job-item d-block d-md-flex align-items-center border-bottom p-4 mb-4"
+                    <!-- <div class="job-item d-block d-md-flex align-items-center border-bottom p-4 mb-4"
                         onclick="window.location.href='{{ route('jobs.show', $job->id) }}'"
                         style="cursor: pointer; border-radius: 10px; transition: background-color 0.3s ease;">
 
@@ -81,7 +82,7 @@
                                 <div class="mr-3"><i class="fas fa-dollar-sign mr-1"></i> ${{ $job->salary }}</div>
                                 <div><strong>Total Applications:</strong> {{ $job->applications_count }}</div>
                             </div>
-                        </div>
+                        </div>-->
 
                         <!-- Apply Button Section -->
                         <div class="job-apply p-3">
@@ -103,7 +104,7 @@
                             @endif
                             @endauth
                         </div>
-                    </div>
+                    </div> -->
                     @empty
                     <p class="text-center">No jobs found matching your search criteria.</p>
                     @endforelse
@@ -115,5 +116,138 @@
             {{ $jobs->links('pagination::bootstrap-5') }}
         </div>
     </div>
+
+    <hr>
+
+    <h3>Applications</h3>
+    @if($applications && $applications-> isNotEmpty())
+    <div class="card-body mt-3">
+        <div class="table-responsive">
+            <table id="usersTable" class="table table-striped  table-dark" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+
+                        <th>Candidate Name</th>
+                        <th>status</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($applications as $app)
+                    @php
+                    $can = $app->candidate;
+                    $candidate = $can->user;
+                    $status = $app->status;
+                    @endphp
+                    <tr>
+                        <td>{{$app->id}}</td>
+                        <td>{{$candidate->name}}</td>
+                        <td>{{$status->name}}</td>
+
+                    </tr>
+                    @endforeach
+            </table>
+        </div>
+    </div>
+    @else
+    <div class="container ">
+        <span class="text-danger">* No Applications Found</span>
+    </div>
+
+    @endif
+
+    @if($applications && $applications-> isNotEmpty())
+
+    <h3 class="mt-5">Applications Over Time</h3>
+    <div class="row justify-content-center mt-4 ">
+        <div class="col-md-10 bg-dark">
+            <canvas id="applicationsChart" width="400" height="200"></canvas>
+        </div>
+    </div>
+    @endif
+
+
 </div>
+<<<<<<< HEAD
 @endsection
+=======
+
+<<<<<<< HEAD
+
+
+
+
+@endsection
+@section('scripts')
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script id="chartData" type="application/json">
+    {
+        "dates": @json($applicationDates),
+        "counts": @json($applicationCounts)
+    }
+</script>
+<script>
+    var chartData = JSON.parse(document.getElementById('chartData').textContent);
+
+    var ctx = document.getElementById('applicationsChart').getContext('2d');
+    var applicationsChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: chartData.dates,  // Dates for x-axis
+            datasets: [{
+                label: 'Applications',
+                data: chartData.counts,  // Number of applications per date
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',  // Chart fill color
+                borderColor: 'rgba(75, 192, 192, 1)',  // Chart line color
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: 'white'  // Legend text color
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            return tooltipItems[0].label;
+                        },
+                        label: function(tooltipItem) {
+                            return tooltipItem.dataset.label + ': ' + tooltipItem.formattedValue;
+                        }
+                    },
+                    titleColor: 'white',  // Tooltip title color
+                    bodyColor: 'white',   // Tooltip body color
+                    footerColor: 'white'  // Tooltip footer color
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color: 'white'  // X-axis text color
+                    },
+                    title: {
+                        color: 'white'  // X-axis title color
+                    }
+                },
+                y: {
+                    ticks: {
+                        color: 'white'  // Y-axis text color
+                    },
+                    title: {
+                        color: 'white'  // Y-axis title color
+                    }
+                }
+            }
+        }
+    });
+</script>
+=======
+>>>>>>> master
+@endsection
+>>>>>>> omar

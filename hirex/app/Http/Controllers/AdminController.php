@@ -110,14 +110,29 @@ class AdminController extends Controller
     
         return view('dashboard.candidate', compact('candidates'));
     }
-    public function categories()
+    public function categories(Request $request)
     {
-        $categories = Category::all();
+        $search = $request->input('search');
+        
+        $categories = Category::query()
+            ->when($search, function ($query, $search) {
+                return $query->where('name', 'like', "%{$search}%");
+            })
+            ->paginate(10);
+
         return view('dashboard.category', compact('categories'));
     }
-    public function jobs()
+    public function jobs(Request $request)
     {
-        $jobs = Job::all();
+        $search = $request->input('search');
+
+        $jobs = Job::query()
+            ->when($search, function ($query, $search) {
+                return $query->where('title', 'like', "%{$search}%");
+            })
+            ->with('employer.user', 'category', 'jobType', 'status')
+            ->paginate(10);
+
         return view('dashboard.jobs', compact('jobs'));
     }
 
