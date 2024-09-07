@@ -27,6 +27,9 @@
                 <a href="{{ url('/') }}#alljobs" class="nav-item nav-link">All Jobs</a>
                 <a href="{{ url('/') }}#category" class="nav-item nav-link">Job Categories</a>
             </div>
+            @auth
+    <a href="{{ route('notifications.index') }}" class="nav-item nav-link">Notifications</a>
+@endauth
 
             <div class="navbar-nav ms-auto p-4 p-lg-0">
                 @auth

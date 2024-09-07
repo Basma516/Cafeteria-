@@ -1,9 +1,13 @@
 @extends('dashboard.layouts.app')
 @section('content')
 <div class="site-section py-5">
+<<<<<<< HEAD
+    <div class="container">
+=======
     <div class="container" style="max-width: 950px; margin: 0 auto;">
 
         <!-- Display error and success messages -->
+>>>>>>> origin
         @if (session('error'))
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
             {{ session('error') }}
@@ -82,9 +86,25 @@
                                 <div class="mr-3"><i class="fas fa-dollar-sign mr-1"></i> ${{ $job->salary }}</div>
                                 <div><strong>Total Applications:</strong> {{ $job->applications_count }}</div>
                             </div>
+<<<<<<< HEAD
                         </div>-->
+=======
+                        </div>
+<<<<<<< HEAD
+                        <!-- <div class="job-category p-3">
+                            @auth
+                            @if(auth()->user()->role == 2)
+                            <span class="badge " style="background-color:#5289b5 ">{{ $job->status->name }}</span>
+                            @endif
+                            @endauth
+                        </div> -->
+                        @auth
+                        @if(auth()->user()->role == 3)
+=======
+>>>>>>> shrouk
 
                         <!-- Apply Button Section -->
+>>>>>>> origin
                         <div class="job-apply p-3">
                             @auth
                             @if(auth()->user()->role == 3)

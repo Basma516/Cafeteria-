@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\File;
 use Smalot\PdfParser\Parser;
 use PhpOffice\PhpWord\IOFactory;
 use App\Notifications\jobApp;
+use App\Notifications\ApplicationStatusUpdatedNotification;
 
 
 
@@ -116,24 +117,24 @@ class ApplicationController extends Controller
     // In ApplicationController.php
     // In ApplicationController.php
   
-public function update(Request $request, $id)
-{
-    $application = Application::findOrFail($id);
+// public function update(Request $request, $id)
+// {
+//     $application = Application::findOrFail($id);
     
-    $application->status_id = $request->input('status');
+   // $application->status_id = $request->input('status');
     
-    $application->save();
-    $notification = Notifications::create ([
-        "user_id" => $application->candidate_id,
-        "job_id"=> $application->job_id,
-        "status" => $request->input("status"),       
-    ]);
+//     $application->save();
+//     $notification = Notifications::create ([
+//         "user_id" => $application->candidate_id,
+//         "job_id"=> $application->job_id,
+//         "status" => $request->input("status"),       
+//     ]);
 
-        // Redirect back with a success message
-        return redirect()->back()->with('success', 'Application status updated successfully.');
+//         // Redirect back with a success message
+//         return redirect()->back()->with('success', 'Application status updated successfully.');
 
     
-}
+// }
 
 
     /**
@@ -238,3 +239,4 @@ public function update(Request $request, $id)
 // }
     
 }
+
