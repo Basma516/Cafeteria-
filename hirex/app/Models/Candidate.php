@@ -22,9 +22,13 @@ class Candidate extends Model
     {
         return $this->belongsTo(User::class);
     }
-    
+
     public function applications()
     {
         return $this->hasMany(Application::class);
+    }
+    public function resumes()
+    {
+        return $this->hasMany(Resume::class);
     }
 }

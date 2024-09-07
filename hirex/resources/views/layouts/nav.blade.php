@@ -12,6 +12,7 @@
                 <a href="{{ url('/') }}#about" class="nav-item nav-link">About</a>
                 <a href="{{ url('/myjobs') }}" class="nav-item nav-link">myjobs</a>
                 <a href="{{ url('/jobs') }}" class="nav-item nav-link">All Jobs</a>
+                <a href="{{ url('/resources/views/packages/packages') }}" class="nav-item nav-link">Packages</a>
 
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
@@ -27,7 +28,7 @@
             @auth
                 <div class="navbar-nav ms-auto p-4 p-lg-0">
                     <a href="{{ route('home') }}" class="nav-item nav-link">My Account</a>
-                   
+
                     <form method="POST" action="{{ route('logout') }}" class="d-inline">
                         @csrf
                         <button type="submit" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">
