@@ -3,6 +3,11 @@
 @section('content')
 <div class="container">
     <h1>View Resume</h1>
+<<<<<<< HEAD
+    <iframe src="{{ asset('storage/' . $resumePath) }}" style="width: 100%; height: 800px;" frameborder="0"></iframe>
+   </div>
+@endsection
+=======
 
     <!-- Search Form -->
     <form method="GET" action="{{ route('applications.viewResume', $application->id) }}">
@@ -30,3 +35,4 @@
     <iframe src="{{ asset('storage/' . $resumePath) }}" style="width: 100%; height: 800px;" frameborder="0"></iframe>
    </div>
 @endsection
+>>>>>>> origin
