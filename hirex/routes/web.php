@@ -17,6 +17,7 @@ use App\Http\Controllers\Notifi;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Password;
+use App\Http\Controllers\UserProfileController;
 
 
 
@@ -392,8 +393,11 @@ Route::get('/profile', function () {
 
 Route::get('/applications/{id}/resume', [ApplicationController::class, 'viewResume'])->name('applications.resume');
 Route::get('/applications/{id}/resume/candidate', [CandidateController::class, 'viewResume'])->name('candiadates.viewResume');
-
-
 Route::patch('/applications/{id}/reject', [ApplicationController::class, 'reject'])->name('applications.reject');
+// Packages Page
+Route::view('/packages/user', 'packages.UserPackages');
+Route::view('/packages/Employer', 'packages.EmployerPackages');
+// User Profile Route
+Route::get('/candidate-profile/{userId}', [UserProfileController::class, 'showCandidateProfile'])->name('profile.candidate');
 
 
