@@ -4,11 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-<<<<<<< HEAD
-    "content-hash": "269929eeb3b58d4d5ca4f192792a5eb0",
-=======
-    "content-hash": "ffed6adc518ebedb4489b576607302be",
->>>>>>> bf920033ba18ec99029896dc450625777d1c0d61
+    "content-hash": "983675ed879f869dab9517d748d1810d",
     "packages": [
         {
             "name": "brick/math",
@@ -2741,7 +2737,6 @@
             "time": "2023-02-08T01:06:31+00:00"
         },
         {
-<<<<<<< HEAD
             "name": "paragonie/constant_time_encoding",
             "version": "v3.0.0",
             "source": {
@@ -2761,38 +2756,11 @@
             "require-dev": {
                 "phpunit/phpunit": "^9",
                 "vimeo/psalm": "^4|^5"
-=======
-            "name": "phpoffice/math",
-            "version": "0.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/PHPOffice/Math.git",
-                "reference": "fc2eb6d1a61b058d5dac77197059db30ee3c8329"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/PHPOffice/Math/zipball/fc2eb6d1a61b058d5dac77197059db30ee3c8329",
-                "reference": "fc2eb6d1a61b058d5dac77197059db30ee3c8329",
-                "shasum": ""
-            },
-            "require": {
-                "ext-dom": "*",
-                "ext-xml": "*",
-                "php": "^7.1|^8.0"
-            },
-            "require-dev": {
-                "phpstan/phpstan": "^0.12.88 || ^1.0.0",
-                "phpunit/phpunit": "^7.0 || ^9.0"
->>>>>>> bf920033ba18ec99029896dc450625777d1c0d61
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-<<<<<<< HEAD
                     "ParagonIE\\ConstantTime\\": "src/"
-=======
-                    "PhpOffice\\Math\\": "src/Math/"
->>>>>>> bf920033ba18ec99029896dc450625777d1c0d61
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -2801,7 +2769,6 @@
             ],
             "authors": [
                 {
-<<<<<<< HEAD
                     "name": "Paragon Initiative Enterprises",
                     "email": "security@paragonie.com",
                     "homepage": "https://paragonie.com",
@@ -2885,7 +2852,42 @@
                 "source": "https://github.com/paragonie/random_compat"
             },
             "time": "2020-10-15T08:29:30+00:00"
-=======
+        },
+        {
+            "name": "phpoffice/math",
+            "version": "0.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PHPOffice/Math.git",
+                "reference": "fc2eb6d1a61b058d5dac77197059db30ee3c8329"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PHPOffice/Math/zipball/fc2eb6d1a61b058d5dac77197059db30ee3c8329",
+                "reference": "fc2eb6d1a61b058d5dac77197059db30ee3c8329",
+                "shasum": ""
+            },
+            "require": {
+                "ext-dom": "*",
+                "ext-xml": "*",
+                "php": "^7.1|^8.0"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^0.12.88 || ^1.0.0",
+                "phpunit/phpunit": "^7.0 || ^9.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PhpOffice\\Math\\": "src/Math/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
                     "name": "Progi1984",
                     "homepage": "https://lefevre.dev"
                 }
@@ -3011,7 +3013,6 @@
                 "source": "https://github.com/PHPOffice/PHPWord/tree/1.3.0"
             },
             "time": "2024-08-30T18:03:42+00:00"
->>>>>>> bf920033ba18ec99029896dc450625777d1c0d61
         },
         {
             "name": "phpoption/phpoption",

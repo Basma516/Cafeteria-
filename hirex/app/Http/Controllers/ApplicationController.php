@@ -160,14 +160,14 @@ public function update(Request $request, $id)
 
 
             if (Auth::id() !== $application->candidate->user_id) {
-                return redirect()->route('jobs.index')->with('error', 'You are not authorized to cancel this application.');
+                return redirect()->route('jobs.myjobs')->with('error', 'You are not authorized to cancel this application.');
             }
 
 
             $application->delete();
 
 
-            return redirect()->route('jobs.index')->with('success', 'Application cancelled successfully.');
+            return redirect()->route('jobs.myjobs')->with('success', 'Application cancelled successfully.');
         } catch (\Exception $e) {
 
             return redirect()->back()->with('error', 'An error occurred while processing your request.');
