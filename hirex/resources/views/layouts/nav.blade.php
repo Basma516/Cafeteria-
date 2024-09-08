@@ -28,13 +28,12 @@
                 <a href="{{ url('/') }}#category" class="nav-item nav-link">Job Categories</a>
             </div>
             @auth
-                <div class="navbar-nav ms-auto p-4 p-lg-0">
-                <a href="{{ route('empprofile.showProfile') }}" class="nav-item nav-link">My Account</a>
-
+    <a href="{{ route('notifications.index') }}" class="nav-item nav-link">Notifications</a>
+@endauth
 
             <div class="navbar-nav ms-auto p-4 p-lg-0">
                 @auth
-                <a href="{{ route('home') }}" class="nav-item nav-link">My Account</a>
+                <a href="{{ route('empprofile.showProfile') }}" class="nav-item nav-link">My Account</a>
 
                 <form method="POST" action="{{ route('logout') }}" class="d-inline">
                     @csrf
