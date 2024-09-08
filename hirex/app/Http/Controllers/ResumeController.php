@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Candidate;
 use App\Models\Resume;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+
 class ResumeController extends Controller
 {
     /**
@@ -12,28 +15,26 @@ class ResumeController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Resume::query();
 
-        // Join with the candidates table
-        $query->join('candidates', 'resumes.candidate_id', '=', 'candidates.id');
-    
-        // Search logic
+        $candidates = Candidate::query();
+
+
         if ($request->filled('skills')) {
-            $query->where('candidates.skills', 'LIKE', '%' . $request->skills . '%');
+            $candidates->where('skills', 'LIKE', '%' . $request->skills . '%');
         }
-    
+
         if ($request->filled('experience')) {
-            $query->where('resumes.experience', 'LIKE', '%' . $request->experience . '%');
+            $candidates->where('experience', 'LIKE', '%' . $request->experience . '%');
         }
-    
+
         if ($request->filled('education')) {
-            $query->where('resumes.education', 'LIKE', '%' . $request->education . '%');
+            $candidates->where('education', 'LIKE', '%' . $request->education . '%');
         }
-    
-      
-        $resumes = $query->get(['resumes.*', 'candidates.skills']);
-    
-        return view('resumes.index', compact('resumes'));
+
+
+        $candidates = $candidates->get();
+
+        return view('resumes.index', compact('candidates'));
     }
 
     /**
@@ -47,31 +48,50 @@ class ResumeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        $request->validate([
-            'skills' => 'required|string',
-            'experience' => 'required|string',
-            'education' => 'required|string',
-        ]);
+    // public function store(Request $request)
+    // {
+    //     $request->validate([
+    //         'skills' => 'required|string',
+    //         'experience' => 'required|string',
+    //         'education' => 'required|string',
+    //     ]);
 
-        Resume::create([
-            'candidate_id' => Auth::id(),
-            'skills' => $request->skills,
-            'experience' => $request->experience,
-            'education' => $request->education,
-        ]);
+    //     Resume::create([
+    //         'candidate_id' => Auth::id(),
+    //         'skills' => $request->skills,
+    //         'experience' => $request->experience,
+    //         'education' => $request->education,
+    //     ]);
 
-        return redirect()->route('home')->with('success', 'Resume submitted successfully.');
-    }
+    //     return redirect()->route('home')->with('success', 'Resume submitted successfully.');
+    // }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+
+    public function show($id)
     {
-        //
+    
+        $candidate = Candidate::findOrFail($id);
+
+        if (empty($candidate->resume)) {
+            return redirect()->back()->with('error', 'Resume file not found in the database.');
+        }
+
+        $resumePath = $candidate->resume;
+
+        if (!Storage::disk('public')->exists($resumePath)) {
+            return redirect()->back()->with('error', 'Resume file not found in storage.');
+        }
+
+        return view('candidates.resume', compact('candidate'));
     }
+
+
+
+    //
+
 
     /**
      * Show the form for editing the specified resource.
@@ -97,8 +117,8 @@ class ResumeController extends Controller
         //
     }
     public function search(Request $request)
-{
-    $query = Resume::query();
+    {
+        $query = Resume::query();
 
         if ($request->filled('skills')) {
             $query->where('skills', 'LIKE', '%' . $request->skills . '%');
@@ -121,5 +141,3 @@ class ResumeController extends Controller
         return view('resumes.index', compact('resumes'));
     }
 }
-
-

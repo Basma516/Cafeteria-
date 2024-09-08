@@ -117,7 +117,7 @@
             </div>
 
             <div class="card-body" style="color: var(--dark);">
-                <form method="POST" action="{{ route('register') }}">
+                <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
                     @csrf
                   
 
@@ -138,6 +138,7 @@
                         @enderror
                     </div>
 
+
                     <div class="mb-3">
                         <label for="email" class="col-form-label" style="color: var(--dark);">Email Address</label>
                         <div class="input-group">
@@ -149,6 +150,20 @@
                                 autocomplete="email">
                         </div>
                         @error('email')
+                        <span class="invalid" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
+                    <div class="mb-3">
+                        <label for="img" class="col-form-label" style="color: var(--dark);">Profile Image</label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            </div>
+                            <input id="img" type="file" class="form-control @error('img') is-invalid @enderror" name="img" value="{{ old('img') }}" autofocus>
+                        </div>
+                        @error('img')
                         <span class="invalid" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>

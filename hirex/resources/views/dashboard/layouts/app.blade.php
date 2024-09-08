@@ -14,12 +14,12 @@
 
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,700,900" rel="stylesheet">
 
-    <link rel="stylesheet" href="{{asset('css/bootstrapNew.min.css')}}">
+     <link rel="stylesheet" href="{{asset('css/bootstrapNew.min.css')}}"> 
 
-    <link rel="stylesheet" href="{{asset('css/font-awesome.min.css')}}">
+     <link rel="stylesheet" href="{{asset('css/font-awesome.min.css')}}"> 
 
     <link rel="stylesheet" href="{{asset('css/scrollbar/jquery.mCustomScrollbar.min.css')}}">
-
+     <link href=" {{asset('images/logo-transparent.png')}}" rel="icon" type="image/x-icon"> 
     <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{asset('css/responsive.css')}}">
     <script src="{{asset('js/vendor/modernizr-2.8.3.min.js')}}"></script>
@@ -53,7 +53,10 @@
                             <a title="Landing Page" href="{{route('jobs')}}" aria-expanded="false"><span><i class="fa-solid fa-briefcase"></i></span> <span class="mini-click-non">Jobs</span></a>
                         </li>
 
+                        <li>
+                            <a title="Landing Page" href="{{route('home')}}" aria-expanded="false"><span><i class="fa-solid fa-house"></i></span> <span class="mini-click-non">Home</span></a>
                         </li>
+
                     </ul>
                 </nav>
             </div>
@@ -92,6 +95,7 @@
                                                     <a href="{{route('candidate')}}">Candidates</a><br>
                                                     <a href="{{route('category')}}">Categories</a><br>
                                                     <a href="{{route('jobs')}}">Jobs</a><br>
+                                                    <a href="{{route('home')}}">Home</a><br>
                                                 </div>
                                             </div>
                                         </li>

@@ -19,35 +19,25 @@
                 <strong>Candidate:</strong> {{ $application->candidate->user->name ?? 'Unknown' }} -
                 <strong>Applied On:</strong> {{ $application->created_at->format('d M Y') }}
                 <br>
-                <strong>Status:</strong> {{ $application->status == 2 ? 'Accepted' : ($application->status == 3 ? 'Rejected' : 'Pending') }}
+                <strong>Status:</strong> {{ $application->status_id == 2 ? 'Pending' : ($application->status_id == 3 ? 'Rejected' : 'Accepted') }}
             </div>
             <div class="analytics-item-buttons">
                
                 <a href="{{ route('applications.resume', $application->id) }}" class="btn analytics-btn-resume">View Resume</a>
-
-               
+                @if($application->status_id == 2 )            
                 <form action="{{ route('applications.update', $application->id) }}" method="POST" class="analytics-inline-form">
                     @csrf
                     @method('PATCH')
-                    <input type="hidden" name="status" value="2"> 
+                    <input type="hidden" name="status" value="4"> 
                     <button type="submit" class="btn analytics-btn-accept">Accept</button>
                 </form>
-
-            <!-- Reject Button (Delete Application) -->
-            <form action="{{ route('applications.destroy', $application->id) }}" method="POST" style="display:inline;">
-                @csrf
-                @method('DELETE')
-                <button type="submit" onclick="return confirm('Are you sure you want to delete this application?')" class="btn btn-danger btn-sm" >Reject</button>
-            </form>
-
-            <!-- Display Current Status -->
-            <br><strong>Status:</strong> {{ $application->status == 2 ? 'Accepted' : ($application->status == 3 ? 'Rejected' : 'Pending') }}
                 <!-- Reject Button -->
                 <form action="{{ route('applications.reject', $application->id) }}" method="POST" class="analytics-inline-form">
                     @csrf
                     @method('PATCH')
                     <button type="submit" class="btn analytics-btn-reject">Reject</button>
                 </form>
+                @endif
             </div>
         </li>
     @endforeach

@@ -51,10 +51,19 @@ class CandidateController extends Controller
         $validatedData = $request->validated();
 
         $candidate = new Candidate();
-       
+
+        if($validatedData['resume']){
+            $resumePath = $request->file('resume')->store('resumes', 'public');
+            }else{
+                $resumePath = null;
+            }
+
         $candidate->user_id = Auth::id(); // Assuming the candidate is associated with the logged-in user
         $candidate->skills = implode(', ', $validatedData['skills']); // Convert array to comma-separated string
-        $candidate->resume = $validatedData['resume'];
+      
+        $candidate->resume = $resumePath;
+        $candidate->education = $validatedData['education'];
+        $candidate->experience = $validatedData['experience'];
 
         $candidate->save();
         User::where('id', $candidate->id)->update(['role' => 3]);

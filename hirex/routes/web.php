@@ -14,6 +14,11 @@ use App\Http\Controllers\ResumeController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Auth\LinkedInController;
 use App\Http\Controllers\Notifi;
+use Illuminate\Http\Request;
+use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Support\Facades\Password;
+
+
 
 
 
@@ -24,6 +29,7 @@ use Laravel\Socialite\Facades\Socialite;
 
 use App\Http\Controllers\JobCategoryController;
 use App\Models\Candidate;
+use App\Models\Resume;
 
 /*
 |--------------------------------------------------------------------------
@@ -161,10 +167,8 @@ Route::resource('/', HomeController::class);
 // Routes for Jobs
 Route::resource('jobs', JobController::class);
 Route::resource('/', HomeController::class);
-
-
 Route::resource('candidates', CandidateController::class);
-
+Route::resource('resumes', ResumeController::class);
 Route::get('/category', [JobCategoryController::class, 'index'])->name('category.index');
 
 // web.php
@@ -211,7 +215,7 @@ Route::post('/jobs/{job}/comments', [CommentsController::class, 'store'])->name(
  Route::get('/myjobs', [JobController::class, 'showEmployerJobs'])->name('jobs.empjobs');
 
 Route::get('/employer/job/{id}/analytics', [JobController::class, 'showAnalytics'])->name('job.analytics');
-// In routes/web.php
+
 Route::patch('/applications/{application}', [ApplicationController::class, 'update'])->name('applications.update');
 // In routes/web.php
 // routes/web.php
@@ -299,11 +303,66 @@ Route::get('/auth/callback', function () {
     // $user->token
 });
 
-Route::get('jobs/search', [JobController::class, 'search'])->name('jobs.search');
 
+
+
+Route::get('/search', [JobController::class, 'search'])->name('jobs.search');
+
+
+// Route::get('/notifications', [Notifi::class, 'index'])->name('notifications.index');
+
+// Route::get('/applications/{id}/resume', [ApplicationController::class, 'viewResume'])->name('applications.resume');
 
 Route::get('/notifications', [Notifi::class, 'index'])->name('notifications.index');
 
+Route::post('/notifications', [Notifi::class, 'index'])->name('notifications.index');
+
+
+
+
+
+Route::post('/forgot-password', function (Request $request) {
+   $request->validate(['email' => 'required|email']);
+
+   $status = Password::sendResetLink(
+       $request->only('email')
+   );
+
+
+   return $status === Password::RESET_LINK_SENT
+               ? back()->with(['status' => ($status)])
+               : back()->withErrors(['email' => ($status)]);
+})->middleware('guest')->name('password.email');
+
+Route::get('/reset-password/{token}', function (string $token) {
+   return view('auth.passwords.reset', ['token' => $token]);
+})->middleware('guest')->name('password.reset');
+
+
+Route::post('/reset-password', function (Request $request) {
+   $request->validate([
+       'token' => 'required',
+       'email' => 'required|email',
+       'password' => 'required|min:8|confirmed',
+   ]);
+
+   $status = Password::reset(
+       $request->only('email', 'password', 'password_confirmation', 'token'),
+       function (User $user, string $password) {
+           $user->forceFill([
+               'password' => Hash::make($password)
+           ])->setRememberToken(Str::random(60));
+
+           $user->save();
+
+           event(new PasswordReset($user));
+       }
+   );
+
+   return $status === Password::PASSWORD_RESET
+               ? redirect()->route('login')->with('status', ($status))
+               : back()->withErrors(['email' => [($status)]]);
+})->middleware('guest')->name('password.update');
 
 
 
@@ -318,7 +377,8 @@ Route::get('/profile', function () {
 //     Route::get('/applications/{applicationId}/resume', [ApplicationController::class, 'showResume'])->name('applications.showResume');
 
 Route::get('/applications/{id}/resume', [ApplicationController::class, 'viewResume'])->name('applications.resume');
-//Route::get('/applications/{id}/resume', [Candidate::class, 'viewResume'])->name('candiadates.viewResume');
+Route::get('/applications/{id}/resume/candidate', [CandidateController::class, 'viewResume'])->name('candiadates.viewResume');
+
 
 Route::patch('/applications/{id}/reject', [ApplicationController::class, 'reject'])->name('applications.reject');
 

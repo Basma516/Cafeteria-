@@ -17,7 +17,7 @@
                       
                         <p class="card-text"><strong>Employment Type:</strong> {{ $job->jobType->name }}</p>
                         <a href="{{ route('jobs.show', $job->id) }}" class="btn btn-primary">View Job</a>
-                        <a href="{{ route('jobs.edit', $job->id) }}" class="btn btn-secondary">Edit Job</a>
+                        <a href="{{ route('jobs.edit', $job->id) }}" class="btn  btn-primary">Edit Job</a>
                         <form action="{{ route('jobs.destroy', $job->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')

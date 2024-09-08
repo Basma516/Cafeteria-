@@ -5,7 +5,7 @@
 <div class="analytics-sparkle-area" style="margin-top: 45px;">
     <div class="container-fluid">
         <!-- Cards Section -->
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 g-4 justify-content-center"> <!-- Two cards per row with gap -->
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 g-4 justify-content-center"> 
             <!-- Employers Card -->
             <a href="{{ route('employer') }}" class="card-link" style="text-decoration:none;">
                 <div class="card text-bg-primary mb-3" style="max-width: 100%; height:15rem; font-size:large;">
@@ -38,7 +38,7 @@
                         <h5 class="card-title" style="font-size: 22px;">Categories</h5>
                         <p class="card-text">Total Categories: <b>{{ $categoriesCount }}</b></p>
                         <span style="font-size:12px;">Click For More Info</span>
-                    </div>
+                    </div>  
                 </div>
             </a>
 

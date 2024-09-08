@@ -80,7 +80,7 @@
             </div>
         </div>
     </div>
-    <!-- Search Start -->
+    <!-- Search End -->
    
 </div>
 <!-- Static Image Section End -->
@@ -88,7 +88,7 @@
 
 
 
-<div class="container-xxl py-5">
+<div class="container-xxl py-5"  id="category">
     <div class="container">
         <h1 class="text-center mb-5 wow fadeInUp">Explore By Category</h1>
         <div class="row g-4" style=" border-radius:30px;">
@@ -133,7 +133,7 @@
 </div>
 
 <!-- Jobs Start -->
-<div class="container-xxl py-5">
+<div class="container-xxl py-5"  id="alljobs">
     <div class="container">
         <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Job Listings</h1>
         <div class="row justify-content-center">

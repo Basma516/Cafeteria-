@@ -13,6 +13,8 @@ class Candidate extends Model
         'user_id',
         'skills',
         'resume',
+        'education',
+        'experience',
     ];
 
     /**
