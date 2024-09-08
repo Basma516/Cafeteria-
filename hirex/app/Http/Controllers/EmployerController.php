@@ -79,6 +79,19 @@ class EmployerController extends Controller
         }
     }
     
-    
+    public function showProfile()
+    {
+        $user = Auth::user();
+
+        // Only display the profile if the user has a role of 2
+        if ($user && $user->role == 2) {
+            // Fetch the employer profile data based on the logged-in user's ID
+            $employer = Employer::where('user_id', $user->id)->first();
+
+            return view('empprofile', compact('employer', 'user'));
+        } else {
+            return redirect()->route('home')->with('error', 'You do not have permission to view this page.');
+        }
+    }
     
 }
