@@ -1,4 +1,3 @@
-<!-- resources/views/applications/view_resume.blade.php -->
 
 @extends('layouts.app')
 
@@ -8,3 +7,4 @@
     <iframe src="{{ asset('storage/' . $resumePath) }}" style="width: 100%; height: 800px;" frameborder="0"></iframe>
    </div>
 @endsection
+

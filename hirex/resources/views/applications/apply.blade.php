@@ -32,6 +32,12 @@
             </div>
             <button type="submit" class="btn btn-primary">Submit Application</button>
         </form>
+
+        <a href="{{ route('auth.linkedin', ['job_id' => $jobs->id]) }}" class="btn btn-primary">
+            <i class="fab fa-linkedin"></i> Apply with LinkedIn
+        </a>
+
+
     </div>
 </div>
 @endsection

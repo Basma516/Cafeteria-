@@ -17,10 +17,10 @@ class HomeController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
 
     /**
      * Show the application dashboard.
@@ -32,11 +32,11 @@ class HomeController extends Controller
     public function index()
 {
     $jobs = Job::with('jobType')
-        ->withCount('applications')
-        ->whereHas('status', function ($query) {
-            $query->where('name', 'accepted');
-        })
-        ->paginate(10);
+    ->withCount('applications')
+    ->whereHas('status', function ($query) {
+        $query->where('name', 'accepted');
+    })
+    ->paginate(3);
 
     $categories = Category::withCount('jobs')->get();
     $locations = Job::select('location')->distinct()->get();
@@ -46,6 +46,6 @@ class HomeController extends Controller
 
     
 
-    return view('home', compact('jobs', 'categories','locations'));
+  
 }
 }

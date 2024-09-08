@@ -25,6 +25,7 @@ class Job extends Model
         'logo',
     ];
 
+
     public function employer()
     {
         return $this->belongsTo(Employer::class, 'emp_id');
@@ -45,13 +46,12 @@ class Job extends Model
     }
 
     public function comments()
-         {
-    return $this->hasMany(Comment::class);
-         }
+    {
+        return $this->hasMany(Comment::class);
+    }
 
-         public function category()
-         {
-             return $this->belongsTo(Category::class, 'category_id');
-         }
-
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id');
+    }
 }

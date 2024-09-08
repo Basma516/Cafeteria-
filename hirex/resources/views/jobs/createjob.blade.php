@@ -8,7 +8,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <!-- Form action points to 'jobs.store' route -->
-                <form action="{{ route('jobs.store') }}" method="POST">
+                <form action="{{ route('jobs.store') }}" method="POST"  enctype="multipart/form-data">
                     @csrf
                     <div class="card">
                         <div class="card-header text-white" style="background-color: #5289b5;">
@@ -33,6 +33,20 @@
                                 <textarea name="description" id="description" class="form-control @error('description') is-invalid @enderror" style="height: 120px">{{ old('description') }}</textarea>
                                 @error('description')
                                     <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label for="logo" class="col-form-label" style="color: var(--dark);">Profile Image</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                    </div>
+                                    <input id="logo" type="file" class="form-control @error('logo') is-invalid @enderror" name="logo" value="{{ old('logo') }}" autofocus>
+                                </div>
+                                @error('logo')
+                                <span class="invalid" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
                                 @enderror
                             </div>
 
@@ -69,21 +83,7 @@
                                 @enderror
                             </div>
 
-                            <!-- Job Status -->
-                            <div class="form-group mt-3">
-                                <label for="job_status" class="text-primary">Job Status:</label>
-                                <select name="job_status" id="job_status" class="form-control @error('job_status') is-invalid @enderror">
-                                    @foreach($statuses as $status)
-                                        <option value="{{ $status->id }}" {{ old('job_status') == $status->id ? 'selected' : '' }}>
-                                            {{ $status->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                @error('job_status')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-
+                           
                             <!-- Job Type -->
                             <div class="form-group mt-3">
                                 <label for="job_type" class="text-primary">Job Type:</label>

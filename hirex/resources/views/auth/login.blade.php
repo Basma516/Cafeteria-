@@ -59,6 +59,13 @@
             box-shadow: 0 0 5px rgba(31, 53, 65, 0.5);
             outline: none;
         }
+        .btn{
+            background-color: white;
+        }
+        .btn{
+            background-color: white;
+            color: var(--dark);
+        }
         .btn-primary {
             background-color: var(--primary);
             border-color: var(--primary);
@@ -147,11 +154,17 @@
                         <button type="submit" class="btn btn-primary">
                             {{ __('Login') }}
                         </button>
+                        
                         <a href="{{ route('register') }}" class="btn btn-primary">
                             {{ __('register') }}
-                        </button>
+                      
+                      
+                        <a href="{{ route('auth.github') }}" class="btn btn-primary">
+                            {{ __('Login with Github') }}
+                       
+                         
                         @if (Route::has('password.request'))
-                            <a class="btn btn-link" href="{{ route('password.request') }}">
+                            <a class="btn btn-link" href="{{ route('password.request') }}" style="background-color: none">
                                 {{ __('Forgot Your Password?') }}
                             </a>
                         @endif

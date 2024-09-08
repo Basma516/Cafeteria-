@@ -10,4 +10,9 @@ class JobStatus extends Model
     use HasFactory;
     protected $table = 'jobs_status'; 
     protected $fillable = ['name'];
+
+    public function jobs()
+    {
+        return $this->hasMany(Job::class, 'status_id'); // Jobs that belong to this status
+    }
 }
