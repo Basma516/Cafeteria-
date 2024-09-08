@@ -24,6 +24,7 @@ class Job extends Model
         'deadline',
         'logo',
     ];
+    
 
     public function employer()
     {
@@ -45,13 +46,12 @@ class Job extends Model
     }
 
     public function comments()
-         {
-    return $this->hasMany(Comment::class);
-         }      
-         
-         public function category()
-         {
-             return $this->belongsTo(Category::class, 'category_id');
-         }
-
+    {
+        return $this->hasMany(Comment::class);
+    }
+    
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id');
+    }
 }

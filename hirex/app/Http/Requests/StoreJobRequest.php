@@ -33,7 +33,7 @@ class StoreJobRequest extends FormRequest
             'salary' => 'required|numeric',
             'benefits' => 'required|string',
             'deadline' => 'required|date',
-            'logo' => 'nullable|string',
+           'logo' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
         ];
     }
 }

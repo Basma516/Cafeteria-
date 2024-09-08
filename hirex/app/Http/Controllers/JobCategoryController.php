@@ -22,3 +22,5 @@ class JobCategoryController extends Controller
         return view('categories.index', compact('categories')); // Return a view with the categories
     }
 }
+
+
