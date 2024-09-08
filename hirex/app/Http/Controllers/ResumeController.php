@@ -15,27 +15,29 @@ class ResumeController extends Controller
      */
     public function index(Request $request)
     {
-
         $candidates = Candidate::query();
-
-
+    
+        
         if ($request->filled('skills')) {
             $candidates->where('skills', 'LIKE', '%' . $request->skills . '%');
         }
-
+    
         if ($request->filled('experience')) {
             $candidates->where('experience', 'LIKE', '%' . $request->experience . '%');
         }
-
+    
         if ($request->filled('education')) {
             $candidates->where('education', 'LIKE', '%' . $request->education . '%');
         }
-
-
+    
+      
+        $candidates->whereNotNull('resume'); 
+    
         $candidates = $candidates->get();
-
+    
         return view('resumes.index', compact('candidates'));
     }
+    
 
     /**
      * Show the form for creating a new resource.

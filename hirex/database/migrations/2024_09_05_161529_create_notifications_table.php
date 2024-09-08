@@ -10,7 +10,9 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
+
     {
+        if (!Schema::hasTable('employers')){
         Schema::create('notifications', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('type');
@@ -19,6 +21,7 @@ return new class extends Migration
             $table->timestamp('read_at')->nullable();
             $table->timestamps();
         });
+    }
         
     }
 

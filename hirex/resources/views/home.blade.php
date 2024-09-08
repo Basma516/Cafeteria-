@@ -3,7 +3,7 @@
 @section('title', 'Home')
 
 @section('content')
-<div class="container-fluid p-0"  >
+<div class="container-fluid p-0">
     <div class="position-relative" style="height: 650px;">
         <img class="img-fluid" src="{{ asset('images/phomef.jpg') }}" style="width: 100%; height: 650px;"
             alt="Job Search Image">
@@ -11,7 +11,7 @@
             style="background: rgba(43, 57, 64, .5); height: 650px;">
             <div class="container">
                 <div class="row justify-content-start">
-                    <div class="col-10 col-lg-8   mb-4">
+                    <div class="col-10 col-lg-8 mb-4">
                         <h1 class="display-3 text-white mb-4">Find The Perfect Job That You Deserve</h1>
                         <p class="fs-5 fw-medium text-white mb-4 pb-2">Endless Possibilities, One Career</p>
 
@@ -22,79 +22,84 @@
                         $isCandidate = $user->role == 3 && $user->candidate()->exists();
                         @endphp
 
+                        @if($user->role != 1)
                         @if($isEmployer)
-                        <a href="{{ route('jobs.create') }}" class="btn btn-primary mt-5  py-md-3 px-md-5">Create a Job</a>
+                        <a href="{{ route('jobs.create') }}" class="btn btn-primary mt-5 py-md-3 px-md-5">Create a
+                            Job</a>
                         @elseif($isCandidate)
-                        <a href="{{ route('jobs.index') }}" class="btn btn-primary mt-4  py-md-3 px-md-5 me-3">View Available
-                            Jobs</a>
+                        <a href="{{ route('jobs.index') }}" class="btn btn-primary mt-4 py-md-3 px-md-5 me-3">View
+                            Available Jobs</a>
                         @else
-                        <a href="{{ route('candidates.create') }}" class="btn btn-primary mt-4  py-md-3 px-md-5 me-3">Find a
+                        <a href="{{ route('candidates.create') }}"
+                            class="btn btn-primary mt-4 py-md-3 px-md-5 me-3">Find a Job</a>
+                        <a href="{{ route('employers.create') }}" class="btn btn-primary mt-4 py-md-3 px-md-5">Post a
                             Job</a>
-                        <a href="{{ route('employers.create') }}" class="btn btn-primary mt-4  py-md-3 px-md-5" >Post a
-                            Job</a>
+                        @endif
                         @endif
 
                         @else
-                        <a href="{{ route('login') }}" class="btn btn-primary mt-4  py-md-3 px-md-5 me-3" >Find a Job</a>
-                        <a href="{{ route('login') }}" class="btn btn-primary mt-4  py-md-3 px-md-5" >Post a Job</a>
+                        <a href="{{ route('login') }}" class="btn btn-primary mt-4 py-md-3 px-md-5 me-3">Find a Job</a>
+                        <a href="{{ route('login') }}" class="btn btn-primary mt-4 py-md-3 px-md-5">Post a Job</a>
                         @endauth
 
                     </div>
-                    
-                        <div class="container " style=" margin-top:95px;width:70%">
-                            <form action="{{ route('jobs.search') }}" method="GET">
-                                <div class="row g-2">
-                                    <div class="col-md-10">
-                                        <div class="row g-2">
-                                            <div class="col-md-4">
-                                                <input type="text" name="keyword" class="form-control border-0" placeholder="Keyword" />
-                                            </div>
-                                            <div class="col-md-4">
-                                                <select name="category" class="form-select border-0">
-                                                    <option value="">Category</option>
-                                                    @foreach($categories as $category)
-                                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <select name="location" class="form-select border-0">
-                                                    <option value="">Location</option>
-                                                    @foreach($locations as $location)
-                                                    <option value="{{ $location->location }}">{{ $location->location }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
+
+                    <div class="container " style=" margin-top:95px;width:70%">
+                        <form action="{{ route('jobs.search') }}" method="GET">
+                            <div class="row g-2">
+                                <div class="col-md-10">
+                                    <div class="row g-2">
+                                        <div class="col-md-4">
+                                            <input type="text" name="keyword" class="form-control border-0"
+                                                placeholder="Keyword" />
+                                        </div>
+                                        <div class="col-md-4">
+                                            <select name="category" class="form-select border-0">
+                                                <option value="">Category</option>
+                                                @foreach($categories as $category)
+                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <select name="location" class="form-select border-0">
+                                                <option value="">Location</option>
+                                                @foreach($locations as $location)
+                                                <option value="{{ $location->location }}">{{ $location->location }}
+                                                </option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-2 col-sm-4 col-12 mb-3">
-                                        <button type="submit" class="btn btn-primary border-0 w-100">Search</button>
-                                    </div>
                                 </div>
-                            </form>
-                            
-                        </div>
-                    
-                
+                                <div class="col-md-2 col-sm-4 col-12 mb-3">
+                                    <button type="submit" class="btn btn-primary border-0 w-100">Search</button>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+
+
                 </div>
             </div>
         </div>
     </div>
     <!-- Search End -->
-   
+
 </div>
 <!-- Static Image Section End -->
 
 
 
 
-<div class="container-xxl py-5"  id="category">
+<div class="container-xxl py-5" id="category">
     <div class="container">
         <h1 class="text-center mb-5 wow fadeInUp">Explore By Category</h1>
         <div class="row g-4" style=" border-radius:30px;">
             @foreach($categories as $index => $category)
-            <div class="col-lg-3 col-sm-6 wow fadeInUp"  >
-                <a class="cat-item rounded p-4"  style="box-shadow: 0px 4px 10px var(--primary) ; "
+            <div class="col-lg-3 col-sm-6 wow fadeInUp">
+                <a class="cat-item rounded p-4" style="box-shadow: 0px 4px 10px var(--primary) ; "
                     href="{{ route('jobs.jobbycategory', ['categoryId' => $category->id]) }}">
                     <i class="fa fa-3x fa-mail-bulk text-primary mb-4{{ $category->icon_class }}  "></i>
                     <h6 class="mb-3">{{ $category->name }}</h6>
@@ -133,17 +138,20 @@
 </div>
 
 <!-- Jobs Start -->
-<div class="container-xxl py-5"  id="alljobs">
+<div class="container-xxl py-5" id="alljobs">
     <div class="container">
         <h1 class="text-center mb-5 wow fadeInUp" data-wow-delay="0.1s">Job Listings</h1>
         <div class="row justify-content-center">
             <div class="col-lg-10">
                 @foreach ($jobs as $job)
-                <div class="card job-item mb-4 shadow-sm wow fadeInUp" data-wow-delay="0.2s" style="border-radius: 8px; transition: transform 0.3s ease, box-shadow 0.3s ease;">
-                    <div class="card-body p-4" onclick="window.location.href='{{ route('jobs.show', $job->id) }}'" style="cursor: pointer; background-color: var(--light); border-radius: 6px;">
+                <div class="card job-item mb-4 shadow-sm wow fadeInUp" data-wow-delay="0.2s"
+                    style="border-radius: 8px; transition: transform 0.3s ease, box-shadow 0.3s ease;">
+                    <div class="card-body p-4" onclick="window.location.href='{{ route('jobs.show', $job->id) }}'"
+                        style="cursor: pointer; background-color: var(--light); border-radius: 6px;">
                         <div class="row align-items-center">
                             <div class="col-md-2 text-center company-logo">
-                                <img class="img-fluid border rounded-circle" src="{{ asset('images/' . $job->logo) }}" alt="" style="width: 80px; height: 80px; border: 2px solid #ddd;">
+                                <img class="img-fluid border rounded-circle" src="{{ asset('images/' . $job->logo) }}"
+                                    alt="" style="width: 80px; height: 80px; border: 2px solid #ddd;">
                             </div>
                             <div class="col-md-7 job-details">
                                 <h4 class="job-title mb-1">{{ $job->title }}</h4>
@@ -154,11 +162,11 @@
                             </div>
                             <div class="col-md-3 text-end">
                                 @auth
-                                    @if(auth()->user()->role == 3)
-                                    <a href="{{ route('jobs.show', $job->id) }}" class="btn btn-outline-primary px-4 py-2">
-                                        <i class="fas fa-info-circle"></i> View Details
-                                    </a>
-                                    @endif
+                                @if(auth()->user()->role == 3)
+                                <a href="{{ route('jobs.show', $job->id) }}" class="btn btn-outline-primary px-4 py-2">
+                                    <i class="fas fa-info-circle"></i> View Details
+                                </a>
+                                @endif
                                 @endauth
                             </div>
                         </div>
@@ -248,7 +256,8 @@
         <div class="row text-center text-md-left">
             <div class="col-md-3 col-lg-3 col-xl-3 mx-auto mt-3">
                 <h5 class="text-uppercase mb-4 text-white font-weight-bold">HireX</h5>
-                <p class="text-white">Your ultimate job search and talent discovery platform. We bridge the gap between top employers and qualified candidates.</p>
+                <p class="text-white">Your ultimate job search and talent discovery platform. We bridge the gap between
+                    top employers and qualified candidates.</p>
             </div>
 
             <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
@@ -286,7 +295,7 @@
             <div class="col-md-4 col-lg-4 col-xl-4 mx-auto mt-3">
                 <h5 class="text-uppercase mb-4 text-white font-weight-bold">Contact Us</h5>
                 <p>
-                    <i class="fas fa-home mr-3"></i> 123 HireX St., Cairo , Egypt  
+                    <i class="fas fa-home mr-3"></i> 123 HireX St., Cairo , Egypt
                 </p>
                 <p>
                     <i class="fas fa-envelope mr-3"></i> info@hirex.com

@@ -44,7 +44,7 @@
 </head>
 
 
-<body class="bg container-fluid " style=" !important; padding: 0px !important ;">
+<body class="bg container-fluid " style="  padding: 0px !important ;">
         @include('layouts.nav')
         <main class=" ">
             @yield('content')
