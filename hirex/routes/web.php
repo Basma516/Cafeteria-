@@ -1,5 +1,6 @@
 <?php
-
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployerController;
 use App\Http\Controllers\UserController;
@@ -16,11 +17,6 @@ use App\Http\Controllers\Notifi;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Password;
-
-
-
-
-
 use App\Http\Controllers\JobCategoryController;
 use App\Models\Candidate;
 use App\Models\Resume;
