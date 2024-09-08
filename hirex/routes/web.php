@@ -1,6 +1,5 @@
 <?php
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployerController;
 use App\Http\Controllers\UserController;
@@ -18,6 +17,19 @@ use App\Http\Controllers\Notifi;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+
+use App\Http\Controllers\UserProfileController;
+
+
+
+
+
+
+
+
+
 use Laravel\Socialite\Facades\Socialite;
 
 use App\Http\Controllers\JobCategoryController;
@@ -34,38 +46,35 @@ use App\Models\Resume;
 | be assigned to the "web" middleware group. Make something great!
 */
 
-Route::get('/', function () {
-    return view('home');
- });
 
 // Dashboard Routes Start >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-// main 
-Route::get('/dashboard',[AdminController::class, 'index']);
-Route::get('/dashboard/employer',[AdminController::class, 'employers'])->name('employer');
-Route::get('/dashboard/candidate',[AdminController::class, 'candidates'])->name('candidate');
-Route::get('/dashboard/category',[AdminController::class, 'categories'])->name('category');
-Route::get('/dashboard/jobs',[AdminController::class, 'jobs'])->name('jobs');
+// main
+Route::get('/dashboard',[AdminController::class, 'index'])->middleware('admin');
+Route::get('/dashboard/employer',[AdminController::class, 'employers'])->middleware('admin')->name('employer');
+Route::get('/dashboard/candidate',[AdminController::class, 'candidates'])->middleware('admin')->name('candidate');
+Route::get('/dashboard/category',[AdminController::class, 'categories'])->middleware('admin')->name('category');
+Route::get('/dashboard/jobs',[AdminController::class, 'jobs'])->middleware('admin')->name('jobs');
 
 //edit
-Route::get('/dashboard/category/edit/{id}', [AdminController::class, 'editCategory'])->name('category.edit');
-Route::put('/dashboard/category/update/{id}', [AdminController::class, 'updateCategory'])->name('category.update');
+Route::get('/dashboard/category/edit/{id}', [AdminController::class, 'editCategory'])->middleware('admin')->name('category.edit');
+Route::put('/dashboard/category/update/{id}', [AdminController::class, 'updateCategory'])->middleware('admin')->name('category.update');
 
-Route::get('/dashboard/jobs/view/{id}', [AdminController::class, 'viewJob'])->name('job.view');
+Route::get('/dashboard/jobs/view/{id}', [AdminController::class, 'viewJob'])->middleware('admin')->name('job.view');
 
 //delete
-Route::delete('/dashboard/employer/{id}', [AdminController::class, 'deleteEmployer'])->name('employer.delete');
-Route::delete('/dashboard/candidate/{id}', [AdminController::class, 'deleteCandidate'])->name('candidate.delete');
-Route::delete('/dashboard/category/{id}', [AdminController::class, 'deleteCategory'])->name('category.delete');
-Route::delete('/dashboard/jobs/{job_id}/comments/{id}', [AdminController::class, 'deleteComment'])->name('comment.delete');
-Route::delete('/dashboard/jobs/{id}', [AdminController::class, 'deleteJob'])->name('jobs.delete'); //When Admin Rejects the post
+Route::delete('/dashboard/employer/{id}', [AdminController::class, 'deleteEmployer'])->middleware('admin')->name('employer.delete');
+Route::delete('/dashboard/candidate/{id}', [AdminController::class, 'deleteCandidate'])->middleware('admin')->name('candidate.delete');
+Route::delete('/dashboard/category/{id}', [AdminController::class, 'deleteCategory'])->middleware('admin')->name('category.delete');
+Route::delete('/dashboard/jobs/{job_id}/comments/{id}', [AdminController::class, 'deleteComment'])->middleware('admin')->name('comment.delete');
+Route::delete('/dashboard/jobs/{id}', [AdminController::class, 'deleteJob'])->middleware('admin')->name('jobs.delete'); //When Admin Rejects the post
 
 // Post Acceptence
-Route::post('/dashboard/jobs/{id}/accept', [AdminController::class, 'acceptJob'])->name('jobs.accept');
+Route::post('/dashboard/jobs/{id}/accept', [AdminController::class, 'acceptJob'])->middleware('admin')->name('jobs.accept');
 
 // Store Category
-Route::get('/dashboard/category/add', [AdminController::class, 'categoryCreate'])->name('categories.create');
-Route::post('/dashboard/category/store', [AdminController::class, 'storeCategory'])->name('categories.store');
+Route::get('/dashboard/category/add', [AdminController::class, 'categoryCreate'])->middleware('admin')->name('categories.create');
+Route::post('/dashboard/category/store', [AdminController::class, 'storeCategory'])->middleware('admin')->name('categories.store');
 
 
 // End >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -82,7 +91,6 @@ Route::resource('employers', EmployerController::class);
 
 // Routes for Users
 Route::resource('users', UserController::class);
-Route::resource('/', HomeController::class);
 
 // Routes for Jobs
 Route::resource('jobs', JobController::class);
@@ -99,6 +107,7 @@ Route::get('/category', [JobCategoryController::class, 'index'])->name('category
 
 
 
+// Applications Routes
 Route::resource('applications', ApplicationController::class)->only(['create', 'store', 'destroy']);
 
 
@@ -116,9 +125,45 @@ Route::post('/jobs/{job}/comments', [CommentsController::class, 'store'])->name(
 Route::get('/employer/job/{id}/analytics', [JobController::class, 'showAnalytics'])->name('job.analytics');
 
 Route::patch('/applications/{application}', [ApplicationController::class, 'update'])->name('applications.update');
-// In routes/web.php
-// routes/web.php
 Route::get('/applications/{id}/resume', [ApplicationController::class, 'viewResume'])->name('applications.resume');
+
+
+
+
+
+
+///////linkedin connect
+
+
+// Route::get('auth/linkedin', function () {
+//     // return "redirect";
+//     return Socialite::driver('linkedin')
+//     ->setScopes(['r_liteprofile', 'r_emailaddress'])
+//     ->redirect();
+// })->name('auth.linkedin');
+
+// Route::get('auth/linkedin/callback', function () {
+//     // dd(request()->all());
+//     $linkedinUser = Socialite::driver('linkedin')->user();
+//     //  dd( $linkedinUser);
+// //     // // Store LinkedIn data in the database
+//     $user = User::updateOrCreate(
+//         ['linkedin_id' => $linkedinUser->id], // Find the user by LinkedIn ID
+//         [
+//             'name' => $linkedinUser->name,
+//             'email' => $linkedinUser->email,
+//             'linkedin_token' => $linkedinUser->token,
+//             'avatar' => $linkedinUser->avatar,
+//         ]
+//     );
+
+//     // Log the user in
+//     Auth::login($user);
+
+//     // Redirect to the application success page or the next step
+//     return redirect('/application/success');
+// });
+
 
 
 
@@ -129,21 +174,21 @@ Route::get('auth/linkedin/callback', [LinkedInController::class, 'handleLinkedIn
 
 
 
-////////////////github 
+////////////////github
 
 
 
 
- 
+
 Route::get('/auth/redirect', function () {
-   
+
     return Socialite::driver('github')->redirect();
 })->name('auth.github');
- 
+
 Route::get('/auth/callback', function () {
 
     $githubUser = Socialite::driver('github')->user();
- 
+
     $user = User::updateOrCreate([
         'github_id' => $githubUser->id,
     ], [
@@ -155,7 +200,7 @@ Route::get('/auth/callback', function () {
         'github_refresh_token' => $githubUser->refreshToken,
     ]);
     Auth::login($user);
- 
+
     return redirect('/');
 
 });
@@ -167,6 +212,11 @@ Route::get('/search', [JobController::class, 'search'])->name('jobs.search');
 
 Route::get('/notifications', [Notifi::class, 'index'])->name('notifications.index');
 
+Route::get('/myprofile', function () {
+    return view('candidateapplication');
+});
+
+Route::view('/about', 'about');
 Route::post('/notifications', [Notifi::class, 'index'])->name('notifications.index');
 
 
@@ -217,10 +267,35 @@ Route::post('/reset-password', function (Request $request) {
 })->middleware('guest')->name('password.update');
 
 
+
+use App\Http\Controllers\FeedbackController;
+
+// Route::get('/feedback', [FeedbackController::class, 'create'])->name('feedback.create');
+// Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
+Route::middleware('auth')->group(function () {
+    Route::get('/feedback', [FeedbackController::class, 'create'])->name('feedback.create');
+    Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
+});
+
+// Route::get('/empprofile', [EmployerController::class, 'showProfile'])->name('employer.profile')->middleware('auth');
+Route::get('/empprofile', [EmployerController::class, 'showProfile'])->name('empprofile.showProfile')->middleware('auth');
+Route::get('/aboutus', [HomeController::class, 'aboutus'])->name('aboutus');
+/*
+Route::get('/profile', function () {
+    return view('CandidateProfile');
+});*/
+
+
+// Route::get('/applications/{id}/resume', [ApplicationController::class, 'viewResume'])->name('applications.viewResume');
+//     Route::get('/applications/{applicationId}/resume', [ApplicationController::class, 'showResume'])->name('applications.showResume');
+
 Route::get('/applications/{id}/resume', [ApplicationController::class, 'viewResume'])->name('applications.resume');
 Route::get('/applications/{id}/resume/candidate', [CandidateController::class, 'viewResume'])->name('candiadates.viewResume');
-
-
 Route::patch('/applications/{id}/reject', [ApplicationController::class, 'reject'])->name('applications.reject');
+// Packages Page
+Route::view('/packages/user', 'packages.UserPackages')->name('candidatePack');
+Route::view('/packages/Employer', 'packages.EmployerPackages')->name('employerPack');
+// User Profile Route
+Route::get('/candidate-profile/{userId}', [UserProfileController::class, 'showCandidateProfile'])->name('profile.candidate');
 
 

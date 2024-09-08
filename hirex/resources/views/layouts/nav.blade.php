@@ -12,50 +12,54 @@
                 <a href="{{ url('/') }}#about" class="nav-item nav-link">About</a>
 
                 @auth
-                @if(auth()->user()->role ==1)
-                <a href="{{ url('/dashboard') }}" class="nav-item nav-link">Dashboard</a>
-                @endif
-                @if(auth()->user()->role != 3)
-                <a href="{{ url('/myjobs') }}" class="nav-item nav-link">My Jobs</a>
-                @endif
-
-                @if(auth()->user()->role == 2)
-                <a href="{{ url('/resumes') }}" class="nav-item nav-link">Resumes</a>
-                @endif      
+                    @if(auth()->user()->role == 1)
+                        <a href="{{ url('/dashboard') }}" class="nav-item nav-link">Dashboard</a>
+                    @endif
+                    @if(auth()->user()->role == 2)
+                        <a href="{{ url('/myjobs') }}" class="nav-item nav-link">My Jobs</a>
+                        <a href="{{ url('/resumes') }}" class="nav-item nav-link">Resumes</a>
+                    @endif
                 @endauth
 
                 <a href="{{ url('/') }}#alljobs" class="nav-item nav-link">All Jobs</a>
                 <a href="{{ url('/') }}#category" class="nav-item nav-link">Job Categories</a>
             </div>
+            
             @auth
-    <a href="{{ route('notifications.index') }}" class="nav-item nav-link">Notifications</a>
-@endauth
-
-            <div class="navbar-nav ms-auto p-4 p-lg-0">
-                @auth
-                <a href="{{ route('home') }}" class="nav-item nav-link">My Account</a>
-
-                <form method="POST" action="{{ route('logout') }}" class="d-inline">
-                    @csrf
-                    <button type="submit" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">
-                        Logout<i class="fa fa-sign-out-alt ms-3"></i>
-                    </button>
-                </form>
-                @else
-                @if(Request::is('login'))
-                <a href="{{ url('/') }}" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">
-                    Post a Job<i class="fa fa-arrow-right ms-3"></i>
-                </a>
-                @else
-                <a href="{{ route('login') }}" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">
-                    Login<i class="fa fa-arrow-right ms-3"></i>
-                </a>
+                @if(auth()->user()->role == 3)
+                    <a href="{{ route('notifications.index') }}" class="nav-item nav-link">Notifications</a>
                 @endif
+            @endauth
+
+            <div class="navbar-nav ms-auto mb-0 p-4 p-lg-0">
+                @auth
+                @if(auth()->user()->role == 2)
+                <a href="{{ route('empprofile.showProfile') }}" class="nav-item nav-link">My Account</a>
+                @endif
+                @if(auth()->user()->role == 3)
+                    @if(auth()->check() && auth()->user()->candidate)
+                        <a href="{{ route('profile.candidate', auth()->user()->candidate->id) }}" class="nav-item nav-link">My Account</a>
+                    @endif
+                @endif
+
+                    <form method="POST" action="{{ route('logout') }}" class="d-inline mb-0">
+                        @csrf
+                        <button type="submit" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block mb-0" style="margin-right: 0px;margin-bottom: 0px;">
+                            Logout<i class="fa fa-sign-out-alt ms-3"></i>
+                        </button>
+                    </form>
+                @else
+                    @if (!Request::is('login'))
+                        <a href="{{ route('login') }}" class="btn btn-primary rounded-0 py-4 mb-0 px-lg-5 d-none d-lg-block" style="margin-right: 0px">
+                            Login<i class="fa fa-arrow-right ms-3"></i>
+                        </a>
+                    @endif
                 @endauth
             </div>
         </div>
     </nav>
 </header>
+
 
 <style>
     /* Add your custom CSS styling here */

@@ -9,6 +9,9 @@ use App\Models\Job;
 
 use App\Models\Employer;
 use App\Models\Category;
+use App\Models\Feedback;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -40,12 +43,15 @@ class HomeController extends Controller
 
     $categories = Category::withCount('jobs')->get();
     $locations = Job::select('location')->distinct()->get();
+    $feedback = Feedback::all();
 
-    return view('home', compact('jobs', 'categories', 'locations'));
+    return view('home', compact('jobs', 'categories', 'locations', 'feedback'));
         
 
     
 
   
+}public function aboutUs(){
+    return view('about.AboutUs');
 }
 }

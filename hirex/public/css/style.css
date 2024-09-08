@@ -898,7 +898,19 @@ h1 {
         width: 100%;
         margin-bottom: 10px;
     }
+
 }
+.notifi-accept{
+    box-shadow: 0 4px 8px #518353 !important;
+}
+.notifi-reject{
+    box-shadow: 0 4px 8px #942727 !important;
+}
+
+
+
+
+
 
 
 .notifi-accept{

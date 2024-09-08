@@ -7,7 +7,7 @@
     <h2 class="mt-5 text-center">Your Notifications</h2>
 
     @if($notifications->isEmpty())
-        <p >No notifications found.</p>
+        <p class="mt-5 text-center " style="font-size: large; font-weight:bold;">* No notifications found.</p>
     @else
     <div class="row justify-content-center mt-5">
         @foreach($notifications as $notification)

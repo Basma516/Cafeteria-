@@ -15,27 +15,29 @@ class ResumeController extends Controller
      */
     public function index(Request $request)
     {
-
         $candidates = Candidate::query();
-
-
+    
+        
         if ($request->filled('skills')) {
             $candidates->where('skills', 'LIKE', '%' . $request->skills . '%');
         }
-
+    
         if ($request->filled('experience')) {
             $candidates->where('experience', 'LIKE', '%' . $request->experience . '%');
         }
-
+    
         if ($request->filled('education')) {
             $candidates->where('education', 'LIKE', '%' . $request->education . '%');
         }
-
-
+    
+      
+        $candidates->whereNotNull('resume'); 
+    
         $candidates = $candidates->get();
-
+    
         return view('resumes.index', compact('candidates'));
     }
+    
 
     /**
      * Show the form for creating a new resource.
@@ -75,15 +77,11 @@ class ResumeController extends Controller
     
         $candidate = Candidate::findOrFail($id);
 
-        if (empty($candidate->resume)) {
-            return redirect()->back()->with('error', 'Resume file not found in the database.');
-        }
+        
 
         $resumePath = $candidate->resume;
 
-        if (!Storage::disk('public')->exists($resumePath)) {
-            return redirect()->back()->with('error', 'Resume file not found in storage.');
-        }
+      
 
         return view('candidates.resume', compact('candidate'));
     }

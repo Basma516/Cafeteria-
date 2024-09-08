@@ -10,20 +10,14 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-
     {
-        if (!Schema::hasTable('employers')){
-        Schema::create('notifications', function (Blueprint $table) {
+        Schema::create('feedback', function (Blueprint $table) {
             $table->id();
-            $table->string('user_id');
-            $table->foreignId('job_id')->constrained('jobs');
-            $table->string('status');
-            $table->boolean('read')->default(false);          
+            $table->string('name');
+     ;
+        $table->text('feedback');
             $table->timestamps();
-
         });
-    }
-        
     }
 
     /**
@@ -31,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('notifications');
+        Schema::dropIfExists('feedback');
     }
 };
