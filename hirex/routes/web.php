@@ -313,6 +313,11 @@ Route::get('/search', [JobController::class, 'search'])->name('jobs.search');
 
 Route::get('/notifications', [Notifi::class, 'index'])->name('notifications.index');
 
+Route::get('/myprofile', function () {
+    return view('candidateapplication');
+});
+
+Route::view('/about', 'about');
 Route::post('/notifications', [Notifi::class, 'index'])->name('notifications.index');
 
 
@@ -364,7 +369,18 @@ Route::post('/reset-password', function (Request $request) {
 
 
 
+use App\Http\Controllers\FeedbackController;
 
+// Route::get('/feedback', [FeedbackController::class, 'create'])->name('feedback.create');
+// Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
+Route::middleware('auth')->group(function () {
+    Route::get('/feedback', [FeedbackController::class, 'create'])->name('feedback.create');
+    Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
+});
+
+// Route::get('/empprofile', [EmployerController::class, 'showProfile'])->name('employer.profile')->middleware('auth');
+Route::get('/empprofile', [EmployerController::class, 'showProfile'])->name('empprofile.showProfile')->middleware('auth');
+Route::get('/aboutus', [HomeController::class, 'aboutus'])->name('aboutus');
 /*
 Route::get('/profile', function () {
     return view('CandidateProfile');

@@ -75,15 +75,11 @@ class ResumeController extends Controller
     
         $candidate = Candidate::findOrFail($id);
 
-        if (empty($candidate->resume)) {
-            return redirect()->back()->with('error', 'Resume file not found in the database.');
-        }
+        
 
         $resumePath = $candidate->resume;
 
-        if (!Storage::disk('public')->exists($resumePath)) {
-            return redirect()->back()->with('error', 'Resume file not found in storage.');
-        }
+      
 
         return view('candidates.resume', compact('candidate'));
     }
