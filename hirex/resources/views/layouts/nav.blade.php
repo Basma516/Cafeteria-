@@ -33,7 +33,14 @@
 
             <div class="navbar-nav ms-auto mb-0 p-4 p-lg-0">
                 @auth
-                    <a href="{{ route('home') }}" class="nav-item nav-link mb-0">My Account</a>
+                @if(auth()->user()->role == 2)
+                <a href="{{ route('empprofile.showProfile') }}" class="nav-item nav-link">My Account</a>
+                @endif
+                @if(auth()->user()->role == 3)
+                    @if(auth()->check() && auth()->user()->candidate)
+                        <a href="{{ route('profile.candidate', auth()->user()->candidate->id) }}" class="nav-item nav-link">My Account</a>
+                    @endif
+                @endif
 
                     <form method="POST" action="{{ route('logout') }}" class="d-inline mb-0">
                         @csrf

@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
+use App\Http\Controllers\UserProfileController;
 
 
 
@@ -50,7 +51,7 @@ Route::get('/', function () {
 
 // Dashboard Routes Start >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-// main 
+// main
 Route::get('/dashboard',[AdminController::class, 'index']);
 Route::get('/dashboard/employer',[AdminController::class, 'employers'])->name('employer');
 Route::get('/dashboard/candidate',[AdminController::class, 'candidates'])->name('candidate');
@@ -145,14 +146,14 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 //   });
 
 //  Route::get('/category', function () {
-//      return view('jobs.jobbycategory'); 
+//      return view('jobs.jobbycategory');
 //  });
 
 
 // Route::view('/job-details', 'jobs.show')->name('job.details');
 
 //  Route::get('/all-jobs', function () {
-//     return view('jobs.alljobs'); 
+//     return view('jobs.alljobs');
 //  })->name('alljobs');
 
 
@@ -165,7 +166,6 @@ Route::resource('employers', EmployerController::class);
 
 // Routes for Users
 Route::resource('users', UserController::class);
-Route::resource('/', HomeController::class);
 
 // Routes for Jobs
 Route::resource('jobs', JobController::class);
@@ -183,6 +183,7 @@ Route::get('/category', [JobCategoryController::class, 'index'])->name('category
 // Route::get('/category', [JobCategoryController::class, 'index'])->middleware('auth')->name('category.index');
 
 
+// Applications Routes
 Route::resource('applications', ApplicationController::class)->only(['create', 'store', 'destroy']);
 //  Route::get('/employer/jobs', [EmployerController::class, 'myJobs'])->name('jobs.show');
 
@@ -220,8 +221,6 @@ Route::post('/jobs/{job}/comments', [CommentsController::class, 'store'])->name(
 Route::get('/employer/job/{id}/analytics', [JobController::class, 'showAnalytics'])->name('job.analytics');
 
 Route::patch('/applications/{application}', [ApplicationController::class, 'update'])->name('applications.update');
-// In routes/web.php
-// routes/web.php
 Route::get('/applications/{id}/resume', [ApplicationController::class, 'viewResume'])->name('applications.resume');
 
 
@@ -229,7 +228,7 @@ Route::get('/applications/{id}/resume', [ApplicationController::class, 'viewResu
 
 
 
-///////linkedin connect 
+///////linkedin connect
 
 
 // Route::get('auth/linkedin', function () {
@@ -271,24 +270,24 @@ Route::get('auth/linkedin/callback', [LinkedInController::class, 'handleLinkedIn
 
 
 
-////////////////github 
+////////////////github
 
 
 
 
- 
+
 Route::get('/auth/redirect', function () {
-   
+
     return Socialite::driver('github')->redirect();
 })->name('auth.github');
- 
+
 Route::get('/auth/callback', function () {
     // return "call back";
     // $user = Socialite::driver('github')->user();
     // dd($user);
 
     $githubUser = Socialite::driver('github')->user();
- 
+
     $user = User::updateOrCreate([
         'github_id' => $githubUser->id,
     ], [
@@ -300,7 +299,7 @@ Route::get('/auth/callback', function () {
         'github_refresh_token' => $githubUser->refreshToken,
     ]);
     Auth::login($user);
- 
+
     return redirect('/');
 
     // $user->token
@@ -318,6 +317,11 @@ Route::get('/search', [JobController::class, 'search'])->name('jobs.search');
 
 Route::get('/notifications', [Notifi::class, 'index'])->name('notifications.index');
 
+Route::get('/myprofile', function () {
+    return view('candidateapplication');
+});
+
+Route::view('/about', 'about');
 Route::post('/notifications', [Notifi::class, 'index'])->name('notifications.index');
 
 
@@ -369,7 +373,18 @@ Route::post('/reset-password', function (Request $request) {
 
 
 
+use App\Http\Controllers\FeedbackController;
 
+// Route::get('/feedback', [FeedbackController::class, 'create'])->name('feedback.create');
+// Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
+Route::middleware('auth')->group(function () {
+    Route::get('/feedback', [FeedbackController::class, 'create'])->name('feedback.create');
+    Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
+});
+
+// Route::get('/empprofile', [EmployerController::class, 'showProfile'])->name('employer.profile')->middleware('auth');
+Route::get('/empprofile', [EmployerController::class, 'showProfile'])->name('empprofile.showProfile')->middleware('auth');
+Route::get('/aboutus', [HomeController::class, 'aboutus'])->name('aboutus');
 /*
 Route::get('/profile', function () {
     return view('CandidateProfile');
@@ -381,8 +396,11 @@ Route::get('/profile', function () {
 
 Route::get('/applications/{id}/resume', [ApplicationController::class, 'viewResume'])->name('applications.resume');
 Route::get('/applications/{id}/resume/candidate', [CandidateController::class, 'viewResume'])->name('candiadates.viewResume');
-
-
 Route::patch('/applications/{id}/reject', [ApplicationController::class, 'reject'])->name('applications.reject');
+// Packages Page
+Route::view('/packages/user', 'packages.UserPackages');
+Route::view('/packages/Employer', 'packages.EmployerPackages');
+// User Profile Route
+Route::get('/candidate-profile/{userId}', [UserProfileController::class, 'showCandidateProfile'])->name('profile.candidate');
 
 
