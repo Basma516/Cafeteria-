@@ -154,9 +154,15 @@
                         <button type="submit" class="btn btn-primary">
                             {{ __('Login') }}
                         </button>
+                        
                         <a href="{{ route('register') }}" class="btn btn-primary">
                             {{ __('register') }}
-                        </button>
+                      
+                      
+                        <a href="{{ route('auth.github') }}" class="btn btn-primary">
+                            {{ __('Login with Github') }}
+                       
+                         
                         @if (Route::has('password.request'))
                             <a class="btn btn-link" href="{{ route('password.request') }}" style="background-color: none">
                                 {{ __('Forgot Your Password?') }}

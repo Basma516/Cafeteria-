@@ -1,30 +1,41 @@
+<!-- resources/views/notifications/index.blade.php -->
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
-        <h1 class="mb-4">Notifications</h1>
 
-        @forelse($notifications as $notification)
-            <div class="card mb-3 shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">{{ $notification->data['jobTitle'] ?? 'N/A' }}</h5>
+<div class="container">
+    <h2 class="mt-5 text-center">Your Notifications</h2>
+
+    @if($notifications->isEmpty())
+        <p >No notifications found.</p>
+    @else
+    <div class="row justify-content-center mt-5">
+        @foreach($notifications as $notification)
+        <div class="col-sm-8 mb-3">
+            <div class="card">
+                <div  @if($notification->status_id == 4) class="card-body notifi-accept" @else class="card-body notifi-reject"
+                    @endif>
+                @if($notification->status_id == 4)
+                    <h5 class="card-title "><strong>{{ $notification->job->title }}</strong></h5>
+                    @else
+                    <h5 class="card-title "><strong>{{ $notification->job->title }}</strong></h5>
+
+                    @endif
+                    @if($notification->status_id == 4)
                     <p class="card-text">
-                        <span>Status: </span>
-                        @if($notification->data['status'] == 'accepted' || $notification->data['status'] == 1)
-                            <span class="badge bg-success">Accepted</span>
-                        @elseif($notification->data['status'] == 'rejected' || $notification->data['status'] == 2)
-                            <span class="badge bg-danger">Rejected</span>
-                        @else
-                            <span class="badge bg-secondary">Unknown</span>
-                        @endif
+                        Congratulations! We are pleased to inform you that your application for the {{$notification->job->title}} position at {{$notification->job->employer->company_name}} has been accepted.
                     </p>
+                    @else
                     <p class="card-text">
-                        <small class="text-muted">Received on: {{ $notification->created_at->format('d M Y, h:i A') }}</small>
+                        Thank you for your interest in the {{$notification->job->title}} position at {{$notification->job->employer->company_name}}. We regret to inform you that your application has been rejected at this time. However, we encourage you to apply for future opportunities.
                     </p>
+                    @endif
                 </div>
             </div>
-        @empty
-            <div class="alert alert-info">No notifications available.</div>
-        @endforelse
+        </div>
+        @endforeach
     </div>
+    @endif
+</div>
+
 @endsection

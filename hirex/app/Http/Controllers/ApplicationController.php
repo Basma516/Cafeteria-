@@ -34,6 +34,19 @@ class ApplicationController extends Controller
 
     }
 
+    public function applyWithLinkedIn(Request $request, $jobId)
+    {
+        $user = Auth::user();
+    
+        Application::create([
+            'job_id' => $jobId,
+            'user_id' => $user->id,
+            'linkedin_profile' => $user->linkedin_id,
+            // other fields like resume, cover letter, etc.
+        ]);
+    
+        return redirect()->route('jobs.index')->with('success', 'Your application has been submitted.');
+    }
     /**
      * Display a listing of the resource.
      */
@@ -111,30 +124,26 @@ class ApplicationController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    // In ApplicationController.php
-    // In ApplicationController.php
+
   
-// public function update(Request $request, $id)
-// {
-//     $application = Application::findOrFail($id);
+public function update(Request $request, $id)
+{
+    $application = Application::findOrFail($id);
     
-   // $application->status_id = $request->input('status');
+   $application->status_id = $request->input('status');
     
-//     $application->save();
-//     $notification = Notifications::create ([
-//         "user_id" => $application->candidate_id,
-//         "job_id"=> $application->job_id,
-//         "status" => $request->input("status"),       
-//     ]);
+    $application->save();
+    $notification = Notifications::create ([
+        "user_id" => $application->candidate_id,
+        "job_id"=> $application->job_id,
+        "status_id" => 4,       
+    ]);
 
-//         // Redirect back with a success message
-//         return redirect()->back()->with('success', 'Application status updated successfully.');
+        // Redirect back with a success message
+        return redirect()->back()->with('success', 'Application status updated successfully.');
 
     
-// }
+}
 
 
     /**
@@ -161,7 +170,7 @@ class ApplicationController extends Controller
             return redirect()->back()->with('error', 'An error occurred while processing your request.');
         }
     }
-    public function reject($id)
+    public function reject(Request $request, $id)
     {
         try {
             // Find the application by ID
@@ -173,9 +182,13 @@ class ApplicationController extends Controller
             }
     
             // Update the application status to '3' (Rejected)
-            $application->status_id = 3;
+            $application->status_id =  $request->input("status");
             $application->save();
-    
+            $notification = Notifications::create ([
+                "user_id" => $application->candidate_id,
+                "job_id"=> $application->job_id,
+                "status_id" => 3,       
+            ]);
             // Redirect with success message
             return redirect()->route('jobs.show')->with('success', 'Application rejected successfully.');
         } catch (\Exception $e) {

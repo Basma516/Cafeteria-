@@ -32,6 +32,17 @@
                 </div>
             @endforeach
         </div>
+
+        <div class="form-group">
+            <label for="edu"> Education</label>
+            <input class="form-control" type="text" name="education" id="edu">
+        </div>
+
+        <div class="form-group">
+            <label for="exp"> Experience</label>
+            <input class="form-control" type="text" name="experience" id="exp">
+        </div>
+
             <div class="form-group">
                 <label for="resume">Upload Resume</label>
                 <input type="file" name="resume" id="resume" class="form-control">
@@ -42,14 +53,6 @@
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
 
-        <div class="form-group">
-            <label for="edu"> Education</label>
-            <input type="text" name="education" id="edu">
-        </div>
 
-        <div class="form-group">
-            <label for="exp"> Experience</label>
-            <input type="text" name="experience" id="exp">
-        </div>
 </div>
 @endsection

@@ -24,6 +24,7 @@ class Job extends Model
         'deadline',
         'logo',
     ];
+    
 
     public function employer()
     {

@@ -35,6 +35,7 @@
                 <form action="{{ route('applications.reject', $application->id) }}" method="POST" class="analytics-inline-form">
                     @csrf
                     @method('PATCH')
+                    <input type="hidden" name="status" value="4"> 
                     <button type="submit" class="btn analytics-btn-reject">Reject</button>
                 </form>
                 @endif

@@ -23,6 +23,13 @@ class User extends Authenticatable
         'password',
         'image',
         'role',
+        'linkedin_id',
+        'linkedin_token', 
+        'avatar',
+        'github_token', 
+        'github_refresh_token', 
+        'github_id'
+
     ];
 
     /**

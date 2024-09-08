@@ -900,6 +900,14 @@ h1 {
     }
 }
 
+
+.notifi-accept{
+    box-shadow: 0 4px 8px #518353 !important;
+}
+.notifi-reject{
+    box-shadow: 0 4px 8px #942727 !important;
+}
+
 /* 
 /* CandidateProfile styles  */
 /* 

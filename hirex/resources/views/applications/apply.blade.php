@@ -32,6 +32,8 @@
             </div>
             <button type="submit" class="btn btn-primary">Submit Application</button>
         </form>
+
+
     </div>
 </div>
 @endsection
