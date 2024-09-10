@@ -3,19 +3,19 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use App\Models\ApplicationStatus;
 
 class ApplicationStatusSeeder extends Seeder
 {
     /**
      * Run the database seeds.
+     *
+     * @return void
      */
-    public function run(): void
+    public function run()
     {
-        DB::table('application_status')->insert([
-            ['name' => 'pending'],
-            ['name' => 'accepted'],
-            ['name' => 'rejected'],
-        ]);
+        ApplicationStatus::factory()->create(['name' => 'pending']);
+        ApplicationStatus::factory()->create(['name' => 'rejected']);
+        ApplicationStatus::factory()->create(['name' => 'accepted']);
     }
 }

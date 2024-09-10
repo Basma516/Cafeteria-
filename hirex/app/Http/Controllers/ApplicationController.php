@@ -95,7 +95,7 @@ class ApplicationController extends Controller
         $application = new Application();
         $application->candidate_id = $candidate->id;
         $application->job_id = $request->job_id;
-        $application->status_id = 2;  
+        $application->status_id = 1;  
         $application->resume = $resumePath;
         $application->save();
 
@@ -136,7 +136,7 @@ public function update(Request $request, $id)
     $notification = Notifications::create ([
         "user_id" => $application->candidate_id,
         "job_id"=> $application->job_id,
-        "status_id" => 4,       
+        "status_id" => 3,       
     ]);
 
         // Redirect back with a success message
@@ -187,7 +187,7 @@ public function update(Request $request, $id)
             $notification = Notifications::create ([
                 "user_id" => $application->candidate_id,
                 "job_id"=> $application->job_id,
-                "status_id" => 3,       
+                "status_id" => 2,       
             ]);
             // Redirect with success message
             return redirect()->route('jobs.show')->with('success', 'Application rejected successfully.');
@@ -198,58 +198,7 @@ public function update(Request $request, $id)
     }
     
 
-        // if ($extension == 'pdf') {
-        //     $parser = new Parser();
-        //     $pdf = $parser->parseContent($fileContent);
-        //     return $pdf->getText();
-//     public function extractText($resumePath, $fileContent)
-//     {
-//         $extension = pathinfo($resumePath, PATHINFO_EXTENSION);
 
-//         if ($extension == 'pdf') {
-//             // Use smalot/pdfparser to extract text from PDF
-//             $parser = new Parser();
-//             $pdf = $parser->parseContent($fileContent);
-//             return $pdf->getText();
-        
-          
-//         }
-
-
-//         return '';
-//     }
-
-//     public function viewResume(Request $request, $id)
-//     {
-//         $application = Application::findOrFail($id);
-//         $resumePath = $application->resume;
-    
-        // if (!Storage::disk('public')->exists($resumePath)) {
-        //     return redirect()->back()->with('error', 'Resume file not found.');
-        // }
-    
-    
-//         $fileContent = Storage::disk('public')->get($resumePath);
-//         $textContent = $this->extractText($resumePath, $fileContent);
-    
-      
-        // if ($request->has('query')) {
-        //     $query = $request->input('query');
-        //     $highlightedText = str_ireplace($query, "<mark>$query</mark>", $textContent); 
-        //     return view('applications.view_resume', [
-        //         'resumePath' => Storage::url($resumePath),
-        //         'resumeText' => $highlightedText,
-        //         'application' => $application
-        //     ]);
-        // }
-    
-//         return view('applications.view_resume', [
-//             'resumePath' => Storage::url($resumePath),
-//             'resumeText' => $textContent,
-//             'application' => $application
-//         ]);
-
-// }
     
 }
 

@@ -26,7 +26,7 @@
             </div>
             
             @auth
-                @if(auth()->user()->role == 3)
+                @if(auth()->user()->role == 3 && auth()->user()->candidate)
                     <a href="{{ route('notifications.index') }}" class="nav-item nav-link">Notifications</a>
                 @endif
             @endauth
@@ -61,6 +61,3 @@
 </header>
 
 
-<style>
-    /* Add your custom CSS styling here */
-</style>

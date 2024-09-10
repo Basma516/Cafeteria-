@@ -1,48 +1,48 @@
-@extends('dashboard.layouts.app')
+@extends('layouts.app')
+@section('title', 'Update Candidate Profile')
 @section('content')
-<div class="site-section" style="margin-top: 30px;">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-12">
-                <form method="POST" action="">
-                    @csrf
-                    <div class="card">
-                        <div class="card-header " style="margin-bottom: 30px;" >
-                            <h3 class="text-color text-center ">Update (Candidate`s name) Data</h3>
-                        </div>
+<div class="container">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-8">
+        <div class="card">
+                <div class="card-header" style="background-color: #5289b5; color: white;">Become a Candidate</div>
+<div class="card-body">
+    <form action="{{route('candidateUpdate', $candidate->id)}}" method="POST" enctype="multipart/form-data">
+        @csrf
+        @method('patch')
 
-                        <div class="card-body">
 
-                            <!-- Job Role -->
-                            <div class="form-group mt-3">
-                                <label for="skills" class="text-primary">Skills:</label>
-                                <textarea name="skills" id="skills" class="form-control" style="height: 80px">{{ old('skills') }}</textarea>
-                                @if ($errors->has('skills'))
-                                    <div class="text-danger mt-1">
-                                        {{ $errors->first('skills') }}
-                                    </div>
-                                @endif
-                            </div>
+        <div class="mb-3 form-group">
+            <label class="form-label" for="skills">Skills</label>
+            <br>
+            <textarea name="skills" id="skills" cols="107" rows="5">{{$candidate->skills}}</textarea>
+            @error('skills')
+                <small class="text-danger">{{ $message }}</small>
+                @enderror
+        </div>
+        <div class="form-group">
+            <label for="edu"> Education</label>
+            <input  class="form-control" type="text" name="education" id="edu" value="{{$candidate->education}}">
+        </div>
 
-                            <!-- Job Description -->
-                            <div class="form-group mt-3">
-                                <label for="description" class="text-primary">Description:</label>
-                                <textarea name="description" id="description" class="form-control" style="height: 120px">{{ old('description') }}</textarea>
-                                @if ($errors->has('description'))
-                                    <div class="text-danger mt-1">
-                                        {{ $errors->first('description') }}
-                                    </div>
-                                @endif
-                            </div>
-
-                            <button type="submit" class="btn bg-color">Save Changes</button>
-
-                         </div>
-                    </div>
-                </form>
+        <div class="form-group">
+            <label for="exp"> Experience</label>
+            <input class="form-control" type="text" name="experience" id="exp" value="{{$candidate->experience}}">
+        </div>
+            <div class="form-group">
+                <label for="resume">Upload Resume</label>
+                <input  class="form-control" type="file" name="resume" id="resume" class="form-control">
+                @error('resume')
+                <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
+            <button type="submit" class="btn btn-primary">Update</button>
+        </form>
+
+        </div>
+        </div>
+        </div>
         </div>
     </div>
 </div>
-
 @endsection

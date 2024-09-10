@@ -4,13 +4,19 @@
 <div class="site-section py-5">
     <div class="container" style="max-width: 950px; margin: 0 auto;">
 
-
-
+        <!-- Session Success Message for SweetAlert2 -->
         @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: '{{ session('success') }}',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'OK'
+                });
+            });
+        </script>
         @endif
 
         <!-- Search Bar -->
@@ -40,31 +46,27 @@
                     $application = null;
 
                     if (auth()->check() && auth()->user()->candidate) {
-                        $applied = \App\Models\Application::where('candidate_id', auth()->user()->candidate->id)
-                        ->where('job_id', $job->id)
-                        ->exists();
+                    $applied = \App\Models\Application::where('candidate_id', auth()->user()->candidate->id)
+                    ->where('job_id', $job->id)
+                    ->exists();
 
-                        if ($applied) {
-                            $application = \App\Models\Application::where('candidate_id', auth()->user()->candidate->id)
-                            ->where('job_id', $job->id)
-                            ->first();
-                        }
+                    if ($applied) {
+                    $application = \App\Models\Application::where('candidate_id', auth()->user()->candidate->id)
+                    ->where('job_id', $job->id)
+                    ->first();
+                    }
                     }
                     @endphp
 
                     <div class="job-item d-block d-md-flex align-items-center border-bottom p-4 mb-4"
-                        onclick="window.location.href='{{ route('jobs.show', $job->id) }}'"
                         style="cursor: pointer; border-radius: 10px; transition: background-color 0.3s ease;">
 
-                      
                         <div class="company-logo text-center text-md-left pl-3">
-                          
-                            <img src="{{ $job->logo ? asset('storage/' . $job->logo) : 'https://via.placeholder.com/70' }}"
+                            <img src="{{ $job->logo ? asset('storage/' . $job->logo) : asset('images/placeholder.jpeg') }}"
                                 alt="Company Logo" class="img-fluid rounded-circle"
                                 style="width: 70px; height: 70px; object-fit: cover; box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);">
                         </div>
 
-                      
                         <div class="job-details h-100 p-3 flex-grow-1">
                             <h3 class="text-dark">{{ $job->title }}</h3>
                             <div class="d-block d-lg-flex mt-2 text-muted">
@@ -84,12 +86,15 @@
                             @if($isDeadlinePassed)
                             <button class="btn btn-secondary" disabled>Apply Now</button>
                             @else
-                            @if($applied)
-                            <form action="{{ route('applications.destroy', $application->id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to cancel your application?');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger">Cancel Application</button>
-                            </form>
+                            @if($applied && $application->status_id === 1)
+                            <!-- Trigger SweetAlert2 -->
+                            <button type="button" class="btn bg-danger" onclick="confirmCancel('{{ $application->id }}')">
+                                Cancel Application
+                            </button>
+                            @elseif($applied && $application->status_id === 3)
+                            <a href="#" class="btn bg-success">Accepted</a>
+                            @elseif($applied && $application->status_id === 2)
+                            <a href="#" class="btn bg-danger">Rejected</a>
                             @else
                             <a href="{{ route('applications.create', ['job' => $job->id]) }}" class="btn btn-primary">Apply Now</a>
                             @endif
@@ -110,4 +115,42 @@
         </div>
     </div>
 </div>
+
+<script>
+    function confirmCancel(applicationId) {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You are about to cancel your application.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'Yes, cancel it!',
+            cancelButtonText: 'No, keep it',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Create a form and submit it
+                let form = document.createElement('form');
+                form.method = 'POST';
+                form.action = `/applications/${applicationId}`;
+                
+                let csrfToken = document.createElement('input');
+                csrfToken.type = 'hidden';
+                csrfToken.name = '_token';
+                csrfToken.value = '{{ csrf_token() }}';
+                
+                let methodField = document.createElement('input');
+                methodField.type = 'hidden';
+                methodField.name = '_method';
+                methodField.value = 'DELETE';
+
+                form.appendChild(csrfToken);
+                form.appendChild(methodField);
+
+                document.body.appendChild(form);
+                form.submit();
+            }
+        });
+    }
+</script>
 @endsection

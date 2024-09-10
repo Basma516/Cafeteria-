@@ -24,7 +24,7 @@
                 
                 <div class="d-block d-md-flex align-items-center  mb-4" style="justify-content:space-between">
                     <div class="company-logo text-center text-md-left pl-3">
-                        <img src="{{ $job->logo ? asset('storage/' . $job->logo) : 'https://via.placeholder.com/100' }}"
+                        <img src="{{ $job->logo ? asset('storage/' . $job->logo) : asset('images/placeholder.jpeg') }}"
                             alt="Company Logo" class="img-fluid rounded-circle"
                             style="width: 100px; height: 100px; object-fit: cover;">
                     </div>

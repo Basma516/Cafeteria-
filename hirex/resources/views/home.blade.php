@@ -156,7 +156,7 @@
                         style="cursor: pointer; background-color: var(--light); border-radius: 6px;">
                         <div class="row align-items-center">
                             <div class="col-md-2 text-center company-logo">
-                                <img class="img-fluid border rounded-circle" src="{{ asset('images/' . $job->logo) }}"
+                                <img class="img-fluid border rounded-circle" src="{{ $job->logo ? asset('storage/' . $job->logo) : asset('images/placeholder.jpeg') }}"
                                     alt="" style="width: 80px; height: 80px; border: 2px solid #ddd;">
                             </div>
                             <div class="col-md-7 job-details">

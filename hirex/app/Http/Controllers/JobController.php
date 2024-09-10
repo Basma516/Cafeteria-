@@ -252,7 +252,7 @@ class JobController extends Controller
 
 
         $jobs = Job::where('category_id', $categoryId)
-            ->where('job_status', 6)
+            ->where('job_status', 3)
             ->get();
 
         return view('jobs.jobbycategory', compact('jobs', 'category'));

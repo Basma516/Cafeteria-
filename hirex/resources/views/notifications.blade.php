@@ -13,15 +13,15 @@
         @foreach($notifications as $notification)
         <div class="col-sm-8 mb-3">
             <div class="card">
-                <div  @if($notification->status_id == 4) class="card-body notifi-accept" @else class="card-body notifi-reject"
+                <div  @if($notification->status_id == 3) class="card-body notifi-accept" @else class="card-body notifi-reject"
                     @endif>
-                @if($notification->status_id == 4)
+                @if($notification->status_id == 3)
                     <h5 class="card-title "><strong>{{ $notification->job->title }}</strong></h5>
                     @else
                     <h5 class="card-title "><strong>{{ $notification->job->title }}</strong></h5>
 
                     @endif
-                    @if($notification->status_id == 4)
+                    @if($notification->status_id == 3)
                     <p class="card-text">
                         Congratulations! We are pleased to inform you that your application for the {{$notification->job->title}} position at {{$notification->job->employer->company_name}} has been accepted.
                     </p>

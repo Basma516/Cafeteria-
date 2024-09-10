@@ -132,41 +132,6 @@ Route::get('/applications/{id}/resume', [ApplicationController::class, 'viewResu
 
 
 
-///////linkedin connect
-
-
-// Route::get('auth/linkedin', function () {
-//     // return "redirect";
-//     return Socialite::driver('linkedin')
-//     ->setScopes(['r_liteprofile', 'r_emailaddress'])
-//     ->redirect();
-// })->name('auth.linkedin');
-
-// Route::get('auth/linkedin/callback', function () {
-//     // dd(request()->all());
-//     $linkedinUser = Socialite::driver('linkedin')->user();
-//     //  dd( $linkedinUser);
-// //     // // Store LinkedIn data in the database
-//     $user = User::updateOrCreate(
-//         ['linkedin_id' => $linkedinUser->id], // Find the user by LinkedIn ID
-//         [
-//             'name' => $linkedinUser->name,
-//             'email' => $linkedinUser->email,
-//             'linkedin_token' => $linkedinUser->token,
-//             'avatar' => $linkedinUser->avatar,
-//         ]
-//     );
-
-//     // Log the user in
-//     Auth::login($user);
-
-//     // Redirect to the application success page or the next step
-//     return redirect('/application/success');
-// });
-
-
-
-
 
 
 Route::get('auth/linkedin', [LinkedInController::class, 'redirectToLinkedIn'])->name('auth.linkedin');
@@ -297,5 +262,13 @@ Route::view('/packages/user', 'packages.UserPackages')->name('candidatePack');
 Route::view('/packages/Employer', 'packages.EmployerPackages')->name('employerPack');
 // User Profile Route
 Route::get('/candidate-profile/{userId}', [UserProfileController::class, 'showCandidateProfile'])->name('profile.candidate');
+Route::get('/candidate/edit/{userId}', [CandidateController::class, 'edit'])->name('edit.candidate');
+Route::patch('/candidate/update/{userId}', [CandidateController::class, 'editProfile'])->name('candidateUpdate');
+
+Route::get('/employer/edit/{userId}', [EmployerController::class, 'edit'])->name('edit.employer');
+Route::patch('/employers/{employer}', [EmployerController::class, 'editProfile'])->name('employerUpdate');
+
+
+
 
 

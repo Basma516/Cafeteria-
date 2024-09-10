@@ -40,6 +40,7 @@
     
      <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link rel="icon" href="{{ asset('images/logo-transparent.png') }}" type="image/x-icon">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
 
@@ -78,13 +79,13 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
 </body>
-<script>
+<!-- <script>
     window.Laravel = {!! json_encode([
         'user' => [
             'id' => Auth::user() ? Auth::user()->id : null,
             'role' => Auth::user() ? Auth::user()->role : null,
         ]
     ]) !!};
-</script>
+</script> -->
 
 </html>

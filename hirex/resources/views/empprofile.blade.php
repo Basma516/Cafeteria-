@@ -4,14 +4,14 @@
 
 
 <div class="container mt-2">
-    <div class="row">
+    <div class="row mt-5">
       
         <div class="col-md-4">
             <div class="profile-card text-center">
-                <img src="{{ $user->image ? asset('storage/' . $user->image) : 'https://via.placeholder.com/120' }}"
+                <img src="{{ $user->image ? asset('storage/' . $user->image) : asset('images/account2.jpeg') }}"
                      alt="{{ $user->name }}">
                 <h3>{{ $user->name }}</h3>
-                <a href="{{ url('/myjobs') }}" class="btn btn-primary">My Jobs</a>
+                <a href="{{ route('edit.employer', $employer->id) }}" class="btn btn-primary">Edit Profile</a>
             </div>
         </div>
 

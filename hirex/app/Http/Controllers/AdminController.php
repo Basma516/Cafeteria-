@@ -232,7 +232,7 @@ public function viewJob($id)
     public function acceptJob($id)
     {
         $job = Job::findOrFail($id);
-        $job->job_status = 6;
+        $job->job_status = 3;
         $job->save();
 
         return redirect()->route('jobs');

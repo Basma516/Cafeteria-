@@ -13,6 +13,6 @@ class JobStatus extends Model
 
     public function jobs()
     {
-        return $this->hasMany(Job::class, 'status_id'); // Jobs that belong to this status
+        return $this->hasMany(Job::class, 'status_id');  
     }
 }

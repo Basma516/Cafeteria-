@@ -13,7 +13,7 @@ class Notifi extends Controller
         $user = Auth::user();
 
         
-        $notifications = Notifications::where('user_id', Auth::id())->
+        $notifications = Notifications::where('user_id', $user->candidate->id)->
                                       orderBy("created_at", "desc")
                                       ->with('job') 
                                       ->get();

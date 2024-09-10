@@ -12,12 +12,12 @@ return new class extends Migration
     public function up(): void
 
     {
-        if (!Schema::hasTable('employers')){
+        if (!Schema::hasTable('notifications')){
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
             $table->string('user_id');
             $table->foreignId('job_id')->constrained('jobs');
-            $table->string('status');
+            $table->string('status_id');
             $table->boolean('read')->default(false);          
             $table->timestamps();
 

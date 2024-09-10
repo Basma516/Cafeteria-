@@ -48,9 +48,10 @@ class EmployerController extends Controller
         // return view('employers.show', compact('employer'));
     }
 
-    public function edit(Employer $employer)
+    public function edit( $id)
     {
-        // return view('employers.edit', compact('employer'));
+        $employer = Employer::findOrfail($id); 
+        return view('dashboard.employer.edit', compact('employer'));
     }
 
     public function update(UpdateEmployerRequest $request, Employer $employer)
@@ -83,15 +84,25 @@ class EmployerController extends Controller
     {
         $user = Auth::user();
 
-        // Only display the profile if the user has a role of 2
         if ($user && $user->role == 2) {
-            // Fetch the employer profile data based on the logged-in user's ID
             $employer = Employer::where('user_id', $user->id)->first();
 
             return view('empprofile', compact('employer', 'user'));
         } else {
             return redirect()->route('home')->with('error', 'You do not have permission to view this page.');
         }
+    }
+
+    public function editProfile(UpdateEmployerRequest $request, $id)
+    {
+        $employer = Employer::findOrFail($id);
+        $employer->company_name = $request->input('company_name');
+        $employer->company_description = $request->input('company_description');
+        $employer->company_website = $request->input('company_website');
+        $employer->phone = $request->input('phone');
+        $employer->save(); 
+
+        return redirect()->route('empprofile.showProfile')->with('success', 'Profile updated successfully');
     }
     
 }

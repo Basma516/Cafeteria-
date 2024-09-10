@@ -23,9 +23,8 @@ class UpdateCandidateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'skills' => 'required|array|min:1', // Ensure at least one skill is selected
-            'skills.*' => 'string', // Each skill should be a string
-            'resume' => 'nullable|string|max:1000', // Make resume optional
+            'skills' => 'required|', 
+            'resume' => '|mimes:pdf,doc,docx|max:2048', 
         ];
     }
 
@@ -37,11 +36,8 @@ class UpdateCandidateRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'skills.required' => 'At least one skill must be selected.',
-            'skills.array' => 'Skills must be an array of strings.',
-            'skills.min' => 'Please select at least one skill.',
-            'resume.string' => 'The resume must be valid text.',
-            'resume.max' => 'The resume may not be greater than 1000 characters.',
+            'skills.required' => 'This field is required.',
+            'resume.mimes' => 'The resume must be pdf,doc,docx.',
         ];
     }
 }

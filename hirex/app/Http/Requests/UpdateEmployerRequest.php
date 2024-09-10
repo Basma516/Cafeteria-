@@ -31,10 +31,26 @@ class UpdateEmployerRequest extends FormRequest
                 'string',
                 'max:20',
                 Rule::unique('employers')->ignore($this->employer),
-                
             ],  
 
         ];
 
     }
+
+    /**
+     * Get the custom validation messages.
+     *
+     * @return array<string, string>
+     */
+
+     public function messages(): array
+     {
+        
+         return [
+             'company_name.required' => 'Company name is required.',
+             'company_description.required' => 'Company description is required.',
+             'phone.required' => 'Phone number is required.',
+             'phone.unique' => 'This phone number is already registered.',
+         ];
+     }
 }

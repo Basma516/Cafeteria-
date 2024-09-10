@@ -908,7 +908,16 @@ h1 {
 }
 
 
+.bg-delete{
+    background-color: rgb(167, 42, 42) !important;
+    color: white !important;
 
+}
+.bg-delete:hover{
+
+    background-color: rgb(197, 0, 0) !important;
+    color: white !important;
+}
 
 
 

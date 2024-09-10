@@ -36,7 +36,7 @@
                                 @enderror
                             </div>
                             <div class="mb-3">
-                                <label for="logo" class="col-form-label" style="color: var(--dark);">Profile Image</label>
+                                <label for="logo" class="col-form-label" style="color: var(--dark);">Company`s Logo</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-user"></i></span>
@@ -128,12 +128,12 @@
 
                             <!-- Application Deadline -->
                             <div class="form-group mt-3">
-                                <label for="deadline" class="text-primary">Application Deadline:</label>
-                                <input type="date" name="deadline" id="deadline" class="form-control @error('deadline') is-invalid @enderror" value="{{ old('deadline') }}">
-                                @error('deadline')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
+    <label for="deadline" class="text-primary">Application Deadline:</label>
+    <input type="date" name="deadline" id="deadline" class="form-control @error('deadline') is-invalid @enderror" value="{{ old('deadline') }}" min="{{ \Carbon\Carbon::now()->format('Y-m-d') }}">
+    @error('deadline')
+        <span class="text-danger">{{ $message }}</span>
+    @enderror
+</div>
 
                             <!-- Post Job Button -->
                             <div class="form-group mt-3">

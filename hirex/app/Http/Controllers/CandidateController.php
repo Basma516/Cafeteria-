@@ -52,21 +52,21 @@ class CandidateController extends Controller
 
         $candidate = new Candidate();
 
-        if($validatedData['resume']){
+        if($request->resume){
             $resumePath = $request->file('resume')->store('resumes', 'public');
             }else{
                 $resumePath = null;
             }
 
-        $candidate->user_id = Auth::id(); // Assuming the candidate is associated with the logged-in user
-        $candidate->skills = implode(', ', $validatedData['skills']); // Convert array to comma-separated string
+        $candidate->user_id = Auth::id(); 
+        $candidate->skills = $validatedData['skills']; 
       
         $candidate->resume = $resumePath;
         $candidate->education = $validatedData['education'];
         $candidate->experience = $validatedData['experience'];
 
         $candidate->save();
-        User::where('id', $candidate->id)->update(['role' => 3]);
+        User::where('id', $candidate->user_id)->update(['role' => 3]);
 
         return redirect()->route('jobs.index')
             ->with('success', 'Candidate profile created successfully.');
@@ -94,9 +94,10 @@ class CandidateController extends Controller
      * @param  \App\Models\Candidate  $candidate
      * @return \Illuminate\View\View
      */
-    public function edit(Candidate $candidate): View
+    public function edit( $id): View
     {
-        return view('candidates.edit', compact('candidate'));
+        $candidate = Candidate::findOrfail($id);
+        return view('dashboard.candidate.edit', compact('candidate'));
     }
 
     /**
@@ -110,7 +111,7 @@ class CandidateController extends Controller
     {
         $validatedData = $request->validated();
 
-        $candidate->skills = implode(', ', $validatedData['skills']); // Convert array to comma-separated string
+        $candidate->skills = $validatedData['skills']; 
         $candidate->resume = $validatedData['resume'];
         $candidate->save();
 
@@ -132,57 +133,25 @@ class CandidateController extends Controller
             ->with('success', 'Candidate profile deleted successfully.');
     }
 
+    public function editProfile(UpdateCandidateRequest $request, $id)
+    {
+        $candidate = Candidate::findOrFail($id);
+        $candidate->skills = $request->input('skills');
+        $candidate->education = $request->input('education');
+        $candidate->experience = $request->input('experience');
 
+        if ($request->hasFile('resume')) {
+            if ($candidate->resume) {
+                $resumePath = $request->file('resume')->store('resumes', 'public');
+                }
+            $candidate->resume = $resumePath;
+        }
 
+        // Save the updated candidate profile
+        $candidate->save();
 
+        // Redirect with success message
+        return redirect()->route('profile.candidate', $candidate->id)->with('success', 'Profile updated successfully');
+    }
 
-    // public function extractText($resumePath, $fileContent)
-    //    {
-    //         $extension = pathinfo($resumePath, PATHINFO_EXTENSION);
-    
-    //         if ($extension == 'pdf') {
-    //            // Use smalot/pdfparser to extract text from PDF
-    //              $parser = new Parser();
-    //              $pdf = $parser->parseContent($fileContent);
-    //          return $pdf->getText();
-            
-              
-    //        }
-    
-    
-    //         return '';
-    //    }
-    
-    //     public function viewResume(Request $request, $id)
-    //     {
-    //         $application = Application::findOrFail($id);
-    //         $resumePath = $application->resume;
-        
-    //         // Check if the file exists
-    //         if (!Storage::disk('public')->exists($resumePath)) {
-    //             return redirect()->back()->with('error', 'Resume file not found.');
-    //         }
-        
-        
-    //         $fileContent = Storage::disk('public')->get($resumePath);
-    //         $textContent = $this->extractText($resumePath, $fileContent);
-        
-          
-    //         if ($request->has('query')) {
-    //             $query = $request->input('query');
-    //             $highlightedText = str_ireplace($query, "<mark>$query</mark>", $textContent); // Highlight the query in the text
-    //             return view('applications.view_resume', [
-    //                 'resumePath' => Storage::url($resumePath),
-    //                 'resumeText' => $highlightedText,
-    //                 'application' => $application
-    //             ]);
-    //         }
-        
-    //         return view('applications.view_resume', [
-    //             'resumePath' => Storage::url($resumePath),
-    //             'resumeText' => $textContent,
-    //             'application' => $application
-    //         ]);
-    //     }
-    
 }
